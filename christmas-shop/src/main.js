@@ -1,1 +1,1 @@
-console.log('main.js is set');
+console.log("main.js is set");
