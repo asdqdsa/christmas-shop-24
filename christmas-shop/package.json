@@ -7,6 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
+    "prod": "vite build && vite preview",
     "deploy": "gh-pages -d dist",
     "lint:fix": "stylelint '**/*.{scss,css}' --fix"
   },
