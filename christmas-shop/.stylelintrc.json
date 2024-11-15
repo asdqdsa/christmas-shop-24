@@ -8,6 +8,12 @@
   "files": ["**/*.{css,scss}"],
 
   "rules": {
-    "selector-class-pattern": null
+    "selector-class-pattern": null,
+    "value-keyword-case": [
+      "lower",
+      {
+        "camelCaseSvgKeywords": true
+      }
+    ]
   }
 }
