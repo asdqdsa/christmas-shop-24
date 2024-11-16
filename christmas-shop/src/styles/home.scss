@@ -15,6 +15,7 @@
 // }
 
 :root {
+  color: #181c29;
   font-family: Montserrat, sans-serif;
 }
 
@@ -33,11 +34,11 @@
 .header {
   background-color: #fff;
   font-size: 12px;
-  font-weight: 400;
+  font-weight: 600;
 
   // font-variation-settings: "wght" 400;
   inline-size: 100%;
-  letter-spacing: 0.05rem;
+  letter-spacing: 0.05em;
   line-height: 1.3;
   max-inline-size: 1440px;
   padding-inline: 82px;
@@ -53,6 +54,7 @@
     display: flex;
     align-items: center;
     padding: 8px 20px;
+    font-weight: 600;
     gap: 8px;
 
     &-icon {
@@ -63,6 +65,7 @@
 
   &__nav {
     display: flex;
+    font-weight: 600;
 
     &-list {
       display: flex;
@@ -79,6 +82,8 @@
 }
 
 .main {
+  display: flex;
+  flex-direction: column;
   border-radius: 20px;
   background-color: #ff4646;
   inline-size: 100%;
@@ -129,6 +134,355 @@
       letter-spacing: 0.05em;
       line-height: 1.3;
       text-decoration: none;
+      text-transform: uppercase;
+    }
+  }
+
+  .about {
+    padding: 60px 82px;
+    background-image: url("/bg-snow.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    &__container {
+      display: flex;
+      align-items: center;
+      border-radius: 20px;
+      background-color: #fff;
+    }
+
+    &__inf {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      padding-right: 152px;
+      padding-left: 60px;
+      gap: 20px;
+    }
+
+    &__caption {
+      color: #ff4646;
+      font-family: Allura, sans-serif;
+      font-size: 24px;
+      letter-spacing: 0.05em;
+      line-height: 1;
+    }
+
+    &__title {
+      color: #181c29;
+      font-size: 24px;
+      letter-spacing: 0.16em;
+      line-height: 1.52;
+      text-transform: uppercase;
+    }
+
+    &__text {
+      color: #181c29;
+      font-size: 16px;
+      letter-spacing: 0;
+      line-height: 1.48;
+    }
+
+    &__img-container {
+      display: flex;
+    }
+
+    &__img {
+      border-radius: 20px;
+    }
+  }
+
+  .slider {
+    padding: 60px 0 60px 82px;
+    background-image: url("/bg-snow.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    &__container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: start;
+      gap: 20px;
+    }
+
+    &__headline {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-right: 82px;
+      color: #fff;
+      gap: 12px;
+    }
+
+    &__title {
+      font-size: 24px;
+      letter-spacing: 0.16em;
+      line-height: 1.52;
+      text-transform: uppercase;
+    }
+
+    &__caption {
+      font-family: Allura, sans-serif;
+      font-size: 24px;
+      letter-spacing: 0.05em;
+      line-height: 1;
+    }
+
+    &__row {
+      display: flex;
+      overflow: hidden;
+      inline-size: 100%;
+    }
+
+    &__wrapper {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    &__text {
+      color: #fff;
+      font-size: 80px;
+      font-weight: 600;
+      letter-spacing: 0;
+      line-height: auto;
+      text-transform: uppercase;
+    }
+
+    &__img-container {
+      display: flex;
+      block-size: 200px;
+      inline-size: 200px;
+    }
+
+    &__img {
+      display: flex;
+      border-radius: 20px;
+    }
+
+    &__controls {
+      display: flex;
+      justify-content: end;
+      padding-right: 82px;
+      inline-size: 100%;
+
+      &-container {
+        display: flex;
+        gap: 20px;
+      }
+
+      &-left {
+        display: flex;
+        border: 1px solid #fff6;
+        border-radius: 20px;
+        block-size: 56px;
+        inline-size: 56px;
+      }
+
+      &-right {
+        display: flex;
+        border: 1px solid #fff;
+        border-radius: 20px;
+        block-size: 56px;
+        inline-size: 56px;
+      }
+    }
+  }
+
+  .gifts {
+    padding: 60px 82px;
+    background-image: url("/bg-snow.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    &__container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    &__headline {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: #fff;
+      gap: 12px;
+    }
+
+    &__title {
+      font-size: 24px;
+      letter-spacing: 0.16em;
+      line-height: 1.52;
+      text-transform: uppercase;
+    }
+
+    &__caption {
+      font-family: Allura, sans-serif;
+      font-size: 24px;
+      letter-spacing: 0.05em;
+      line-height: 1;
+    }
+
+    &__shelf {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+    }
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    border-radius: 20px;
+    background-color: #ecf3f8;
+
+    &__container-img {
+      display: flex;
+      box-sizing: 230px;
+      justify-content: center;
+      inline-size: 310px;
+    }
+
+    &__img {
+      display: flex;
+    }
+
+    &__info {
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+      border-radius: 20px;
+      background-color: #fff;
+      block-size: 100%;
+      gap: 8px;
+
+      &-tag {
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        line-height: 1.3;
+        text-transform: uppercase;
+
+        &_work {
+          color: #4361ff;
+        }
+
+        &_health {
+          color: #06a44f;
+        }
+
+        &_harmony {
+          color: #ff43f7;
+        }
+      }
+
+      &-text {
+        font-size: 16px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        line-height: 1.52;
+        text-transform: uppercase;
+      }
+    }
+  }
+
+  .countdown {
+    padding: 60px 82px;
+    background-image: url("/bg-forest.png"), url("/bg-snow.png");
+    background-position: top;
+    background-repeat: no-repeat;
+    background-size: contain;
+    color: #fff;
+
+    &__container {
+      display: flex;
+      justify-content: center;
+      padding-block: 60px;
+    }
+
+    &__wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      padding-block: 60px;
+    }
+
+    &__title {
+      display: inline-flex;
+      font-size: 24px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      line-height: 1.52;
+      max-inline-size: 430px;
+      text-align: center;
+      text-transform: uppercase;
+      word-break: break-word;
+    }
+
+    &__clock-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    &__caption {
+      font-family: Allura, sans-serif;
+      font-size: 24px;
+      letter-spacing: 0.05em;
+      line-height: 1;
+    }
+  }
+
+  .timer {
+    border-radius: 20px;
+    background-color: #fff6;
+    color: #fff;
+
+    &__container {
+      display: flex;
+      align-items: center;
+      padding: 8px 12px 12px;
+    }
+
+    &__cell {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      inline-size: 80px;
+    }
+
+    &__separator {
+      background-color: #fff6;
+      block-size: 20px;
+      inline-size: 1px;
+    }
+
+    &__num {
+      display: flex;
+      justify-content: center;
+      font-size: 24px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      line-height: 1.52;
+      text-transform: uppercase;
+    }
+
+    &__alpha {
+      display: flex;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      line-height: 1.3;
       text-transform: uppercase;
     }
   }
@@ -216,14 +570,14 @@
   &__text {
     color: #181c29;
     font-size: 16px;
-    font-weight: 400;
+    font-weight: 600;
     letter-spacing: 0.08em;
     line-height: 1.5;
   }
 
   &_bold {
     font-size: 24px;
-    font-weight: 400;
+    font-weight: 600;
     letter-spacing: 0.16em;
     line-height: 1.52;
   }
