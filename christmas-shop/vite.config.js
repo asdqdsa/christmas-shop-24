@@ -9,6 +9,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: "index.html",
+        gifts: "gifts.html",
         normalize: "src/styles/modern-normalize.css",
       },
     },

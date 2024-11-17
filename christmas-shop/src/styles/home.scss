@@ -242,7 +242,7 @@
     &__wrapper {
       display: flex;
       align-items: center;
-      gap: 20px;
+      gap: 21px;
     }
 
     &__text {
@@ -336,68 +336,12 @@
     }
   }
 
-  .card {
-    display: flex;
-    flex-direction: column;
-    border-radius: 20px;
-    background-color: #ecf3f8;
-
-    &__container-img {
-      display: flex;
-      box-sizing: 230px;
-      justify-content: center;
-      inline-size: 310px;
-    }
-
-    &__img {
-      display: flex;
-    }
-
-    &__info {
-      display: flex;
-      flex-direction: column;
-      padding: 20px;
-      border-radius: 20px;
-      background-color: #fff;
-      block-size: 100%;
-      gap: 8px;
-
-      &-tag {
-        font-size: 12px;
-        font-weight: 600;
-        letter-spacing: 0.05em;
-        line-height: 1.3;
-        text-transform: uppercase;
-
-        &_work {
-          color: #4361ff;
-        }
-
-        &_health {
-          color: #06a44f;
-        }
-
-        &_harmony {
-          color: #ff43f7;
-        }
-      }
-
-      &-text {
-        font-size: 16px;
-        font-weight: 600;
-        letter-spacing: 0.08em;
-        line-height: 1.52;
-        text-transform: uppercase;
-      }
-    }
-  }
-
   .countdown {
     padding: 60px 82px;
-    background-image: url("/bg-forest.png"), url("/bg-snow.png");
-    background-position: top;
+    background-image: url("/bg-snow.png"), url("/bg-forest.png");
+    background-position: center;
     background-repeat: no-repeat;
-    background-size: contain;
+    background-size: cover;
     color: #fff;
 
     &__container {
@@ -410,7 +354,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 20px;
+      gap: 19px;
       padding-block: 60px;
     }
 
@@ -435,6 +379,7 @@
     }
 
     &__caption {
+      align-items: start;
       font-family: Allura, sans-serif;
       font-size: 24px;
       letter-spacing: 0.05em;
@@ -483,6 +428,64 @@
       font-weight: 600;
       letter-spacing: 0.05em;
       line-height: 1.3;
+      text-transform: uppercase;
+    }
+  }
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  border-radius: 20px;
+  background-color: #ecf3f8;
+  block-size: 342px;
+  inline-size: 310px;
+
+  &__container-img {
+    display: flex;
+    box-sizing: 230px;
+    justify-content: center;
+    inline-size: 310px;
+  }
+
+  &__img {
+    display: flex;
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    border-radius: 20px;
+    background-color: #fff;
+    block-size: 100%;
+    gap: 8px;
+
+    &-tag {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      line-height: 1.3;
+      text-transform: uppercase;
+
+      &_work {
+        color: #4361ff;
+      }
+
+      &_health {
+        color: #06a44f;
+      }
+
+      &_harmony {
+        color: #ff43f7;
+      }
+    }
+
+    &-text {
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      line-height: 1.52;
       text-transform: uppercase;
     }
   }
