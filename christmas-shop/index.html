@@ -4,8 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Christmas Shop</title>
-  <link rel="icon" type="image/svg+xml" href="./vite.svg">
+  <title>Christmas Shop | Home</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/src/styles/modern-normalize.css">
   <link rel="stylesheet" href="/src/style.scss">
   <script type="module" src="/src/scripts/main.js"></script>
@@ -14,18 +14,24 @@
 <body class="page">
   <header class="header">
     <div class="header__container">
-      <div class="header__logo">
-        <a class="header__logo-icon" href="">
-          <img src="/snowflake.svg" alt="Logo Icon">
-        </a>
-        <div class="header__logo-text">THE GIFTS</div>
-      </div>
+      <a href="/" class="header__logo-link-wrapper">
+        <div class="header__logo">
+          <span class="header__logo-icon">
+            <img src="/snowflake.svg" alt="Logo Icon">
+          </span>
+          <div class="header__logo-text">THE GIFTS</div>
+        </div>
+      </a>
       <nav class="header__nav">
         <ul class="header__nav-list">
-          <li class="header__nav-item">GIFTS</li>
-          <li class="header__nav-item">ABOUT</li>
-          <li class="header__nav-item">BEST</li>
-          <li class="header__nav-item">CONTACTS</li>
+          <li class="header__nav-item"><a class="header__nav-link" href="gifts.html"><span
+                class="header__nav-link-wrapper">Gifts</span></a></li>
+          <li class="header__nav-item"><a class="header__nav-link" href="#about"><span
+                class="header__nav-link-wrapper">About</span></a></li>
+          <li class="header__nav-item"><a class="header__nav-link" href="#gifts"><span
+                class="header__nav-link-wrapper">Best</span></a></li>
+          <li class="header__nav-item"><a class="header__nav-link" href="#contacts"><span
+                class="header__nav-link-wrapper">Contacts</span></a></li>
         </ul>
       </nav>
     </div>
@@ -41,7 +47,7 @@
       </div>
     </section>
 
-    <section class="about">
+    <section class="about" id="about">
       <div class="about__container">
         <div class="about__inf">
           <p class="about__caption">About</p>
@@ -83,15 +89,26 @@
 
         <div class="slider__controls">
           <div class="slider__controls-container">
-            <div class="slider__controls-left"></div>
-            <div class="slider__controls-left slider__controls-right"></div>
+
+            <div class="slider__controls-left slider__controls-right">
+              <svg class="control-arrows-svg" viewBox="0 0 56 56">
+                <use href="/Button.svg#arrow-right"></use>
+              </svg>
+            </div>
+
+            <div class="slider__controls-left">
+              <svg class="control-arrows-svg" viewBox="0 0 56 56">
+                <use href="/Button.svg#arrow-right"></use>
+              </svg>
+            </div>
+
           </div>
         </div>
 
       </div>
     </section>
 
-    <section class="gifts">
+    <section class="gifts" id="gifts">
       <div class="gifts__container">
         <div class="gifts__headline">
           <p class="gifts__caption">Best Gifts</p>
@@ -143,8 +160,8 @@
       <div class="countdown__container">
         <div class="countdown__wrapper">
 
-          <p class="countdown__title">Ready to start your journey to a better version of yourself?</p>
-          <a href="#" class="banner__gift-link">Explore Magical Gifts</a>
+          <h2 class="countdown__title">Ready to start your journey to a better version of yourself?</h2>
+          <a href="gifts.html" class="banner__gift-link">Explore Magical Gifts</a>
           <div class="countdown__clock-container">
             <p class="countdown__caption">The New Year is Coming Soon...</p>
             <div class="timer">
@@ -178,24 +195,32 @@
     </section>
   </main>
 
-  <footer class="footer">
+  <footer class="footer" id="contacts">
     <div class="footer__container">
       <div class="footer__card-shelf">
-        <ul class="card-info">
-          <li><img class="card-info__img" src="/santa-claus.svg" alt="Small image of Santa"></li>
-          <li class="card-info__text card-info_bold">+375 (29) 111-22-33</li>
-          <li class="card-info__text">CALL US</li>
-        </ul>
-        <ul class="card-info">
-          <li><img class="card-info__img" src="/christmas-tree.svg" alt="Small image of a happy tree"></li>
-          <li class="card-info__text card-info_bold">MAGIC FOREST</li>
-          <li class="card-info__text">MEET US</li>
-        </ul>
-        <ul class="card-info">
-          <li><img class="card-info__img" src="/snake.svg" alt="Small image of asnake"></li>
-          <li class="card-info__text card-info_bold">GIFTS@MAGIC.COM</li>
-          <li class="card-info__text">WRITE US</li>
-        </ul>
+        <a href="tel:+375291112233" class="card-info__link">
+          <ul class="card-info">
+            <li><img class="card-info__img" src="/santa-claus.svg" alt="Small image of Santa"></li>
+            <li class="card-info__text card-info_bold">+375 (29)
+              111-22-33</li>
+            <li class="card-info__text">CALL US</li>
+          </ul>
+        </a>
+        <a href="https://maps.app.goo.gl/sm9skFAyhKPguo876" rel="external norefferer" target="_blank"
+          class="card-info__link">
+          <ul class="card-info">
+            <li><img class="card-info__img" src="/christmas-tree.svg" alt="Small image of a happy tree"></li>
+            <li class="card-info__text card-info_bold">MAGIC FOREST</li>
+            <li class="card-info__text">MEET US</li>
+          </ul>
+        </a>
+        <a href="mailto:mail@mail.com" class="card-info__link">
+          <ul class="card-info">
+            <li><img class="card-info__img" src="/snake.svg" alt="Small image of asnake"></li>
+            <li class="card-info__text card-info_bold">GIFTS@MAGIC.COM</li>
+            <li class="card-info__text">WRITE US</li>
+          </ul>
+        </a>
       </div>
       <div class="footer__info">
         <ul class="footer__socials">
@@ -210,7 +235,8 @@
           </li>
         </ul>
         <p class="footer__copyright">© Copyright 2025, All Rights Reserved</p>
-        <p class="footer__copyright footer__copyright_font">Made in Rolling Scopes School</p>
+        <p class="footer__copyright footer__copyright_font"><a href="https://rs.school/" rel="external norefferer"
+            target="_blank" class="footer__socials-link">Made in Rolling Scopes School</a></p>
       </div>
     </div>
   </footer>

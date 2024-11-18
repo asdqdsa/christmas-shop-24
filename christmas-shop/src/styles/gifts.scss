@@ -54,9 +54,18 @@
     justify-content: center;
     padding: 12px 20px;
     border-radius: 12px;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: #fff3;
+    }
 
     &_active {
       background-color: #fff3;
+    }
+
+    &:hover:not(.store__tab_active) {
+      cursor: pointer;
     }
 
     &-font {
