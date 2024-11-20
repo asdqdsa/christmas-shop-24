@@ -87,6 +87,9 @@
 
 .header__nav-link_inactive {
   padding: 12px 20px;
+  border-radius: 12px;
+  background-color: #ff46461a;
+  color: #ff4646;
 }
 
 .main {
@@ -311,6 +314,7 @@
         border-radius: 20px;
         block-size: 56px;
         inline-size: 56px;
+        transition: background-color 0.3s ease;
 
         &:hover {
           background-color: #fff;
@@ -324,6 +328,7 @@
         block-size: 56px;
         inline-size: 56px;
         transform: scaleX(-1);
+        transition: background-color 0.3s ease;
 
         &:hover {
           background-color: #fff;
@@ -624,10 +629,12 @@
   &__socials-vector {
     display: flex;
     block-size: 24px;
+    fill: #fff;
+    stroke: #181c29;
     transition: 0.3s ease;
 
     &:hover {
-      fill: #ff4646;
+      stroke: #ff4646;
     }
   }
 }
