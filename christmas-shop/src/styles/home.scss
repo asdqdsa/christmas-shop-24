@@ -749,16 +749,16 @@
 
 @media (hover: hover) and (pointer: fine) {
   .header {
-    &-hamburger:hover {
+    &__nav-hamburger:hover {
       cursor: pointer;
       transform: rotate(-180deg);
     }
 
-    &-hamburger:hover::before {
+    &__nav-hamburger:hover::before {
       transform: translateX(4px) rotate(45deg) translateY(6.5px);
     }
 
-    &-hamburger:hover::after {
+    &__nav-hamburger:hover::after {
       transform: translateX(4px) rotate(-45deg) translateY(-6.5px);
     }
 
