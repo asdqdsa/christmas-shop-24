@@ -59,10 +59,10 @@
       transition: transform 0.2s ease;
     }
 
-    &-hamburger:hover {
-      cursor: pointer;
-      transform: rotate(-180deg);
-    }
+    // &-hamburger:hover {
+    //   cursor: pointer;
+    //   transform: rotate(-180deg);
+    // }
 
     &-hamburger::before {
       position: absolute;
@@ -76,9 +76,9 @@
       transition: transform 0.2s ease;
     }
 
-    &-hamburger:hover::before {
-      transform: translateX(4px) rotate(45deg) translateY(6.5px);
-    }
+    // &-hamburger:hover::before {
+    //   transform: translateX(4px) rotate(45deg) translateY(6.5px);
+    // }
 
     &-hamburger::after {
       position: absolute;
@@ -92,9 +92,9 @@
       transition: transform 0.2s ease;
     }
 
-    &-hamburger:hover::after {
-      transform: translateX(4px) rotate(-45deg) translateY(-6.5px);
-    }
+    // &-hamburger:hover::after {
+    //   transform: translateX(4px) rotate(-45deg) translateY(-6.5px);
+    // }
 
     &_state {
       display: flex;
@@ -120,16 +120,16 @@
           background-color 0.2s ease;
       }
 
-      &:hover {
-        padding: 0;
-      }
+      // &:hover {
+      //   padding: 0;
+      // }
 
-      &:hover .header__nav-link-wrapper {
-        padding: 12px 20px;
-        border-radius: 12px;
-        background-color: #ff46461a;
-        color: #ff4646;
-      }
+      // &:hover .header__nav-link-wrapper {
+      //   padding: 12px 20px;
+      //   border-radius: 12px;
+      //   background-color: #ff46461a;
+      //   color: #ff4646;
+      // }
     }
   }
 
@@ -203,10 +203,10 @@
         background-color 0.3s ease,
         color 0.2s ease;
 
-      &:hover {
-        background-color: #fff;
-        color: #181c29;
-      }
+      // &:hover {
+      //   background-color: #fff;
+      //   color: #181c29;
+      // }
     }
   }
 
@@ -279,11 +279,6 @@
       display: flex;
       overflow: hidden;
     }
-
-    // &__img {
-    //   height: 528px;
-    //   width: 638px;
-    // }
   }
 
   .slider {
@@ -326,8 +321,6 @@
 
     &__row {
       display: flex;
-
-      // overflow: clip;
       inline-size: 100%;
     }
 
@@ -360,8 +353,6 @@
     &__controls {
       display: flex;
       justify-content: end;
-
-      // padding-right: 82px;
       cursor: pointer;
       inline-size: 100%;
 
@@ -373,7 +364,11 @@
         transition: 0.3s ease;
       }
 
-      .control-arrows-svg:hover {
+      // .control-arrows-svg:hover {
+      //   stroke: #ff4646;
+      // }
+
+      .control-arrows-svg:active {
         stroke: #ff4646;
       }
 
@@ -390,7 +385,10 @@
         inline-size: 56px;
         transition: background-color 0.3s ease;
 
-        &:hover {
+        // &:hover {
+        //   background-color: #fff;
+        // }
+        &:active {
           background-color: #fff;
         }
       }
@@ -404,7 +402,10 @@
         transform: scaleX(-1);
         transition: background-color 0.3s ease;
 
-        &:hover {
+        // &:hover {
+        //   background-color: #fff;
+        // }
+        &:active {
           background-color: #fff;
         }
       }
@@ -560,9 +561,9 @@
   block-size: 342px;
   inline-size: 310px;
 
-  &:hover {
-    cursor: pointer;
-  }
+  // &:hover {
+  //   cursor: pointer;
+  // }
 
   &__container-img {
     display: flex;
@@ -632,9 +633,9 @@
     }
   }
 
-  &:hover .card__info {
-    color: #ff4646;
-  }
+  // &:hover .card__info {
+  //   color: #ff4646;
+  // }
 }
 
 .footer {
@@ -674,10 +675,6 @@
     &-link {
       text-decoration: none;
       transition: color 0.3s ease;
-
-      &:hover {
-        color: #ff4646;
-      }
     }
   }
 
@@ -699,11 +696,6 @@
     display: flex;
     padding: 8px;
     transition: 0.3s ease;
-
-    &:hover {
-      cursor: pointer;
-      stroke: #ff4646;
-    }
   }
 
   &__socials-vector {
@@ -712,10 +704,6 @@
     fill: #fff;
     stroke: #181c29;
     transition: 0.3s ease;
-
-    &:hover {
-      stroke: #ff4646;
-    }
   }
 }
 
@@ -751,10 +739,6 @@
     transition: color 0.3s ease;
   }
 
-  &:hover .card-info__text {
-    color: #ff4646;
-  }
-
   &_bold {
     font-size: 24px;
     font-weight: 600;
@@ -763,11 +747,94 @@
   }
 }
 
-// @media (hover: hover) and (pointer: fine) {
-//   .header {
-//     &-hamburger:hover {
-//       cursor: pointer;
-//       transform: rotate(-180deg);
-//     }
-//   }
-// }
+@media (hover: hover) and (pointer: fine) {
+  .header {
+    &-hamburger:hover {
+      cursor: pointer;
+      transform: rotate(-180deg);
+    }
+
+    &-hamburger:hover::before {
+      transform: translateX(4px) rotate(45deg) translateY(6.5px);
+    }
+
+    &-hamburger:hover::after {
+      transform: translateX(4px) rotate(-45deg) translateY(-6.5px);
+    }
+
+    &__nav-link:hover {
+      padding: 0;
+    }
+
+    &__nav-link:hover .header__nav-link-wrapper {
+      padding: 12px 20px;
+      border-radius: 12px;
+      background-color: #ff46461a;
+      color: #ff4646;
+    }
+  }
+
+  .main {
+    .banner {
+      &__gift-link {
+        &:hover {
+          background-color: #fff;
+          color: #181c29;
+        }
+      }
+    }
+
+    .slider {
+      .control-arrows-svg:hover {
+        stroke: #ff4646;
+      }
+
+      &__controls {
+        &-left {
+          &:hover {
+            background-color: #fff;
+          }
+        }
+
+        &-rigth {
+          &:hover {
+            background-color: #fff;
+          }
+        }
+      }
+    }
+  }
+
+  .card {
+    &:hover {
+      cursor: pointer;
+    }
+
+    &:hover .card__info {
+      color: #ff4646;
+    }
+  }
+
+  .footer {
+    &__socials {
+      &-link:hover {
+        color: #ff4646;
+      }
+    }
+
+    &__socials-icon:hover {
+      cursor: pointer;
+      stroke: #ff4646;
+    }
+
+    &__socials-vector:hover {
+      stroke: #ff4646;
+    }
+  }
+
+  .card-info {
+    &:hover .card-info__text {
+      color: #ff4646;
+    }
+  }
+}
