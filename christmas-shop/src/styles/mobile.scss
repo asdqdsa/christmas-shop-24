@@ -1,0 +1,92 @@
+@media (width < 1440px) {
+  .header {
+    padding-inline: clamp(0.5rem, -5.721rem + 12.96vi, 5.125rem);
+  }
+
+  .main {
+    .about {
+      padding-inline: clamp(0.5rem, -5.721rem + 12.96vi, 5.125rem);
+
+      &__inf {
+        padding-right: clamp(7rem, 3.637rem + 7.005vi, 9.5rem);
+      }
+    }
+
+    .slider {
+      padding-inline: clamp(0.5rem, -5.721rem + 12.96vi, 5.125rem);
+    }
+
+    .gifts {
+      padding-inline: clamp(0.5rem, -5.721rem + 12.96vi, 5.125rem);
+    }
+
+    .countdown {
+      padding-inline: clamp(0.5rem, -5.721rem + 12.96vi, 5.125rem);
+    }
+  }
+
+  .footer__container {
+    padding-inline: clamp(0.5rem, -5.721rem + 12.96vi, 5.125rem);
+  }
+}
+
+@media (width < 1061px) {
+  .footer__card-shelf {
+    flex-direction: column;
+  }
+}
+
+@media (width <= 768px) {
+  .header {
+    &__nav {
+      &_state {
+        display: none;
+      }
+
+      &-mobile_state {
+        display: flex;
+      }
+
+      &-mobile-list_state {
+        display: none;
+      }
+    }
+  }
+
+  .main .about__inf {
+    width: 50%;
+    padding-inline: clamp(1.25rem, -1.211rem + 10.336vi, 3.75rem);
+  }
+
+  .main .about__img-container {
+    width: 50%;
+  }
+
+  .gifts-main__container {
+    padding-inline: clamp(0.5rem, -0.512rem + 2.105vi, 1.25rem);
+  }
+}
+
+@media (width < 568px) {
+  .store__tabs {
+    gap: clamp(0rem, -1.019rem + 4.278vi, 0.5rem);
+  }
+
+  .store {
+    &__tab {
+      padding-inline: clamp(0.5rem, -1.028rem + 6.417vi, 1.25rem);
+    }
+  }
+
+  .about__container {
+    flex-wrap: wrap;
+  }
+
+  .main .about__inf {
+    padding-block: 60px;
+  }
+
+  .main .about__img-container {
+    inline-size: 638px;
+  }
+}

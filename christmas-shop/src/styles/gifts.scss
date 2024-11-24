@@ -75,6 +75,15 @@
       letter-spacing: 0.05em;
       line-height: 1.3;
       text-transform: uppercase;
+      white-space: nowrap;
+    }
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .store {
+    &:hover:not(.store__tab_active) {
+      cursor: pointer;
     }
   }
 }

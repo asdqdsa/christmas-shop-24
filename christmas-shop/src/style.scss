@@ -1,3 +1,9 @@
+// fonts
 @use "./styles/fonts";
+
+// desktop
 @use "./styles/home";
 @use "./styles/gifts";
+
+// mobile
+@use "./styles/mobile";

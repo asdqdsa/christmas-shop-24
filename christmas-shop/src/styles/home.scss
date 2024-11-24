@@ -51,6 +51,55 @@
     display: flex;
     font-weight: 600;
 
+    &-hamburger {
+      position: relative;
+      padding: 12px 20px;
+      block-size: 40px;
+      inline-size: 40px;
+      transition: transform 0.2s ease;
+    }
+
+    &-hamburger:hover {
+      cursor: pointer;
+      transform: rotate(-180deg);
+    }
+
+    &-hamburger::before {
+      position: absolute;
+      border: 1px solid #181c29;
+      border-radius: 1px;
+      content: "";
+      inline-size: 22px;
+      inset-block-start: 14px;
+      inset-inline-start: 9px;
+      transform-origin: center;
+      transition: transform 0.2s ease;
+    }
+
+    &-hamburger:hover::before {
+      transform: translateX(4px) rotate(45deg) translateY(6.5px);
+    }
+
+    &-hamburger::after {
+      position: absolute;
+      border: 1px solid #181c29;
+      border-radius: 1px;
+      content: "";
+      inline-size: 22px;
+      inset-block-start: 23px;
+      inset-inline-start: 9px;
+      transform-origin: center;
+      transition: transform 0.2s ease;
+    }
+
+    &-hamburger:hover::after {
+      transform: translateX(4px) rotate(-45deg) translateY(-6.5px);
+    }
+
+    &_state {
+      display: flex;
+    }
+
     &-list {
       display: flex;
       padding: 0;
@@ -82,6 +131,10 @@
         color: #ff4646;
       }
     }
+  }
+
+  &__nav-mobile_state {
+    display: none;
   }
 }
 
@@ -169,6 +222,7 @@
       align-items: center;
       border-radius: 20px;
       background-color: #fff;
+      min-block-size: 528px;
     }
 
     &__inf {
@@ -203,19 +257,38 @@
       font-size: 16px;
       letter-spacing: 0;
       line-height: 1.48;
+
+      &::selection {
+        background-color: #ff4646;
+        color: #fff;
+      }
     }
 
     &__img-container {
       display: flex;
+      border-radius: 20px;
+      background-image: url("/santa.png");
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      block-size: 528px;
+      inline-size: 638px;
     }
 
-    &__img {
-      border-radius: 20px;
+    &__img-wrapper {
+      display: flex;
+      overflow: hidden;
     }
+
+    // &__img {
+    //   height: 528px;
+    //   width: 638px;
+    // }
   }
 
   .slider {
-    padding: 60px 0 60px 82px;
+    overflow: clip;
+    padding: 60px 82px;
     background-image: url("/bg-snow.png");
     background-position: center;
     background-repeat: no-repeat;
@@ -233,7 +306,6 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding-right: 82px;
       color: #fff;
       gap: 12px;
     }
@@ -254,7 +326,8 @@
 
     &__row {
       display: flex;
-      overflow: hidden;
+
+      // overflow: clip;
       inline-size: 100%;
     }
 
@@ -287,7 +360,8 @@
     &__controls {
       display: flex;
       justify-content: end;
-      padding-right: 82px;
+
+      // padding-right: 82px;
       cursor: pointer;
       inline-size: 100%;
 
@@ -374,6 +448,7 @@
 
     &__shelf {
       display: flex;
+      flex-wrap: wrap;
       justify-content: center;
       gap: 12px;
     }
@@ -550,6 +625,10 @@
       letter-spacing: 0.08em;
       line-height: 1.52;
       text-transform: uppercase;
+
+      // overflow: hidden;
+      // text-overflow: ellipsis;
+      // white-space: nowrap;
     }
   }
 
@@ -578,6 +657,7 @@
     justify-content: center;
     gap: 12px;
     inline-size: 100%;
+    white-space: nowrap;
   }
 
   &__info {
@@ -682,3 +762,12 @@
     line-height: 1.52;
   }
 }
+
+// @media (hover: hover) and (pointer: fine) {
+//   .header {
+//     &-hamburger:hover {
+//       cursor: pointer;
+//       transform: rotate(-180deg);
+//     }
+//   }
+// }
