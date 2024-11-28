@@ -1,0 +1,31 @@
+// varables
+:root {
+  // fonts
+  --main-font-family: 'Montserrat', sans-serif;
+  --secondary-font-family: 'Allura', sans-serif;
+
+  // colors
+  --text-color: #181c29;
+  --primary-color: #ff4646;
+  --primary-10-color: #ff46461a;
+  --static-color: #fff;
+  --static-40-color: #fff6;
+  --static-20-color: #fff3;
+  --tag-type-1-color: #4361ff;
+  --tag-type-2-color: #ff43f7;
+  --tag-type-3-color: #06a44f;
+  --content-background-color: #ecf3f8;
+  --overlay-80-color: #191d29cc;
+
+  //  layout indents and sizes
+  --section-padding-inline: clamp(0.5rem, -5.721rem + 12.96vi, 5.125rem);
+  --max-inline-size-big: 1440px;
+
+  // backgrounds
+  --banner-background-img: url('/bg-ball.png'), url('/bg-snow.png');
+  --countdown-background-img: url('/bg-snow.png'), url('/bg-forest.png');
+  --about-background-img: url('/bg-snow.png');
+  --santa-background-img: url('/santa.png');
+  --snow-background-img: url('/bg-snow.png');
+  --garland-background-img: url('/bg-garland.png');
+}

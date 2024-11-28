@@ -1,12 +1,21 @@
 :root {
-  color: #181c29;
-  font-family: Montserrat, sans-serif;
+  color: var(--text-color, #181c29);
+  font-family: var(--main-font-family, Montserrat, sans-serif);
 }
 
 .page {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+h1,
+h2,
+h3 {
+  &::selection {
+    background-color: var(--tag-type-3-color, #06a44f);
+    // color: #fff;
+  }
 }
 
 .header {
@@ -68,7 +77,7 @@
       position: absolute;
       border: 1px solid #181c29;
       border-radius: 1px;
-      content: "";
+      content: '';
       inline-size: 22px;
       inset-block-start: 14px;
       inset-inline-start: 9px;
@@ -84,7 +93,7 @@
       position: absolute;
       border: 1px solid #181c29;
       border-radius: 1px;
-      content: "";
+      content: '';
       inline-size: 22px;
       inset-block-start: 23px;
       inset-inline-start: 9px;
@@ -156,7 +165,7 @@
   .banner {
     display: flex;
     justify-content: center;
-    background-image: url("/bg-ball.png"), url("/bg-snow.png");
+    background-image: url('/bg-ball.png'), url('/bg-snow.png');
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -212,7 +221,7 @@
 
   .about {
     padding: 60px 82px;
-    background-image: url("/bg-snow.png");
+    background-image: url('/bg-snow.png');
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -267,7 +276,7 @@
     &__img-container {
       display: flex;
       border-radius: 20px;
-      background-image: url("/santa.png");
+      background-image: url('/santa.png');
       background-position: center;
       background-repeat: no-repeat;
       background-size: cover;
@@ -284,7 +293,7 @@
   .slider {
     overflow: clip;
     padding: 60px 82px;
-    background-image: url("/bg-snow.png");
+    background-image: url('/bg-snow.png');
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -414,7 +423,7 @@
 
   .gifts {
     padding: 60px 82px;
-    background-image: url("/bg-snow.png");
+    background-image: url('/bg-snow.png');
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -457,7 +466,7 @@
 
   .countdown {
     padding: 60px 82px;
-    background-image: url("/bg-snow.png"), url("/bg-forest.png");
+    background-image: url('/bg-snow.png'), url('/bg-forest.png');
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;

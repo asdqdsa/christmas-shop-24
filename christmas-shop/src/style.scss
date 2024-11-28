@@ -1,9 +1,12 @@
 // fonts
-@use "./styles/fonts";
+@use './styles/fonts';
+
+// variables
+@use './styles/variables';
 
 // desktop
-@use "./styles/home";
-@use "./styles/gifts";
+@use './styles/home';
+@use './styles/gifts';
 
 // mobile
-@use "./styles/mobile";
+@use './styles/mobile';
