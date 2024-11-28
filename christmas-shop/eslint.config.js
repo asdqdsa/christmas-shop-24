@@ -30,6 +30,7 @@ export default defineConfig([
       prettier,
     },
     rules: {
+      'max-len': ['warn', { code: 80 }], // Set max line length
       'jsdoc/require-jsdoc': [
         'warn',
         { require: { FunctionDeclaration: true } },
@@ -49,7 +50,7 @@ export default defineConfig([
       'unicorn/no-null': 'warn', // Discourages the use of null for variables, use undefined
 
       // No-unsanitized plugin
-      'no-unsanitized/method': 'error' //  Ensures that any untrusted user input is sanitized before being passed to potentially dangerous methods, such as innerHTML, eval,
+      'no-unsanitized/method': 'error', //  Ensures that any untrusted user input is sanitized before being passed to potentially dangerous methods, such as innerHTML, eval,
       'no-unsanitized/propperty': 'error', // For property assignments. Ensures that potentially dangerous user input isn't assigned directly to DOM properties that could allow for code execution (e.g., setting innerHTML directly with unsanitized input).
     },
   },
