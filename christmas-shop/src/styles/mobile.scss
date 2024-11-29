@@ -65,6 +65,17 @@
   .gifts-main__container {
     padding-inline: clamp(0.5rem, -0.512rem + 2.105vi, 1.25rem);
   }
+
+  .scroll-up-arrow {
+    display: flex;
+    opacity: 1;
+  }
+
+  .scroll-up-arrow_inactive {
+    z-index: -1;
+    opacity: 0;
+    pointer-events: none;
+  }
 }
 
 @media (width < 568px) {

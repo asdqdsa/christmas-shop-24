@@ -21,12 +21,43 @@ function getTimeToDate(targetDate, configTimer) {
   return configTimer;
 }
 
-const idTimerTick = setInterval(updateLayoutTimer, 1000);
+const idTimerTick = setInterval(
+  updateLayoutTimer,
+  1000,
+  FINISH_TIME_COUNTDOWN_ISO,
+);
 
-function updateLayoutTimer() {
-  const getData = getTimeToDate(FINISH_TIME_COUNTDOWN_ISO, {});
+function updateLayoutTimer(targetDate) {
+  const getData = getTimeToDate(targetDate, {});
   days.textContent = getData.daysDelta;
   hours.textContent = getData.hoursDelta;
   minutes.textContent = getData.minutesDelta;
   seconds.textContent = getData.secondsDelta;
 }
+
+// Scroll to Top
+const scrollUpArrow = document.querySelector('#scroll-up');
+scrollUpArrow.addEventListener('click', handleScrollToTop);
+
+function handleScrollToTop() {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth',
+  });
+}
+
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 300) {
+    scrollUpArrow.classList.remove('scroll-up-arrow_inactive');
+  } else scrollUpArrow.classList.add('scroll-up-arrow_inactive');
+});
+
+// TODO Slider
+
+// TODO Menu
+
+// TODO JSON Modal
+
+// TODO Tabs
+
+// TODO Random Cards
