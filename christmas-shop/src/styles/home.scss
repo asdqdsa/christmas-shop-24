@@ -849,28 +849,3 @@ h3 {
     }
   }
 }
-
-.scroll-up-arrow {
-  position: fixed;
-  z-index: 1;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid var(--primary-color, #ff4646);
-  border-radius: 50px;
-  background-color: var(--static-color, #fff);
-  block-size: 56px;
-  cursor: pointer;
-  inline-size: 56px;
-  inset-block-end: 8px;
-  inset-inline-end: 8px;
-
-  &-svg {
-    border-radius: 50px;
-    fill: black;
-    inline-size: 56px;
-    stroke: var(--primary-color, #ff4646);
-    transform: rotate(-90deg);
-    transition: 0.3s ease;
-  }
-}
