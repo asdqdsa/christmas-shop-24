@@ -12,7 +12,10 @@
     "lint:fix": "stylelint '**/*.{scss,css}' --fix",
     "elint": "eslint . --ext .js",
     "eslint:check": "npx eslint . --quiet",
-    "eslint:fix": "npx eslint .  --fix --quiet"
+    "eslint:fix": "npx eslint .  --fix --quiet",
+    "obfuscate:js": "node obfuscateDist.js",
+    "prod:obfuscate": "pnpm vite build && pnpm run obfuscate:js && vite preview",
+    "prod:test": "pnpm vite build && vite preview"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.20",
@@ -29,6 +32,7 @@
     "eslint-plugin-unicorn": "^56.0.1",
     "gh-pages": "^6.2.0",
     "htmlhint": "^1.1.4",
+    "javascript-obfuscator": "^4.1.1",
     "postcss": "^8.4.49",
     "postcss-nested": "^7.0.2",
     "prettier": "3.3.3",

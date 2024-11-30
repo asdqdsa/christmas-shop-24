@@ -1,9 +1,9 @@
-import autoprefixer from "autoprefixer";
-import postcssNested from "postcss-nested";
+import autoprefixer from 'autoprefixer';
+import postcssNested from 'postcss-nested';
 
 export default {
   plugins: {
     autoprefixer: {},
-    "postcss-nested": {},
+    'postcss-nested': {},
   },
 };
