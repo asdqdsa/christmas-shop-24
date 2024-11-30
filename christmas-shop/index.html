@@ -34,21 +34,23 @@
                 class="header__nav-link-wrapper">Contacts</span></a></li>
         </ul>
       </nav>
-      <nav class="header__nav-mobile header__nav-mobile_state">
-        <div class="header__nav-hamburger">
-          <ul class="header__nav-list header__nav-mobile-list_state">
-            <li class="header__nav-item"><a class="header__nav-link" href="gifts.html"><span
-                  class="header__nav-link-wrapper">Gifts</span></a></li>
-            <li class="header__nav-item"><a class="header__nav-link" href="#about"><span
-                  class="header__nav-link-wrapper">About</span></a></li>
-            <li class="header__nav-item"><a class="header__nav-link" href="#gifts"><span
-                  class="header__nav-link-wrapper">Best</span></a></li>
-            <li class="header__nav-item"><a class="header__nav-link" href="#contacts"><span
-                  class="header__nav-link-wrapper">Contacts</span></a></li>
-          </ul>
-        </div>
-      </nav>
+      <div class="header__nav-hamburger header__nav-mobile_state" id="mobile" data-active="false"></div>
+
+
     </div>
+    <!-- mobile menu -->
+    <nav class="header__nav-mobile" id="mobile-menu" data-active="false">
+      <ul id="mobile-list" class="header__nav-list header__nav-list_mobile header__nav-mobile-list_state1">
+        <li class="header__nav-item header__nav-item_mobile "><a class="header__nav-link" href="gifts.html"><span
+              class="header__nav-link-wrapper">Gifts</span></a></li>
+        <li class="header__nav-item header__nav-item_mobile header__nav-item_mobile-animation"><a
+            class="header__nav-link" href="#about"><span class="header__nav-link-wrapper">About</span></a></li>
+        <li class="header__nav-item header__nav-item_mobile header__nav-item_mobile-animation"><a
+            class="header__nav-link" href="#gifts"><span class="header__nav-link-wrapper">Best</span></a></li>
+        <li class="header__nav-item header__nav-item_mobile header__nav-item_mobile-animation"><a
+            class="header__nav-link" href="#contacts"><span class="header__nav-link-wrapper">Contacts</span></a></li>
+      </ul>
+    </nav>
   </header>
 
   <main class="main">
@@ -272,6 +274,24 @@
   </footer>
 
   <script defer type="module" src="/src/scripts/main.js"></script>
+  <script defer type="module" src="/src/scripts/mobilemenu.js"></script>
 </body>
+
+<template id="modal">
+  <div class="modal">
+    <div class="modal__container">
+      <div class="card">
+        <div class="card__container-img">
+          <img class="card__img" src="/gift-for-work.png" alt="A wrapped gift box">
+        </div>
+        <div class="card__info">
+          <p class="card__info-tag card__info-tag_work">For work</p>
+          <p class="card__info-text">Console.log guru</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
 
 </html>

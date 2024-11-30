@@ -29,6 +29,10 @@ h3 {
   max-inline-size: 1440px;
   padding-inline: 82px;
 
+  &__nav-mobile {
+    display: none;
+  }
+
   &__container {
     display: flex;
     align-items: center;
@@ -153,6 +157,7 @@ h3 {
   border-radius: 12px;
   background-color: #ff46461a;
   color: #ff4646;
+  cursor: default;
 }
 
 .main {
@@ -756,6 +761,23 @@ h3 {
     letter-spacing: 0.16em;
     line-height: 1.52;
   }
+}
+
+.modal {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--overlay-80-color);
+  inset: 50%;
+
+  &__container {
+    display: flex;
+  }
+}
+
+.scroll-disable {
+  overflow: hidden;
 }
 
 @media (hover: hover) and (pointer: fine) {

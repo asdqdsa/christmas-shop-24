@@ -37,10 +37,22 @@ function updateLayoutTimer(targetDate) {
 
 // TODO Slider
 
-// TODO Menu
-
 // TODO JSON Modal
+const modalTemplateContent = document.querySelector('#modal').content;
+const modal = modalTemplateContent.querySelector('.modal').cloneNode(true);
+const page = document.querySelector('.page');
+
+function openModal() {
+  page.appendChild(modal);
+  page.classList.toggle('scroll-disable');
+}
+
+// openModal();
+
+const scrollDis = () => page.classList.add('scroll-disable');
+// scrollDis();
 
 // TODO Tabs
 
 // TODO Random Cards
+// console.log(getEventListeners(window));
