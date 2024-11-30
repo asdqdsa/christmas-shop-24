@@ -14,8 +14,8 @@
     "eslint:check": "npx eslint . --quiet",
     "eslint:fix": "npx eslint .  --fix --quiet",
     "obfuscate:js": "node obfuscateDist.js",
-    "prod:obfuscate": "pnpm vite build && pnpm run obfuscate:js && vite preview",
-    "prod:test": "pnpm vite build && vite preview"
+    "prod:obfuscateDir": "pnpm vite build && pnpm run obfuscate:js && vite preview",
+    "prod:obfuscate": "vite build && vite preview"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.20",

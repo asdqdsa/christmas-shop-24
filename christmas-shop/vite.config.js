@@ -7,7 +7,7 @@ export default defineConfig({
   build: {
     assetsInclude: ['**/*.woff', '**/*.woff2', '**/*.ttf'],
     sourcemap: 'inline', // Enables source maps for prod build
-    minify: true, // Disable minification for prod build
+    minify: false, // Disable minification for prod build
     rollupOptions: {
       input: {
         main: 'index.html',
@@ -18,5 +18,5 @@ export default defineConfig({
     cssCodeSplit: true, // Enables CSS code splitting
   },
 
-  plugins: [obfuscatorPlugin()],
+  // plugins: [obfuscatorPlugin()],
 });
