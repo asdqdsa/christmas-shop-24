@@ -14,6 +14,7 @@ function handleMobileMenu(e) {
 }
 
 function toggleMobileMenu() {
+  mobileMenu.classList.toggle('header__nav-hamburger_animation');
   mobileNav.classList.toggle('header__nav-mobile-open');
   page.classList.toggle('scroll-disable');
   window.removeEventListener('resize', onResize);

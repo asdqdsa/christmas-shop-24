@@ -78,13 +78,13 @@
       align-items: center;
       font-size: 24px;
       gap: 8px;
-      padding-block-end: 10px; // 768
       letter-spacing: 0.16em;
       line-height: 1.52;
+      padding-block-end: 10px; // 768
     }
 
     &__nav-item_mobile {
-      padding: 4px 12px 20px 12px; // scroll disabled!!
+      padding: 4px 12px 20px; // scroll disabled!!
     }
   }
 
@@ -117,6 +117,7 @@
   .header__nav-list_mobile {
     padding-block-end: 10px; // 380
   }
+
   .store__tabs {
     gap: clamp(0rem, -1.019rem + 4.278vi, 0.5rem);
   }

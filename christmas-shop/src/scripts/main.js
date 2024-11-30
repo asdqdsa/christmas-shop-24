@@ -1,4 +1,5 @@
 console.log('main.js is set');
+const page = document.querySelector('.page');
 
 // Timer
 const days = document.querySelector('#days');
@@ -35,12 +36,9 @@ function updateLayoutTimer(targetDate) {
   seconds.textContent = getData.secondsDelta;
 }
 
-// TODO Slider
-
 // TODO JSON Modal
 const modalTemplateContent = document.querySelector('#modal').content;
 const modal = modalTemplateContent.querySelector('.modal').cloneNode(true);
-const page = document.querySelector('.page');
 
 function openModal() {
   page.appendChild(modal);
@@ -49,7 +47,7 @@ function openModal() {
 
 // openModal();
 
-const scrollDis = () => page.classList.add('scroll-disable');
+// const scrollDis = () => page.classList.add('scroll-disable');
 // scrollDis();
 
 // TODO Tabs

@@ -14,8 +14,6 @@ h2,
 h3 {
   &::selection {
     background-color: var(--tag-type-3-color, #06a44f);
-
-    // color: #fff;
   }
 }
 
@@ -34,6 +32,8 @@ h3 {
   }
 
   &__container {
+    position: relative;
+    z-index: 3;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -106,6 +106,18 @@ h3 {
       transition: transform 0.2s ease;
     }
 
+    &-hamburger_animation {
+      transform: rotate(-180deg);
+    }
+
+    &-hamburger_animation::before {
+      transform: translateX(4px) rotate(45deg) translateY(6.5px);
+    }
+
+    &-hamburger_animation::after {
+      transform: translateX(4px) rotate(-45deg) translateY(-6.5px);
+    }
+
     // &-hamburger:hover::after {
     //   transform: translateX(4px) rotate(-45deg) translateY(-6.5px);
     // }
@@ -133,17 +145,6 @@ h3 {
           color 0.2s ease,
           background-color 0.2s ease;
       }
-
-      // &:hover {
-      //   padding: 0;
-      // }
-
-      // &:hover .header__nav-link-wrapper {
-      //   padding: 12px 20px;
-      //   border-radius: 12px;
-      //   background-color: #ff46461a;
-      //   color: #ff4646;
-      // }
     }
   }
 
@@ -218,11 +219,6 @@ h3 {
       transition:
         background-color 0.3s ease,
         color 0.2s ease;
-
-      // &:hover {
-      //   background-color: #fff;
-      //   color: #181c29;
-      // }
     }
   }
 
@@ -336,14 +332,18 @@ h3 {
     }
 
     &__row {
+      position: relative;
       display: flex;
       inline-size: 100%;
     }
 
     &__wrapper {
+      position: relative;
       display: flex;
       align-items: center;
       gap: 21px;
+      inset-inline-end: 0;
+      transition: inset-inline-end 0.2s ease;
     }
 
     &__text {
@@ -359,6 +359,7 @@ h3 {
       display: flex;
       block-size: 200px;
       inline-size: 200px;
+      user-select: none;
     }
 
     &__img {
@@ -374,18 +375,20 @@ h3 {
 
       .control-arrows-svg {
         border-radius: 20px;
-        fill: black;
         inline-size: 56px;
         stroke: #fff;
         transition: 0.3s ease;
       }
 
-      // .control-arrows-svg:hover {
-      //   stroke: #ff4646;
-      // }
-
       .control-arrows-svg:active {
         stroke: #ff4646;
+      }
+
+      .control-arrows-svg_inactive {
+        border-radius: 20px;
+        inline-size: 56px;
+        stroke: #fff6;
+        transition: 0.3s ease;
       }
 
       &-container {
@@ -401,28 +404,49 @@ h3 {
         inline-size: 56px;
         transition: background-color 0.3s ease;
 
-        // &:hover {
-        //   background-color: #fff;
-        // }
         &:active {
           background-color: #fff;
         }
       }
 
-      &-right {
+      &_inactive {
         display: flex;
         border: 1px solid #fff6;
+        border-radius: 20px;
+        block-size: 56px;
+        inline-size: 56px;
+        transition: background-color 0.3s ease;
+
+        &:hover {
+          cursor: default;
+        }
+      }
+
+      &-right {
+        display: flex;
+        border: 1px solid #fff;
         border-radius: 20px;
         block-size: 56px;
         inline-size: 56px;
         transform: scaleX(-1);
         transition: background-color 0.3s ease;
 
-        // &:hover {
-        //   background-color: #fff;
-        // }
         &:active {
           background-color: #fff;
+        }
+
+        &_inactive {
+          display: flex;
+          border: 1px solid #fff6;
+          border-radius: 20px;
+          block-size: 56px;
+          inline-size: 56px;
+          transform: scaleX(-1);
+          transition: background-color 0.3s ease;
+
+          &:hover {
+            cursor: default;
+          }
         }
       }
     }
@@ -784,16 +808,15 @@ h3 {
   .header {
     &__nav-hamburger:hover {
       cursor: pointer;
-      transform: rotate(-180deg);
     }
 
-    &__nav-hamburger:hover::before {
-      transform: translateX(4px) rotate(45deg) translateY(6.5px);
-    }
+    // &__nav-hamburger:hover::before {
+    //   transform: translateX(4px) rotate(45deg) translateY(6.5px);
+    // }
 
-    &__nav-hamburger:hover::after {
-      transform: translateX(4px) rotate(-45deg) translateY(-6.5px);
-    }
+    // &__nav-hamburger:hover::after {
+    //   transform: translateX(4px) rotate(-45deg) translateY(-6.5px);
+    // }
 
     &__nav-link:hover {
       padding: 0;
@@ -818,20 +841,32 @@ h3 {
     }
 
     .slider {
-      .control-arrows-svg:hover {
-        stroke: #ff4646;
-      }
-
       &__controls {
         &-left {
           &:hover {
             background-color: #fff;
           }
+
+          &:hover .control-arrows-svg {
+            stroke: #ff4646;
+          }
         }
 
-        &-rigth {
+        &_inactive {
+          border: 1px solid #fff6;
+
+          &:hover {
+            cursor: default;
+          }
+        }
+
+        &-right {
           &:hover {
             background-color: #fff;
+          }
+
+          &:hover .control-arrows-svg {
+            stroke: #ff4646;
           }
         }
       }

@@ -87,8 +87,8 @@
           <p class="slider__caption">Become Happier!</p>
           <h2 class="slider__title">In the new 2025</h2>
         </div>
-        <div class="slider__row">
-          <div class="slider__wrapper">
+        <div class="slider__row" id="slider-frame">
+          <div class="slider__wrapper" id="slider">
             <p class="slider__text">LIVE</p>
             <div class="slider__img-container">
               <img class="slider__img" src="/snowman.png" alt="Snowman">
@@ -109,16 +109,16 @@
         </div>
 
         <div class="slider__controls">
-          <div class="slider__controls-container">
+          <div id="slider-controls" class="slider__controls-container">
 
-            <div class="slider__controls-left slider__controls-right">
-              <svg class="control-arrows-svg" viewBox="0 0 56 56">
+            <div id="slider-prev" class=" slider__controls_active slider__controls-right_inactive">
+              <svg class="control-arrows-svg_inactive " id="control-arrow-right" viewBox="0 0 56 56">
                 <use href="/button.svg#arrow"></use>
               </svg>
             </div>
 
-            <div class="slider__controls-left">
-              <svg class="control-arrows-svg" viewBox="0 0 56 56">
+            <div id="slider-next" class="slider__controls-left slider__controls_active">
+              <svg class="control-arrows-svg " id="control-arrow-left" viewBox="0 0 56 56">
                 <use href="/button.svg#arrow"></use>
               </svg>
             </div>
@@ -275,6 +275,7 @@
 
   <script defer type="module" src="/src/scripts/main.js"></script>
   <script defer type="module" src="/src/scripts/mobilemenu.js"></script>
+  <script defer type="module" src="/src/scripts/slider.js"></script>
 </body>
 
 <template id="modal">
