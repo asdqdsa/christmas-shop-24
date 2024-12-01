@@ -8,6 +8,7 @@
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/src/styles/modern-normalize.css">
   <link rel="stylesheet" href="/src/style.scss">
+  <base href="/asdqdsa-JSFE2024Q4/">
   <script type="module" src="/src/scripts/gifts.js"></script>
 </head>
 
@@ -62,24 +63,24 @@
     <div class="gifts-main__container">
       <h1 class="gifts-main__headline">Achieve health, harmony, and inner strength</h1>
       <div class="store">
-        <div class="store__tabs">
-          <div class="store__tab store__tab_active">
+        <div class="store__tabs" id="store-tabs" data-active-tab="all">
+          <div class="store__tab store__tab_active" id="store-tab-all" data-active="true" data-tab-name="all">
             <p class="store__tab-font">All</p>
           </div>
-          <div class="store__tab">
+          <div class="store__tab" id="store-tab-work" data-active="false" data-tab-name="work">
             <p class="store__tab-font">For work</p>
           </div>
-          <div class="store__tab">
+          <div class="store__tab" id="store-tab-health" data-active="false" data-tab-name="health">
             <p class="store__tab-font">For health</p>
           </div>
-          <div class="store__tab">
+          <div class="store__tab" id="store-tab-harmony" data-active="false" data-tab-name="harmony">
             <p class="store__tab-font">For harmony</p>
           </div>
         </div>
-        <div class="store__showcase">
+        <div class="store__showcase" id="store-showcase">
 
 
-          <div class="card">
+          <!-- <div class="card">
             <div class="card__container-img">
               <img class="card__img" src="/gift-for-work.png" alt="A wrapped gift box">
             </div>
@@ -87,8 +88,8 @@
               <p class="card__info-tag card__info-tag_work">For work</p>
               <p class="card__info-text">Console.log guru</p>
             </div>
-          </div>
-
+          </div> -->
+          <!-- 
           <div class="card">
             <div class="card__container-img">
               <img class="card__img" src="/gift-for-health.png" alt="A wrapped gift box">
@@ -198,7 +199,7 @@
               <p class="card__info-tag card__info-tag_harmony">For harmony</p>
               <p class="card__info-text">Spontaneous Coding Philosopher</p>
             </div>
-          </div>
+          </div> -->
 
         </div>
       </div>
@@ -261,8 +262,137 @@
       </div>
     </div>
   </footer>
+  <template id="modal">
+    <div class="modal">
+      <div class="modal__container" id="modal-background">
+        <div class="modal-card">
+          <div class="modal-card__container-close" id="modal-close"></div>
+          <div class="modal-card__container-img">
+            <!-- <img class="modal-card__img" src="/gift-for-work.png" alt="Add text" class="modal-card__img"> -->
+          </div>
+          <div class="modal-card__description">
+            <div class="modal-card__about">
+              <p class="modal-card__about-tag card__info-tag card__info-tag_work">Tag</p>
+              <h3 class="modal-card__about-title card__info-text">Title</h3>
+              <p class="modal-card__about-text">Uses console.log like a crystal ball to find any issue.</p>
+            </div>
+            <div class="modal-card__superpowers">
+              <h4 class="modal-card__superpowers-title">Adds superpowers to:</h4>
+              <ul class="modal-card__superpowers-perks-list">
+                <li class="modal-card__superpowers-perks-item">
+
+                  <p class="modal-card__superpowers-perk-name">Dream</p>
+                  <div class="modal-card__superpowers-perk-ponts">
+                    <p class="modal-card__superpowers-perk-score">+500</p>
+                    <span id="" class="modal-card__superpowers-perk-weight">
+                      <span class="modal-card__superpowers-perk-star">
+                        <svg class="modal-card__perk-svg modal-card__perk-svg_inactive" viewBox="0 0 16 16">
+                          <use href="/sfpoint.svg#sfpoint"></use>
+                        </svg>
+                      </span>
+                      <span class="modal-card__superpowers-perk-point">
+                        <svg class="modal-card__perk-svg modal-card__perk-svg_inactive" viewBox="0 0 16 16">
+                          <use href="/sfpoint.svg#sfpoint"></use>
+                        </svg>
+                      </span>
+                      <span class="modal-card__superpowers-perk-point">
+                        <svg class="modal-card__perk-svg modal-card__perk-svg_inactive" viewBox="0 0 16 16">
+                          <use href="/sfpoint.svg#sfpoint"></use>
+                        </svg>
+                      </span>
+                      <span class="modal-card__superpowers-perk-point">
+                        <svg class="modal-card__perk-svg modal-card__perk-svg_inactive" viewBox="0 0 16 16">
+                          <use href="/sfpoint.svg#sfpoint"></use>
+                        </svg>
+                      </span>
+                      <span class="modal-card__superpowers-perk-point">
+                        <svg class="modal-card__perk-svg modal-card__perk-svg_inactive" viewBox="0 0 16 16">
+                          <use href="/sfpoint.svg#sfpoint"></use>
+                        </svg>
+                      </span>
+
+                    </span>
+                  </div>
+                </li>
+                <li class="modal-card__superpowers-perks-item">
+
+                  <p class="modal-card__superpowers-perk-name">Dream</p>
+                  <div class="modal-card__superpowers-perk-ponts">
+                    <p class="modal-card__superpowers-perk-score">+500</p>
+                    <span id="" class="modal-card__superpowers-perk-weight">
+                      <span class="modal-card__superpowers-perk-star">
+                        <svg class="modal-card__perk-svg modal-card__perk-svg_inactive" viewBox="0 0 16 16">
+                          <use href="/sfpoint.svg#sfpoint"></use>
+                        </svg>
+                      </span>
+                      <span class="modal-card__superpowers-perk-point">
+                        <svg class="modal-card__perk-svg modal-card__perk-svg_inactive" viewBox="0 0 16 16">
+                          <use href="/sfpoint.svg#sfpoint"></use>
+                        </svg>
+                      </span>
+                    </span>
+                  </div>
+                </li>
+                <li class="modal-card__superpowers-perks-item">
+
+                  <p class="modal-card__superpowers-perk-name">Dream</p>
+                  <div class="modal-card__superpowers-perk-ponts">
+                    <p class="modal-card__superpowers-perk-score">+500</p>
+                    <span id="" class="modal-card__superpowers-perk-weight">
+                      <span class="modal-card__superpowers-perk-star">
+                        <svg class="modal-card__perk-svg modal-card__perk-svg_inactive" viewBox="0 0 16 16">
+                          <use href="/sfpoint.svg#sfpoint"></use>
+                        </svg>
+                      </span>
+                      <span class="modal-card__superpowers-perk-point">
+                        <svg class="modal-card__perk-svg modal-card__perk-svg_inactive" viewBox="0 0 16 16">
+                          <use href="/sfpoint.svg#sfpoint"></use>
+                        </svg>
+                      </span>
+                    </span>
+                  </div>
+                </li>
+                <li class="modal-card__superpowers-perks-item">
+
+                  <p class="modal-card__superpowers-perk-name">Dream</p>
+                  <div class="modal-card__superpowers-perk-ponts">
+                    <p class="modal-card__superpowers-perk-score">+500</p>
+                    <span id="" class="modal-card__superpowers-perk-weight">
+                      <span class="modal-card__superpowers-perk-star">
+                        <svg class="modal-card__perk-svg modal-card__perk-svg_inactive" viewBox="0 0 16 16">
+                          <use href="/sfpoint.svg#sfpoint"></use>
+                        </svg>
+                      </span>
+                      <span class="modal-card__superpowers-perk-point">
+                        <svg class="modal-card__perk-svg modal-card__perk-svg_inactive" viewBox="0 0 16 16">
+                          <use href="/sfpoint.svg#sfpoint"></use>
+                        </svg>
+                      </span>
+                    </span>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <template id="template-card">
+    <div class="card" id="content-card">
+      <div class="card__container-img">
+        <img class="card__img" src="/gift-for-work.png" alt="A wrapped gift box">
+      </div>
+      <div class="card__info">
+        <p class="card__info-tag">Tag</p>
+        <p class="card__info-text">Name</p>
+      </div>
+    </div>
+  </template>
   <script defer type="module" src="/src/scripts/gifts.js"></script>
   <script defer type="module" src="/src/scripts/mobilemenu.js"></script>
+  <script defer type="module" src="/src/scripts/product.js"></script>
 </body>
 
 </html>

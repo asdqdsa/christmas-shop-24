@@ -1,6 +1,6 @@
 console.log('main.js is set');
-const page = document.querySelector('.page');
 
+const page = document.querySelector('.page');
 // Timer
 const days = document.querySelector('#days');
 const hours = document.querySelector('#hours');
@@ -36,16 +36,15 @@ function updateLayoutTimer(targetDate) {
   seconds.textContent = getData.secondsDelta;
 }
 
-// TODO JSON Modal
+// TODO MODAL
 const modalTemplateContent = document.querySelector('#modal').content;
 const modal = modalTemplateContent.querySelector('.modal').cloneNode(true);
-
 function openModal() {
   page.appendChild(modal);
   page.classList.toggle('scroll-disable');
 }
 
-openModal();
+// openModal();
 
 // const scrollDis = () => page.classList.add('scroll-disable');
 // scrollDis();
