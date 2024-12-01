@@ -48,10 +48,7 @@ function createItem(element, data, config) {
   return element;
 }
 
-function checkTabState() {}
-
 // TABS
-
 const tabs = document.querySelector('#store-tabs');
 const tabsConfig = {
   tabAll: '#store-tab-all',

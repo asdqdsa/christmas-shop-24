@@ -136,7 +136,7 @@
           <h3 class="gifts__title">ESPECIALLY FOR YOU</h3>
         </div>
 
-        <div class="gifts__shelf">
+        <div class="gifts__shelf" id="gifts-shelf">
           <div class="card">
             <div class="card__container-img">
               <img class="card__img" src="/gift-for-work.png" alt="A wrapped gift box">
@@ -164,7 +164,7 @@
               <p class="card__info-text">Merge Master</p>
             </div>
           </div>
-          <div class="card">
+          <!-- <div class="card">
             <div class="card__container-img">
               <img class="card__img" src="/gift-for-harmony.png" alt="A wrapped gift box">
             </div>
@@ -172,7 +172,7 @@
               <p class="card__info-tag card__info-tag_harmony">For harmony</p>
               <p class="card__info-text">Spontaneous Coding Philosopher</p>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
     </section>
@@ -276,7 +276,19 @@
   <script defer type="module" src="/src/scripts/main.js"></script>
   <script defer type="module" src="/src/scripts/mobilemenu.js"></script>
   <script defer type="module" src="/src/scripts/slider.js"></script>
-  <!-- <script defer type="module" src="/src/scripts/product.js"></script> -->
+  <script defer type="module" src="/src/scripts/randomitems.js"></script>
+
+  <template id="template-card">
+    <div class="card" id="content-card">
+      <div class="card__container-img">
+        <img class="card__img" src="/gift-for-work.png" alt="A wrapped gift box">
+      </div>
+      <div class="card__info">
+        <p class="card__info-tag">Tag</p>
+        <p class="card__info-text">Name</p>
+      </div>
+    </div>
+  </template>
   <template id="modal">
     <div class="modal">
       <div class="modal__container" id="modal-background">
