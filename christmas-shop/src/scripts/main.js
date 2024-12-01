@@ -45,7 +45,7 @@ function openModal() {
   page.classList.toggle('scroll-disable');
 }
 
-// openModal();
+openModal();
 
 // const scrollDis = () => page.classList.add('scroll-disable');
 // scrollDis();

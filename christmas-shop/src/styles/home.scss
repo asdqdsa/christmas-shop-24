@@ -594,7 +594,7 @@ h3 {
 }
 
 .card {
-  position: relative;
+  position: relative; // ?
   display: flex;
   flex-direction: column;
   border-radius: 20px;
@@ -602,13 +602,9 @@ h3 {
   block-size: 342px;
   inline-size: 310px;
 
-  // &:hover {
-  //   cursor: pointer;
-  // }
-
   &__container-img {
     display: flex;
-    box-sizing: 230px;
+    // box-sizing: 230px; // meant block-size
     justify-content: center;
     inline-size: 310px;
   }
@@ -794,10 +790,111 @@ h3 {
   align-items: center;
   justify-content: center;
   background-color: var(--overlay-80-color);
-  inset: 50%;
+  inset: 0;
+  // padding-block-start: 197px;
 
   &__container {
+    position: relative;
     display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.modal-card {
+  position: relative;
+  border-radius: 20px;
+  background-color: var(--static-color, #fff);
+
+  // inline-size: max(100%, 400px);
+  inline-size: 100%;
+  max-inline-size: 400px;
+
+  &__container-close {
+    position: absolute;
+    display: block;
+    background-image: url('/close.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    block-size: 40px;
+    cursor: pointer;
+    inline-size: 40px;
+    inset-block-start: 12px;
+    inset-inline-end: 12px;
+  }
+
+  &__container-img {
+    display: flex;
+    background-color: var(--content-background-color, #ecf3f8);
+    background-image: url('/gift-for-work.png');
+    background-position: center;
+
+    // background-repeat: no-repeat;
+    background-size: cover;
+    block-size: 230px;
+    border-start-end-radius: 20px;
+    border-start-start-radius: 20px;
+    inline-size: 100%;
+  }
+
+  &__img {
+    display: flex;
+    justify-content: center;
+  }
+
+  &__perk-svg {
+    block-size: 16px;
+    fill: var(--primary-color, #ff4646);
+    inline-size: 16px;
+    opacity: 1;
+    transition: 0.3s ease;
+  }
+
+  &__perk-svg_inactive {
+    opacity: 0.4;
+  }
+
+  &__description {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    gap: 20px;
+  }
+
+  &__about {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  &__superpowers {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  &__superpowers-perk-weight {
+    display: flex;
+    gap: 8px;
+  }
+
+  &__superpowers-perks-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__superpowers-perks-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    inline-size: 100%;
+  }
+
+  &__superpowers-perk-ponts {
+    display: flex;
+    align-items: center;
+    gap: 12px;
   }
 }
 
