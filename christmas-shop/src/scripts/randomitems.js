@@ -49,11 +49,14 @@ function populateStore(data) {
 
 function getRandomItems(products, quantity = 4) {
   const length = products.length;
-  const randomItems = [];
-  while (randomItems.length < quantity) {
-    randomItems.push(products[Math.floor(Math.random() * length)]);
-  }
-  return randomItems;
+  const list = [...products];
+  list.forEach((_, idx, list) => {
+    const randIdx = Math.floor(Math.random() * length);
+    const swap = list[idx];
+    list[idx] = list[randIdx];
+    list[randIdx] = swap;
+  });
+  return list.slice(-1 * quantity);
 }
 
 const randomItems = getRandomItems(products);
