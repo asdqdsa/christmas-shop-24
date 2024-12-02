@@ -1,7 +1,5 @@
-console.log('main.js is set');
-
-const page = document.querySelector('.page');
 // Timer
+const page = document.querySelector('.page');
 const days = document.querySelector('#days');
 const hours = document.querySelector('#hours');
 const minutes = document.querySelector('#minutes');
@@ -35,21 +33,3 @@ function updateLayoutTimer(targetDate) {
   minutes.textContent = getData.minutesDelta;
   seconds.textContent = getData.secondsDelta;
 }
-
-// TODO MODAL
-const modalTemplateContent = document.querySelector('#modal').content;
-const modal = modalTemplateContent.querySelector('.modal').cloneNode(true);
-function openModal() {
-  page.appendChild(modal);
-  page.classList.toggle('scroll-disable');
-}
-
-// openModal();
-
-// const scrollDis = () => page.classList.add('scroll-disable');
-// scrollDis();
-
-// TODO Tabs
-
-// TODO Random Cards
-// console.log(getEventListeners(window));

@@ -1,5 +1,3 @@
-console.log('gifts is set');
-
 // Scroll to Top
 const scrollUpArrow = document.querySelector('#scroll-up');
 scrollUpArrow.addEventListener('click', handleScrollToTop);
