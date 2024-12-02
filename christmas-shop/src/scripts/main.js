@@ -5,7 +5,7 @@ const hours = document.querySelector('#hours');
 const minutes = document.querySelector('#minutes');
 const seconds = document.querySelector('#seconds');
 
-const FINISH_TIME_COUNTDOWN_ISO = new Date(2025, 0, 1, 0, 0, 0);
+const FINISH_TIME_COUNTDOWN_ISO = Date.UTC(2025, 0, 1, 0, 0, 0);
 
 function getTimeToDate(targetDate, configTimer) {
   const deltaNewYear = targetDate - Date.now();
