@@ -59,6 +59,9 @@ function setPointsSuper(pointStr, element) {
 
 export function openModal(data, config) {
   const modalElement = createModal(modal, data, config);
+  setTimeout(() => {
+    modalElement.classList.add('modal__popup-smooth');
+  }, 10);
   page.appendChild(modalElement);
   page.classList.toggle('scroll-disable');
   modalElement.addEventListener('click', closeModal);
@@ -69,6 +72,7 @@ export function closeModal(evt) {
     evt.target.closest('#modal-close') ||
     evt.target.id === 'modal-backdrop'
   ) {
+    modal.classList.remove('modal__popup-smooth');
     page.removeChild(modal);
     page.classList.toggle('scroll-disable');
   }

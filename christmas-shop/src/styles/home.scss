@@ -792,7 +792,9 @@ h3 {
   justify-content: center;
   background-color: var(--overlay-80-color);
   inset: 0;
+  opacity: 0;
   padding-inline: 8px;
+  transition: opacity 0.2s ease;
 
   &__container {
     position: relative;
@@ -802,12 +804,14 @@ h3 {
   }
 }
 
+.modal__popup-smooth {
+  opacity: 1;
+}
+
 .modal-card {
   position: relative;
   border-radius: 20px;
   background-color: var(--static-color, #fff);
-
-  // inline-size: max(100%, 400px);
   inline-size: 100%;
   max-inline-size: 400px;
 

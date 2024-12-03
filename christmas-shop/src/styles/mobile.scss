@@ -106,6 +106,7 @@
   .scroll-up-arrow {
     display: flex;
     opacity: 1;
+    transition: opacity 0.3s ease;
   }
 
   .scroll-up-arrow_inactive {
