@@ -851,6 +851,11 @@ p {
     inline-size: 40px;
     inset-block-start: 12px;
     inset-inline-end: 12px;
+
+    &:active {
+      border-radius: 10px;
+      background-color: #ff45451a;
+    }
   }
 
   &__container-img {
@@ -1042,6 +1047,11 @@ p {
     &:hover .card__info {
       color: #ff4646;
     }
+  }
+
+  .modal-card__container-close:hover {
+    border-radius: 10px;
+    background-color: #ff45451a;
   }
 
   .footer {
