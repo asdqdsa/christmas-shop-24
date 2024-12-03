@@ -60,7 +60,7 @@
   background-image: url('/public/bg-snow.png');
   background-position: center;
   background-repeat: repeat;
-  background-size: cover;
+  background-size: contain;
   inset: 0 -20%;
 }
 
@@ -70,12 +70,7 @@
     opacity: 0;
   }
 
-  1% {
-    opacity: 0.1;
-  }
-
-  94% {
-    background-position: 0 95vh;
+  50% {
     opacity: 1;
   }
 
@@ -91,7 +86,6 @@
   width: 10px;
   height: 10px;
   border-radius: 50%;
-
   background-color: #fff;
   opacity: 0.5;
 }
