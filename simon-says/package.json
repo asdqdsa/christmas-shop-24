@@ -1,0 +1,52 @@
+{
+  "name": "simon-says",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "prod": "vite build && vite preview",
+    "deploy": "gh-pages -d dist",
+    "lint:fix": "stylelint '**/*.{scss,css}' --fix",
+    "eslint": "eslint . --ext .js",
+    "eslint:check": "npx eslint . --quiet",
+    "eslint:fix": "npx eslint .  --fix --quiet"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.20",
+    "eslint": "^9.17.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-define-config": "^2.1.0",
+    "eslint-plugin-html": "^8.1.2",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-jsdoc": "^50.6.1",
+    "eslint-plugin-no-unsanitized": "^4.1.2",
+    "eslint-plugin-prettier": "^5.2.1",
+    "eslint-plugin-promise": "^7.2.1",
+    "eslint-plugin-unicorn": "^56.0.1",
+    "gh-pages": "^6.3.0",
+    "htmlhint": "^1.1.4",
+    "javascript-obfuscator": "^4.1.1",
+    "postcss": "^8.4.49",
+    "postcss-nested": "^7.0.2",
+    "prettier": "3.4.2",
+    "sass": "^1.83.1",
+    "stylelint": "^16.12.0",
+    "stylelint-config-idiomatic-order": "^10.0.0",
+    "stylelint-config-standard": "^36.0.1",
+    "stylelint-config-standard-scss": "^14.0.0",
+    "stylelint-order": "^6.0.4",
+    "stylelint-scss": "^6.10.0",
+    "vite": "^6.0.7"
+  },
+  "dependencies": {
+    "modern-normalize": "^3.0.1"
+  },
+  "main": "eslint.config.js",
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
