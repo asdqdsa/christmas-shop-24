@@ -1,0 +1,146 @@
+:root {
+  --dark-gray: #2e4b5a;
+  --gray: #2f4452;
+  --turquose: #30c5c0;
+  --hover-keys: #74e4e0;
+  --active: #8fe7e4;
+  --yellow: #eeb559;
+  --hover-btn: #e9bb70;
+  --light-gray: #dddbdb;
+  --red: #dd5e73;
+  --green: #77b958;
+  --black: #000;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--gray);
+  block-size: 100vh;
+  inline-size: 100%;
+}
+
+.main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 100%;
+  max-inline-size: 800px;
+}
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  align-items: center;
+  justify-content: center;
+  inline-size: 100%;
+  max-inline-size: 800px;
+}
+
+.display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 100%;
+}
+
+.info {
+  color: var(--light-gray);
+}
+
+.keyboard {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  gap: 10px;
+  inline-size: 100%;
+}
+
+.keycap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px;
+  background-color: var(--turquose);
+  block-size: 1.2em;
+  color: var(--black);
+  cursor: pointer;
+  font-size: 50px;
+  inline-size: 1.2em;
+}
+
+.keycap:hover {
+  background-color: var(--hover-keys);
+  user-select: none;
+}
+
+.keycap:active {
+  background-color: var(--active);
+}
+
+.highlight-correct {
+  background-color: var(--green);
+}
+
+.highlight-incorrect {
+  background-color: var(--red);
+}
+
+.controls {
+  display: flex;
+  padding: 40px;
+  gap: 18px;
+}
+
+.difficulty {
+  color: var(--light-gray);
+  cursor: pointer;
+  font-size: 50px;
+  user-select: none;
+}
+
+.difficulty:hover {
+  color: var(--yellow);
+}
+
+.start-btn {
+  padding: 10px;
+  border: none;
+  border-radius: 3px;
+  background-color: var(--yellow);
+  block-size: 60px;
+  color: var(--gray);
+  cursor: pointer;
+  font-size: 30px;
+  inline-size: 30%;
+}
+
+.start-btn:hover {
+  background-color: var(--hover-btn);
+}
+
+.help-btn {
+  padding: 10px;
+  border: none;
+  border-radius: 3px;
+  background-color: var(--yellow);
+  block-size: 60px;
+  color: var(--gray);
+  cursor: pointer;
+  font-size: 30px;
+  inline-size: 30%;
+}
+
+.help-btn:hover {
+  background-color: var(--hover-btn);
+}
+
+.hidden {
+  opacity: 0;
+  pointer-events: none;
+  user-select: none;
+}

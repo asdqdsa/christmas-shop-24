@@ -1,25 +1,16 @@
-import './style.css';
-import javascriptLogo from './javascript.svg';
-import viteLogo from '/vite.svg';
-import { setupCounter } from './counter.js';
+import './scripts/app';
+import './styles/styles.scss';
 
-document.querySelector('#app').innerHTML =
-  `  <div>  <a href="https://vite.dev" target="_blank">
-      <img src="${viteLogo}" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">
-      <img src="${javascriptLogo}" class="logo vanilla" alt="JavaScript logo" />
-    </a>
-    <h1>Hello Vite!</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite logo to learn more
-    </p>
-  </div>
-`;
+// import { EventEmmitter } from './scripts/events';
 
-setupCounter(document.querySelector('#counter'));
+// console.log('index is set');
 
-console.log('index is set');
+// const emmiter = new EventEmmitter();
+
+// emmiter.on('test', (data) => {
+//   console.log(data, 'payload');
+// });
+
+// const list = [1, 2, 3];
+
+// emmiter.emit('test', list);
