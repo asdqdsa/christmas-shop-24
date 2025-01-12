@@ -1,6 +1,7 @@
 :root {
   --dark-gray: #2e4b5a;
   --gray: #2f4452;
+  --innactive: #677883;
   --turquose: #30c5c0;
   --hover-keys: #74e4e0;
   --active: #8fe7e4;
@@ -9,6 +10,7 @@
   --light-gray: #dddbdb;
   --red: #dd5e73;
   --green: #77b958;
+  --light-green: #96cc7d;
   --black: #000;
 }
 
@@ -83,6 +85,10 @@ body {
   background-color: var(--active);
 }
 
+.keycap-highlight {
+  background-color: var(--active);
+}
+
 .highlight-correct {
   background-color: var(--green);
 }
@@ -148,4 +154,20 @@ body {
   opacity: 0;
   pointer-events: none;
   user-select: none;
+}
+
+.innactive {
+  background-color: var(--innactive);
+  pointer-events: none;
+  user-select: none;
+}
+
+.next {
+  background-color: var(--green);
+  cursor: pointer;
+  user-select: unset;
+}
+
+.next:hover {
+  background-color: var(--light-green);
 }

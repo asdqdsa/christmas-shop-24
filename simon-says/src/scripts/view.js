@@ -15,7 +15,7 @@ export default class View {
   }
 
   // render HTML
-  renderUI() {
+  renderUI(initialState) {
     const main = this.#createElement(
       'main',
       {
@@ -51,22 +51,8 @@ export default class View {
     this.el.mainContainer.appendChild(display);
 
     // INFO
-    const renderInfo = (text) => {
-      const infoText = text || 'ROUND INFO';
-      const info = this.#createElement(
-        'div',
-        {
-          class: 'info',
-          id: 'info',
-          ['data-id']: `${text}-info`,
-        },
-        infoText,
-      );
-
-      this.el.info = info;
-      this.el.display.appendChild(info);
-    };
-    renderInfo();
+    console.log(initialState.user.round, 'infiooo');
+    this.renderInfo(initialState.user.round);
 
     // DIFFICUTLY
     const controls = this.#createElement('div', {
@@ -78,7 +64,7 @@ export default class View {
     this.el.mainContainer.appendChild(controls);
 
     const renderDifficulty = (type) => {
-      const difficultyType = type || 'easy';
+      const difficultyType = type;
       const pad = this.el.controls;
       const dict = ['Easy', 'Medium', 'Hard'];
 
@@ -87,7 +73,7 @@ export default class View {
           'div',
           {
             class: 'difficulty',
-            id: `${key.toLowerCase()} `,
+            id: `${key.toLowerCase()}`,
             ['data-id']: `data-${key.toLowerCase()}`,
           },
           key,
@@ -118,10 +104,10 @@ export default class View {
         id: 'help-btn',
         ['data-id']: 'help-btn',
       },
-      'REPEAT',
+      'HELP/NEXT',
     );
     this.el.helpBtn = helpBtn;
-    // helpBtn.classList.add('hidden');
+    helpBtn.classList.add('hidden');
     this.el.mainContainer.appendChild(helpBtn);
 
     // KEYBOARD
@@ -143,10 +129,32 @@ export default class View {
   }
 
   updateHelpBtn(round, hintExist, isCorrect) {
-    if (round === 0) this.el.helpBtn.classList.add('hidden');
-    else this.el.helpBtn.classList.remove('hidden');
-    if (hintExist) this.el.helpBtn.textContent = 'Repeat seq.';
-    if (isCorrect) this.el.helpBtn.textContent = 'Next Round';
+    console.log(...arguments, 'round, hintExist, isCorrect');
+    if (round === 0) {
+      this.el.helpBtn.classList.remove('innactive');
+      this.el.helpBtn.classList.remove('next');
+      this.el.helpBtn.classList.add('hidden');
+    }
+    if (round > 0) {
+      this.el.helpBtn.classList.remove('hidden');
+    }
+
+    if (hintExist) {
+      this.el.helpBtn.textContent = 'Repeat SEQ.';
+      this.el.helpBtn.classList.remove('next');
+    }
+    if (!hintExist && !isCorrect) {
+      this.el.helpBtn.classList.add('innactive');
+    }
+    if (isCorrect) {
+      this.el.helpBtn.textContent = 'Next Round';
+      this.el.helpBtn.classList.add('next');
+      this.el.helpBtn.classList.remove('innactive');
+    }
+  }
+
+  updateRoundInfo(round) {
+    this.el.info.textContent = round;
   }
 
   // Difficulty
@@ -160,7 +168,7 @@ export default class View {
     difficultyLevel.classList.add('hightlight-difficulty');
   }
   // set difficulty layout
-  renderLayout = (type) => {
+  renderLayout(type) {
     const layoutType = type;
     const pad = this.el.keyboard;
     const dict = {
@@ -170,6 +178,7 @@ export default class View {
     };
 
     pad.replaceChildren();
+    console.log(dict[`${type}`]);
     for (const key of dict[layoutType].split('')) {
       const keycap = this.#createElement(
         'div',
@@ -182,7 +191,34 @@ export default class View {
       );
       this.el.keyboard.appendChild(keycap);
     }
-  };
+  }
+
+  highlightKey(code) {
+    const pad = this.el.keyboard;
+    console.log(`#${code}`, this.el.keyboard);
+    const key = document.getElementById(code);
+    key?.classList.add('keycap-highlight');
+    setTimeout(() => {
+      key?.classList.remove('keycap-highlight');
+    }, 100);
+  }
+
+  // set rounds info
+  renderInfo(text = 'ROUND INFO') {
+    const infoText = text;
+    const info = this.#createElement(
+      'div',
+      {
+        class: 'info',
+        id: 'info',
+        ['data-id']: `${text}-info`,
+      },
+      infoText,
+    );
+
+    this.el.info = info;
+    this.el.display.appendChild(info);
+  }
 
   // register event listeners
   bindGameDifficultyEvent(handler) {
@@ -202,7 +238,19 @@ export default class View {
   }
 
   bindVirtualKeyboardEvent(handler) {
-    this.el.keyboard.addEventListener('click', handler);
+    this.el.keyboard.addEventListener('click', handler, { once: true });
+  }
+
+  unBindVirtualKeyboardEvent(handler) {
+    this.el.keyboard.removeEventListener('click', handler);
+  }
+
+  bindKeyboardEvent(handler) {
+    document.addEventListener('keydown', handler, { once: true });
+  }
+
+  unBindKeyboardEvent(handler) {
+    document.removeEventListener('keydown', handler);
   }
 
   // utils
