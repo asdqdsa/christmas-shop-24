@@ -7,6 +7,7 @@ export default class View {
     this.el.mainContainer = null;
     this.el.display = null;
     this.el.controls = null;
+    this.el.difficulty = null;
     this.el.startBtn = null;
     this.el.helpBtn = null;
     this.el.keyboard = null;
@@ -37,11 +38,15 @@ export default class View {
     this.el.main.appendChild(mainContainer);
 
     // DISPLAY
-    const display = this.#createElement('div', {
-      class: 'display',
-      id: 'display',
-      ['data-id']: 'display',
-    });
+    const display = this.#createElement(
+      'div',
+      {
+        class: 'display',
+        id: 'display',
+        ['data-id']: 'display',
+      },
+      'DISPLAY',
+    );
     this.el.display = display;
     this.el.mainContainer.appendChild(display);
 
@@ -105,38 +110,7 @@ export default class View {
     this.el.startBtn = startBtn;
     this.el.mainContainer.appendChild(startBtn);
 
-    // KEYBOARD
-    const keyboard = this.#createElement('div', {
-      class: 'keyboard',
-      id: 'keyboard',
-      ['data-id']: 'keyboard',
-    });
-    this.el.keyboard = keyboard;
-    this.el.mainContainer.appendChild(keyboard);
-
-    const renderLayout = (type) => {
-      const layoutType = type;
-      const pad = this.el.keyboard;
-      const dict = {
-        abc: 'QWERTYUIOPASDFGHJKLZXCVBNM',
-        num: '1234567890',
-      };
-      for (const key of dict.abc) {
-        const keycap = this.#createElement(
-          'div',
-          {
-            class: 'keycap',
-            id: key.charCodeAt(0),
-            ['data-id']: `data-${key.charCodeAt(0)}`,
-          },
-          key,
-        );
-        this.el.keyboard.appendChild(keycap);
-      }
-    };
-    renderLayout();
-
-    // HELP
+    // HELP/NEXT
     const helpBtn = this.#createElement(
       'button',
       {
@@ -149,12 +123,74 @@ export default class View {
     this.el.helpBtn = helpBtn;
     // helpBtn.classList.add('hidden');
     this.el.mainContainer.appendChild(helpBtn);
+
+    // KEYBOARD
+    const keyboard = this.#createElement('div', {
+      class: 'keyboard',
+      id: 'keyboard',
+      ['data-id']: 'keyboard',
+    });
+    this.el.keyboard = keyboard;
+    this.el.mainContainer.appendChild(keyboard);
+    this.renderLayout('easy');
   }
 
-  // register event listeners
+  // Star/Reset
+  // update btn
+  udpateStartBtn(round) {
+    if (round === 0) this.el.startBtn.textContent = 'START';
+    else this.el.startBtn.textContent = 'NEW GAME';
+  }
 
+  updateHelpBtn(round, hintExist, isCorrect) {
+    if (round === 0) this.el.helpBtn.classList.add('hidden');
+    else this.el.helpBtn.classList.remove('hidden');
+    if (hintExist) this.el.helpBtn.textContent = 'Repeat seq.';
+    if (isCorrect) this.el.helpBtn.textContent = 'Next Round';
+  }
+
+  // Difficulty
+  // set difficly level
+  updateDifficulty(type) {
+    const difficulty = this.el.controls;
+    const difficultyLevel = difficulty.querySelector(`[data-id=data-${type}]`);
+    Array.from(difficulty.children).forEach((node) =>
+      node.classList.remove('hightlight-difficulty'),
+    );
+    difficultyLevel.classList.add('hightlight-difficulty');
+  }
+  // set difficulty layout
+  renderLayout = (type) => {
+    const layoutType = type;
+    const pad = this.el.keyboard;
+    const dict = {
+      easy: '1234567890',
+      medium: 'QWERTYUIOPASDFGHJKLZXCVBNM',
+      hard: '1234567890' + 'QWERTYUIOPASDFGHJKLZXCVBNM',
+    };
+
+    pad.replaceChildren();
+    for (const key of dict[layoutType].split('')) {
+      const keycap = this.#createElement(
+        'div',
+        {
+          class: 'keycap',
+          id: key.charCodeAt(0),
+          ['data-id']: `data-${key.charCodeAt(0)}`,
+        },
+        key,
+      );
+      this.el.keyboard.appendChild(keycap);
+    }
+  };
+
+  // register event listeners
   bindGameDifficultyEvent(handler) {
     this.el.controls.addEventListener('click', handler);
+  }
+
+  unBindGameDifficultyEvent(handler) {
+    this.el.controls.removeEventListener('click', handler);
   }
 
   bindStartOrResetGameEvent(handler) {

@@ -32,11 +32,12 @@ body {
 .main-container {
   display: flex;
   flex-direction: column;
-  gap: 18px;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  block-size: 100vh;
+  gap: 18px;
   inline-size: 100%;
-  max-inline-size: 800px;
+  max-inline-size: 750px;
 }
 
 .display {
@@ -103,7 +104,11 @@ body {
   user-select: none;
 }
 
-.difficulty:hover {
+// .difficulty:active {
+//   color: var(--yellow);
+// }
+
+.hightlight-difficulty {
   color: var(--yellow);
 }
 
