@@ -76,27 +76,50 @@ class App {
         console.log('press key on virt keyboard', evt.target);
         console.log('state', this.store.state);
 
-        this.store.addUserSequents(evt.target.id);
-        const sequentsPassed = this.store.checkUserSequence(
-          evt.target.id,
-          this.store.gameSequence,
-          this.store.currentRound,
-        );
+        this.store.addUserSequence(evt.target.id);
+        const sequencePassed = this.store.checkUserSequence(evt.target.id);
 
-        this.store.isCorrect = sequentsPassed;
-        const currRound = this.store.currentRound;
+        if (!sequencePassed) {
+          this.store.checkHP(false);
+          if (this.store.HP) {
+            console.log('GAME OVER!');
+            return;
+          }
+        }
+        this.store.isCorrect = sequencePassed;
+
         if (
-          this.store.isCorrect &&
-          this.store.gameSequence[currRound - 1].length === 0
+          sequencePassed &&
+          this.store.userSequence.length ===
+            this.store.gameSequence[this.store.currentRound - 1].length
         ) {
           // this.store.nextRound();
-          // this.view.updateRoundInfo(this.store.currentRound);
+          this.view.updateRoundInfo(this.store.currentRound);
           this.view.updateHelpBtn(
             this.store.currentRound,
             this.store.isHintAvailable,
             this.store.isCorrect,
           );
         }
+
+        // this.store.checkHP(sequencePassed);
+        // this.store.isCorrect = sequencePassed ? true : false;
+
+        // const currRound = this.store.currentRound;
+        // if (this.store.HP) {
+        //   console.log('GAME OVER!!!');
+        // }
+        // if (
+        //   this.store.isCorrect &&
+        //   this.store.gameSequence[currRound - 1].length === 0 &&
+        //   !this.store.HP
+        // ) {
+        //   this.view.updateHelpBtn(
+        //     this.store.currentRound,
+        //     this.store.isHintAvailable,
+        //     this.store.isCorrect,
+        //   );
+        // }
       }
       setTimeout(() => {
         this.view.bindVirtualKeyboardEvent(onVirtualKeybordClick);
