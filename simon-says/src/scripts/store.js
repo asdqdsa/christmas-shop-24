@@ -179,7 +179,7 @@ export default class Store extends EventTarget {
     };
 
     const sequence = [
-      ['50', '50'],
+      ['50', '50', '50', '49', '50', '54', '50', '50', '50'],
       ['49', '50', '54', '54'],
       ['49', '50', '54', '49', '50', '54'],
     ];
@@ -205,6 +205,7 @@ export default class Store extends EventTarget {
     }
 
     this.#state.gameSequence = list;
+    // this.#state.gameSequence = sequence;
     this.#state.gameSequenceReadable = listReadable;
   }
 }
