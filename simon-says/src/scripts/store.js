@@ -83,7 +83,7 @@ export default class Store extends EventTarget {
   }
 
   reset() {
-    this.#setRandomSequence();
+    this.#setRandomSequence(5, this.#state.user.difficulty);
     this.currentRound = 0;
     this.#state.user.sequence = [];
     this.isHintAvailable = true;
@@ -177,11 +177,11 @@ export default class Store extends EventTarget {
       for (let j = 0; j < rowLen; j += 1) {
         const randomNum = Math.floor(Math.random() * (end - start)) + start;
         const randomChar = dict[type][randomNum];
-        row.push(randomNum.toString());
         rowReadable.push(randomChar);
+        row.push(randomChar.charCodeAt(0).toString());
       }
-      list.push(row);
       listReadable.push(rowReadable);
+      list.push(row);
     }
 
     this.#state.gameSequence = list;
