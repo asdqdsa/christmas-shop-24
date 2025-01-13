@@ -299,19 +299,22 @@ export default class View extends EventTarget {
   }
 
   bindVirtualKeyboardEvent(handler) {
+    console.log('Bind Virtual keyboard fired');
     this.el.keyboard.addEventListener('click', handler, { once: true });
   }
 
   unBindVirtualKeyboardEvent(handler) {
-    console.log('unbind fired');
+    console.log('unbind Virtual keyboard fired');
     this.el.keyboard.removeEventListener('click', handler);
   }
 
   bindKeyboardEvent(handler) {
+    console.log('Bind keyboard fired');
     document.addEventListener('keydown', handler, { once: true });
   }
 
   unBindKeyboardEvent(handler) {
+    console.log('unbind keyboard fired');
     document.removeEventListener('keydown', handler);
   }
 
