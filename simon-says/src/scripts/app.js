@@ -15,7 +15,9 @@ class App {
   onStartOrResetClick(evt) {
     console.log('start or reset', this.store.state);
     const currRound = this.store.currentRound;
+
     if (currRound === 0) {
+      this.view.updateUserSeqInfo(this.store.state.user.history);
       this.store.newRound();
       console.log('onStart', this.store.state);
 
@@ -43,6 +45,8 @@ class App {
     }
 
     if (currRound !== 0) {
+      this.store.state.user.history = '';
+      this.view.updateUserSeqInfo(this.store.state.user.history);
       this.view.unBindGameDifficultyEvent(this.onDifficultyClick);
       this.store.reset();
       console.log(this.store.currentRound, 'onReset');
@@ -64,6 +68,7 @@ class App {
     this.view.udpateStartBtn(this.store.currentRound);
     this.view.unBindKeyboardEvent(this.onKeyboardPress);
     this.view.unBindVirtualKeyboardEvent(this.onVirtualKeybordClick);
+    this.view.updateUserSeqInfo(this.store.state.user.history);
   }
 
   onDifficultyClick(evt) {
@@ -121,16 +126,10 @@ class App {
       this.lockInput();
       this.view.bindRepeatSequenceEvent(this.onRepeatOrNextClick);
       this.view.bindStartOrResetGameEvent(this.onStartOrResetClick);
-      // this.view
       return;
     }
     // if HP > 0 and user round is ok
     if (this.store.state.user.isRoundPass && this.store.state.user.hp > 0) {
-      // ready for the next round
-      // this.store.state.user.isRoundPass = true;
-      // nextRound()
-      // TODO update HelpBtn
-
       this.view.updateHelpBtn(
         this.store.currentRound,
         this.store.isHintAvailable,
@@ -172,17 +171,10 @@ class App {
         // with user input that were pushed on click
         this.store.gameSequence[this.store.currentRound - 1].length
     ) {
-      console.log('round is clear');
       this.view.updateInfoGeneral('NICE! Press "Next Round" to continue!');
-      // ??
-      // this.lockInput();
-      // this.view.unBindKeyboardEvent(this.onKeyboardPress);
-      // this.view.unBindVirtualKeyboardEvent(this.onVirtualKeybordClick);
-
       this.view.updateHelpBtn(
         this.store.currentRound,
         this.store.isHintAvailable,
-        // this.store.isCorrect,
         this.store.state.user.isRoundPass,
       );
       this.lockInput();
@@ -192,22 +184,27 @@ class App {
   }
 
   onVirtualKeybordClick(evt) {
-    this.view.unBindKeyboardEvent(this.onKeyboardPress);
+    // this.view.unBindKeyboardEvent(this.onKeyboardPress);
     if (evt.target.classList.contains('keycap')) {
       console.log('press key on virt keyboard', evt.target);
       console.log('state', this.store.state);
       this.processKey(evt.target.id);
+      this.view.updateUserSeqInfo(this.store.state.user.history);
     }
     if (!this.store.state.user.isRoundPass) {
-      setTimeout(() => {
-        this.view.bindKeyboardEvent(this.onKeyboardPress);
-        this.view.bindVirtualKeyboardEvent(this.onVirtualKeybordClick);
-      }, 200);
+      this.view.bindVirtualKeyboardEvent(this.onVirtualKeybordClick);
+      // setTimeout(() => {
+      //   console.log('fjdsklfdj!!!');
+      //   // this.view.bindKeyboardEvent(this.onKeyboardPress);
+      // }, 200);
+    }
+    if (!this.store.state.user.isUserCorrect) {
+      this.view.unBindVirtualKeyboardEvent(this.onVirtualKeybordClick);
     }
   }
 
   onKeyboardPress(evt) {
-    this.view.unBindVirtualKeyboardEvent(this.onVirtualKeybordClick);
+    // this.view.unBindVirtualKeyboardEvent(this.onVirtualKeybordClick);
     const codeKey = evt.key.toUpperCase().charCodeAt(0);
     let isKeyPressed = true;
 
@@ -227,12 +224,19 @@ class App {
       let padKeyCod = codeKey.toString();
       this.processKey(padKeyCod);
       this.view.highlightKey(codeKey);
+      this.view.updateUserSeqInfo(this.store.state.user.history);
     }
     if (!this.store.state.user.isRoundPass) {
-      setTimeout(() => {
-        this.view.bindKeyboardEvent(this.onKeyboardPress);
-        this.view.bindVirtualKeyboardEvent(this.onVirtualKeybordClick);
-      }, 200);
+      console.log(this.store.state.user.isUserCorrect, 'userisIncorrect');
+      this.view.bindKeyboardEvent(this.onKeyboardPress);
+      // setTimeout(() => {
+      //   console.log('fjdsklfdj????');
+      //   // this.view.bindVirtualKeyboardEvent(this.onVirtualKeybordClick);
+      // }, 200);
+    }
+
+    if (!this.store.state.user.isUserCorrect) {
+      this.view.unBindKeyboardEvent(this.onKeyboardPress);
     }
   }
 

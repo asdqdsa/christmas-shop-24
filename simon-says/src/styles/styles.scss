@@ -69,6 +69,13 @@ body {
   text-align: center;
 }
 
+.info-user-sequence {
+  color: var(--light-gray);
+  font-size: 30px;
+  min-block-size: 40px;
+  text-align: center;
+}
+
 .keyboard {
   display: flex;
   flex-wrap: wrap;

@@ -13,12 +13,12 @@ const initialValue = {
   // gameRound: 0,
   // gameDifficulty: 'easy',
   gameOver: false,
-  gameRounds: 2,
+  gameRounds: 5,
   user: {
     difficulty: 'easy',
     round: 0,
     sequence: [],
-    history: [],
+    history: '',
     isHintAvailable: true,
     isUserCorrect: true,
     hp: 2,
@@ -76,8 +76,12 @@ export default class Store extends EventTarget {
 
   addUserSequence(value) {
     const list = this.#state.user.sequence;
+    let history = this.#state.user.history;
     list.push(value);
+    history = String.fromCharCode(value);
     this.#state.user.sequence = list;
+    this.#state.user.history = history;
+    console.log(this.#state.user.history, 'user history');
   }
 
   newRound() {
@@ -97,6 +101,7 @@ export default class Store extends EventTarget {
     this.#state.gameOver = false;
     this.#state.user.hp = 2;
     this.#state.user.isRoundPass = false;
+    this.#state.user.history = '';
   }
 
   useHint() {
@@ -110,7 +115,7 @@ export default class Store extends EventTarget {
     this.#state.user.isRoundPass = false;
     // gameover check
     // user seq
-    this.#state.user.history.push(this.#state.user.sequence.slice());
+    // this.#state.user.history += (this.#state.user.sequence.slice());
     this.#state.user.sequence = [];
     this.#state.user.isHintAvailable = true;
     this.#state.user.hp = 2;

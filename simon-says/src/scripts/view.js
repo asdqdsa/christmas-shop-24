@@ -14,6 +14,7 @@ export default class View extends EventTarget {
     this.el.keyboard = null;
     this.el.infoRound = null;
     this.el.infoGeneral = null;
+    this.el.infoUserSeq = null;
   }
 
   // render HTML
@@ -51,6 +52,7 @@ export default class View extends EventTarget {
     // INFO
     this.renderRoundInfo(initialState.user.round);
     this.renderGeneralInfo(initialState.user.info);
+    this.renderUserSeqInfo();
 
     // DIFFICUTLY
     const controls = this.#createElement('div', {
@@ -169,6 +171,11 @@ export default class View extends EventTarget {
     this.el.infoGeneral.textContent = `${text}`;
   }
 
+  updateUserSeqInfo(symb) {
+    if (symb === '') this.el.infoUserSeq.textContent = '';
+    else this.el.infoUserSeq.textContent += symb;
+  }
+
   // Difficulty
   // set difficly level
   updateDifficulty(type) {
@@ -270,6 +277,23 @@ export default class View extends EventTarget {
     );
 
     this.el.infoGeneral = info;
+    this.el.display.appendChild(info);
+  }
+
+  renderUserSeqInfo(text = 'User typed:') {
+    const infoText = text;
+    const info = this.#createElement(
+      'div',
+      {
+        class: 'info-user-sequence',
+        id: 'info-user-sequence',
+        ['data-id']: `info-user-sequence`,
+      },
+      // infoText === '' ? '' : infoText,
+      ``,
+    );
+
+    this.el.infoUserSeq = info;
     this.el.display.appendChild(info);
   }
 
