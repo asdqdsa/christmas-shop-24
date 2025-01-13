@@ -203,6 +203,29 @@ export default class View {
     }, 100);
   }
 
+  showSequence(sequenceMap) {
+    console.log(sequenceMap);
+
+    sequenceMap.forEach((keyCode, idx, list) => {
+      setTimeout(() => {
+        const key = document.getElementById(keyCode);
+        key?.classList.add('keycap-highlight');
+        if (idx > 0) {
+          document
+            .getElementById(list[idx - 1])
+            ?.classList.remove('keycap-highlight');
+        }
+        if (idx === list.length - 1) {
+          setTimeout(() => {
+            document
+              .getElementById(list[idx])
+              ?.classList.remove('keycap-highlight');
+          }, 800);
+        }
+      }, idx * 800);
+    });
+  }
+
   // set rounds info
   renderInfo(text = 'ROUND INFO') {
     const infoText = text;

@@ -36,6 +36,11 @@ class App {
         );
 
         this.view.updateRoundInfo(this.store.currentRound);
+        console.table(this.store.state.gameSequenceReadable);
+        this.view.showSequence(
+          this.store.state.gameSequence[this.store.currentRound - 1],
+        );
+        // unclock input
       }
 
       if (currRound !== 0) {
@@ -60,12 +65,23 @@ class App {
       console.log('repeat or next', this.store.state);
 
       // if (this.store.isCorrect) this.store.nextRound();
-      if (this.store.state.user.isRoundPass) this.store.nextRound();
-      else if (
+      if (this.store.state.user.isRoundPass) {
+        this.store.nextRound();
+        // lock input
+        this.view.showSequence(
+          this.store.state.gameSequence[this.store.currentRound - 1],
+        );
+        // unclock input
+      } else if (
         !this.store.state.user.isRoundPass &&
         this.store.isHintAvailable
       ) {
         this.store.useHint();
+        // lock input
+        this.view.showSequence(
+          this.store.state.gameSequence[this.store.currentRound - 1],
+        );
+        // unclock input
       }
 
       this.view.updateHelpBtn(
@@ -190,22 +206,3 @@ class App {
 const app = new App();
 
 app.init();
-
-// this.store.checkHP(sequencePassed);
-// this.store.isCorrect = sequencePassed ? true : false;
-
-// const currRound = this.store.currentRound;
-// if (this.store.HP) {
-//   console.log('GAME OVER!!!');
-// }
-// if (
-//   this.store.isCorrect &&
-//   this.store.gameSequence[currRound - 1].length === 0 &&
-//   !this.store.HP
-// ) {
-//   this.view.updateHelpBtn(
-//     this.store.currentRound,
-//     this.store.isHintAvailable,
-//     this.store.isCorrect,
-//   );
-// }
