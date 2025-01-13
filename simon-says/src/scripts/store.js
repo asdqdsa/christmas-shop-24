@@ -20,9 +20,10 @@ const initialValue = {
     sequence: [],
     history: [],
     isHintAvailable: true,
-    isUserCorrect: null,
+    isUserCorrect: true,
     hp: 2,
     isRoundPass: false,
+    info: '',
   },
 };
 
@@ -93,10 +94,14 @@ export default class Store extends EventTarget {
     this.#state.user.sequence = [];
     this.isHintAvailable = true;
     this.isCorrect = null;
+    this.#state.gameOver = false;
+    this.#state.user.hp = 2;
+    this.#state.user.isRoundPass = false;
   }
 
   useHint() {
     this.#state.user.isHintAvailable = !this.#state.user.isHintAvailable;
+    this.#state.user.sequence = [];
   }
 
   nextRound() {
@@ -107,6 +112,8 @@ export default class Store extends EventTarget {
     // user seq
     this.#state.user.history.push(this.#state.user.sequence.slice());
     this.#state.user.sequence = [];
+    this.#state.user.isHintAvailable = true;
+    this.#state.user.hp = 2;
   }
 
   calcHP(pass) {
@@ -122,23 +129,22 @@ export default class Store extends EventTarget {
     return this.#state.gameOver;
   }
 
+  set gameOver(value) {
+    this.#state.gameOver = value;
+  }
+
   get gameSequence() {
     return this.#state.gameSequence;
   }
 
   checkUserSequence(userInput, isLastInputRight) {
-    const userSequence = this.#state.user.sequence;
+    let userSequence = this.#state.user.sequence;
     const gameSequence = this.#state.gameSequence;
     const round = this.#state.user.round;
 
     this.#state.currSequence = gameSequence[round - 1].slice();
     const currRow = this.#state.currSequence;
-    console.log(userSequence, 'user sequence[store]', isLastInputRight);
 
-    if (isLastInputRight === false) {
-      console.log('nuLKLL>?>???');
-      userSequence.pop();
-    }
     const expectedValue = currRow[userSequence.length - 1];
 
     console.log(

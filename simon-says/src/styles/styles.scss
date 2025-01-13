@@ -12,6 +12,7 @@
   --green: #77b958;
   --light-green: #96cc7d;
   --black: #000;
+  --font-family: verdana, geneva, tahoma, sans-serif;
 }
 
 body {
@@ -20,6 +21,7 @@ body {
   justify-content: center;
   background-color: var(--gray);
   block-size: 100vh;
+  font-family: var(--font-family);
   inline-size: 100%;
 }
 
@@ -44,13 +46,27 @@ body {
 
 .display {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding: 30px;
+  gap: 12px;
   inline-size: 100%;
+  min-block-size: 50px;
 }
 
 .info {
   color: var(--light-gray);
+  font-size: 30px;
+  min-block-size: 40px;
+  text-align: center;
+}
+
+.info-general {
+  color: var(--hover-keys);
+  font-size: 20px;
+  min-block-size: 80px;
+  text-align: center;
 }
 
 .keyboard {

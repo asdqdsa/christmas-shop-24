@@ -1,7 +1,8 @@
-export default class View {
+export default class View extends EventTarget {
   el = {};
 
   constructor() {
+    super();
     this.el.body = document.querySelector('body');
     this.el.main = null;
     this.el.mainContainer = null;
@@ -11,7 +12,8 @@ export default class View {
     this.el.startBtn = null;
     this.el.helpBtn = null;
     this.el.keyboard = null;
-    this.el.info = null;
+    this.el.infoRound = null;
+    this.el.infoGeneral = null;
   }
 
   // render HTML
@@ -38,21 +40,17 @@ export default class View {
     this.el.main.appendChild(mainContainer);
 
     // DISPLAY
-    const display = this.#createElement(
-      'div',
-      {
-        class: 'display',
-        id: 'display',
-        ['data-id']: 'display',
-      },
-      'DISPLAY',
-    );
+    const display = this.#createElement('div', {
+      class: 'display',
+      id: 'display',
+      ['data-id']: 'display',
+    });
     this.el.display = display;
     this.el.mainContainer.appendChild(display);
 
     // INFO
-    console.log(initialState.user.round, 'infiooo');
-    this.renderInfo(initialState.user.round);
+    this.renderRoundInfo(initialState.user.round);
+    this.renderGeneralInfo(initialState.user.info);
 
     // DIFFICUTLY
     const controls = this.#createElement('div', {
@@ -128,7 +126,7 @@ export default class View {
     else this.el.startBtn.textContent = 'NEW GAME';
   }
 
-  updateHelpBtn(round, hintExist, isCorrect) {
+  updateHelpBtn(round, hintExist, isRoundPass, isGameOver = false) {
     console.log(...arguments, 'round, hintExist, isCorrect');
     if (round === 0) {
       this.el.helpBtn.classList.remove('innactive');
@@ -140,21 +138,35 @@ export default class View {
     }
 
     if (hintExist) {
-      this.el.helpBtn.textContent = 'Repeat SEQ.';
+      this.el.helpBtn.textContent = 'REPEAT';
       this.el.helpBtn.classList.remove('next');
     }
-    if (!hintExist && !isCorrect) {
+    if (!hintExist) {
+      this.el.helpBtn.textContent = 'REPEAT';
       this.el.helpBtn.classList.add('innactive');
+      this.el.helpBtn.classList.remove('next');
     }
-    if (isCorrect) {
+    if (isRoundPass) {
       this.el.helpBtn.textContent = 'Next Round';
       this.el.helpBtn.classList.add('next');
       this.el.helpBtn.classList.remove('innactive');
     }
+    if (isGameOver) {
+      this.el.helpBtn.textContent = 'REPEAT';
+      this.el.helpBtn.classList.remove('next');
+      this.el.helpBtn.classList.add('innactive');
+    }
   }
 
-  updateRoundInfo(round) {
-    this.el.info.textContent = round;
+  updateRoundInfo(round, totalRounds) {
+    if (round === 0)
+      this.el.infoRound.textContent = 'Choose difficulty and press "START"';
+    else
+      this.el.infoRound.textContent = `Current round: ${round}/${totalRounds}`;
+  }
+
+  updateInfoGeneral(text) {
+    this.el.infoGeneral.textContent = `${text}`;
   }
 
   // Difficulty
@@ -220,6 +232,7 @@ export default class View {
             document
               .getElementById(list[idx])
               ?.classList.remove('keycap-highlight');
+            this.dispatchEvent(new Event('showSequence:done'));
           }, 800);
         }
       }, idx * 800);
@@ -227,19 +240,36 @@ export default class View {
   }
 
   // set rounds info
-  renderInfo(text = 'ROUND INFO') {
+  renderRoundInfo(text = 'ROUND INFO') {
     const infoText = text;
     const info = this.#createElement(
       'div',
       {
         class: 'info',
         id: 'info',
-        ['data-id']: `${text}-info`,
+        ['data-id']: `info`,
       },
-      infoText,
+      // infoText === 0 ? '' : infoText,
+      'Choose difficulty and press "START"',
     );
 
-    this.el.info = info;
+    this.el.infoRound = info;
+    this.el.display.appendChild(info);
+  }
+  renderGeneralInfo(text = 'SUCCESS/FAIL/GAMEOVER/YOUWIN') {
+    const infoText = text;
+    const info = this.#createElement(
+      'div',
+      {
+        class: 'info-general',
+        id: 'info-general',
+        ['data-id']: `info-general`,
+      },
+      // infoText === '' ? '' : infoText,
+      ``,
+    );
+
+    this.el.infoGeneral = info;
     this.el.display.appendChild(info);
   }
 
@@ -256,8 +286,16 @@ export default class View {
     this.el.startBtn.addEventListener('click', handler);
   }
 
+  unBindStartOrResetGameEvent(handler) {
+    this.el.startBtn.removeEventListener('click', handler);
+  }
+
   bindRepeatSequenceEvent(handler) {
     this.el.helpBtn.addEventListener('click', handler);
+  }
+
+  unBindRepeatSequenceEvent(handler) {
+    this.el.helpBtn.removeEventListener('click', handler);
   }
 
   bindVirtualKeyboardEvent(handler) {
@@ -265,6 +303,7 @@ export default class View {
   }
 
   unBindVirtualKeyboardEvent(handler) {
+    console.log('unbind fired');
     this.el.keyboard.removeEventListener('click', handler);
   }
 
