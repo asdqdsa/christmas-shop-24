@@ -31,7 +31,8 @@ class App {
         this.view.updateHelpBtn(
           this.store.currentRound,
           this.store.isHintAvailable,
-          this.store.isCorrect,
+          // this.store.isCorrect,
+          this.store.state.user.isRoundPass,
         );
 
         this.view.updateRoundInfo(this.store.currentRound);
@@ -45,7 +46,8 @@ class App {
         this.view.updateHelpBtn(
           this.store.currentRound,
           this.store.isHintAvailable,
-          this.store.isCorrect,
+          // this.store.isCorrect,
+          this.store.state.user.isRoundPass,
         );
 
         this.view.updateRoundInfo(this.store.currentRound);
@@ -57,15 +59,20 @@ class App {
     const onRepeatOrNextClick = (evt) => {
       console.log('repeat or next', this.store.state);
 
-      if (this.store.isCorrect) this.store.nextRound();
-      else if (!this.store.isCorrect && this.store.isHintAvailable) {
+      // if (this.store.isCorrect) this.store.nextRound();
+      if (this.store.state.user.isRoundPass) this.store.nextRound();
+      else if (
+        !this.store.state.user.isRoundPass &&
+        this.store.isHintAvailable
+      ) {
         this.store.useHint();
       }
 
       this.view.updateHelpBtn(
         this.store.currentRound,
         this.store.isHintAvailable,
-        this.store.isCorrect,
+        // this.store.isCorrect,
+        this.store.state.user.isRoundPass,
       );
 
       this.view.updateRoundInfo(this.store.currentRound);
@@ -77,49 +84,75 @@ class App {
         console.log('state', this.store.state);
 
         this.store.addUserSequence(evt.target.id);
-        const sequencePassed = this.store.checkUserSequence(evt.target.id);
 
-        if (!sequencePassed) {
-          this.store.checkHP(false);
-          if (this.store.HP) {
-            console.log('GAME OVER!');
-            return;
-          }
-        }
-        this.store.isCorrect = sequencePassed;
+        const isInputPassed = this.store.checkUserSequence(
+          evt.target.id,
+          this.store.isCorrect,
+        );
 
-        if (
-          sequencePassed &&
-          this.store.userSequence.length ===
-            this.store.gameSequence[this.store.currentRound - 1].length
-        ) {
-          // this.store.nextRound();
-          this.view.updateRoundInfo(this.store.currentRound);
+        // is user mistaken - correct -> false
+        this.store.isCorrect = isInputPassed;
+        // deduct hp - if mistaken
+        this.store.calcHP(isInputPassed);
+        // ends the game by store state
+        if (this.store.isGameOver) console.log('GAME OVER!');
+
+        // if HP > 0 and user round is ok
+        if (this.store.state.user.isRoundPass && this.store.state.user.hp > 0) {
+          // ready for the next round
+          // this.store.state.user.isRoundPass = true;
+          // nextRound()
+          // TODO update HelpBtn
           this.view.updateHelpBtn(
             this.store.currentRound,
             this.store.isHintAvailable,
-            this.store.isCorrect,
+            this.store.state.user.isRoundPass,
           );
         }
 
-        // this.store.checkHP(sequencePassed);
-        // this.store.isCorrect = sequencePassed ? true : false;
+        // if HP still > 0 and use is NOT correct, last try
+        // check hint
+        // make isCorrect back to False with nextRound() always
+        // but make isCorrect -> true to pass the check for NEXT round mb?
 
-        // const currRound = this.store.currentRound;
-        // if (this.store.HP) {
-        //   console.log('GAME OVER!!!');
-        // }
-        // if (
-        //   this.store.isCorrect &&
-        //   this.store.gameSequence[currRound - 1].length === 0 &&
-        //   !this.store.HP
-        // ) {
-        //   this.view.updateHelpBtn(
-        //     this.store.currentRound,
-        //     this.store.isHintAvailable,
-        //     this.store.isCorrect,
-        //   );
-        // }
+        // if input is matched and length is matched
+        if (
+          isInputPassed &&
+          this.store.userSequence.length ===
+            // checking row.length by round - 1 as idx of randomSeq[[0][1][2]]
+            // with user input that were pushed on click
+            this.store.gameSequence[this.store.currentRound - 1].length &&
+          this.store.currentRound === this.store.state.gameRounds
+        ) {
+          console.log(
+            'YOU WIN!',
+            this.store.gameSequence.length,
+            this.store.state.gameRounds,
+          );
+          // store.showEnding();
+          // update view
+        }
+        if (
+          isInputPassed &&
+          this.store.userSequence.length ===
+            // checking row.length by round - 1 as idx of randomSeq[[0][1][2]]
+            // with user input that were pushed on click
+            this.store.gameSequence[this.store.currentRound - 1].length
+        ) {
+          console.log('round is clear');
+          // this.store.nextRound();
+          // don't really need to update round here mb
+          // since we're just ittering through
+          // this.view.updateRoundInfo(this.store.currentRound);
+
+          // updating HelpBtn is kinda wrong here too
+          this.view.updateHelpBtn(
+            this.store.currentRound,
+            this.store.isHintAvailable,
+            // this.store.isCorrect,
+            this.store.state.user.isRoundPass,
+          );
+        }
       }
       setTimeout(() => {
         this.view.bindVirtualKeyboardEvent(onVirtualKeybordClick);
@@ -127,11 +160,9 @@ class App {
     };
 
     const onKeyboardPress = (evt) => {
+      this.view.unBindVirtualKeyboardEvent(onVirtualKeybordClick);
       const codeKey = evt.key.toUpperCase().charCodeAt(0);
       let isKeyPressed = true;
-      // 48 .. 57 nums
-      // 65 .. 90 ABC
-      // 97 .. 122 abc
       if (
         (48 <= codeKey && codeKey <= 57) ||
         (65 <= codeKey && codeKey <= 90 && evt.key.length === 1)
@@ -159,3 +190,22 @@ class App {
 const app = new App();
 
 app.init();
+
+// this.store.checkHP(sequencePassed);
+// this.store.isCorrect = sequencePassed ? true : false;
+
+// const currRound = this.store.currentRound;
+// if (this.store.HP) {
+//   console.log('GAME OVER!!!');
+// }
+// if (
+//   this.store.isCorrect &&
+//   this.store.gameSequence[currRound - 1].length === 0 &&
+//   !this.store.HP
+// ) {
+//   this.view.updateHelpBtn(
+//     this.store.currentRound,
+//     this.store.isHintAvailable,
+//     this.store.isCorrect,
+//   );
+// }

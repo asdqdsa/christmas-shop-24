@@ -13,14 +13,16 @@ const initialValue = {
   // gameRound: 0,
   // gameDifficulty: 'easy',
   gameOver: false,
+  gameRounds: 2,
   user: {
     difficulty: 'easy',
     round: 0,
     sequence: [],
     history: [],
     isHintAvailable: true,
-    isUserCorrect: false,
+    isUserCorrect: null,
     hp: 2,
+    isRoundPass: false,
   },
 };
 
@@ -83,11 +85,14 @@ export default class Store extends EventTarget {
   }
 
   reset() {
-    this.#setRandomSequence(5, this.#state.user.difficulty);
+    this.#setRandomSequence(
+      this.#state.gameRounds,
+      this.#state.user.difficulty,
+    );
     this.currentRound = 0;
     this.#state.user.sequence = [];
     this.isHintAvailable = true;
-    this.isCorrect = false;
+    this.isCorrect = null;
   }
 
   useHint() {
@@ -96,21 +101,24 @@ export default class Store extends EventTarget {
 
   nextRound() {
     this.#state.user.round += 1;
-    this.#state.user.isUserCorrect = false;
+    this.#state.user.isUserCorrect = null;
+    this.#state.user.isRoundPass = false;
     // gameover check
     // user seq
+    this.#state.user.history.push(this.#state.user.sequence.slice());
     this.#state.user.sequence = [];
   }
 
-  checkHP(pass) {
-    console.log(pass, 'checking HP');
+  calcHP(pass) {
+    console.log(pass, 'update HP');
     if (!pass) this.#state.user.hp -= 1;
-    if (this.#state.user.hp < 1) {
+    if (this.#state.user.hp === 0) {
       this.#state.gameOver = true;
     }
   }
 
-  get HP() {
+  get isGameOver() {
+    // this.reset()
     return this.#state.gameOver;
   }
 
@@ -118,14 +126,19 @@ export default class Store extends EventTarget {
     return this.#state.gameSequence;
   }
 
-  checkUserSequence(userInput) {
+  checkUserSequence(userInput, isLastInputRight) {
     const userSequence = this.#state.user.sequence;
     const gameSequence = this.#state.gameSequence;
     const round = this.#state.user.round;
 
     this.#state.currSequence = gameSequence[round - 1].slice();
     const currRow = this.#state.currSequence;
-    console.log(userSequence, '123');
+    console.log(userSequence, 'user sequence[store]', isLastInputRight);
+
+    if (isLastInputRight === false) {
+      console.log('nuLKLL>?>???');
+      userSequence.pop();
+    }
     const expectedValue = currRow[userSequence.length - 1];
 
     console.log(
@@ -142,6 +155,7 @@ export default class Store extends EventTarget {
     }
     if (currRow.length === userSequence.length) {
       console.log('NEXT');
+      this.state.user.isRoundPass = true;
       return true;
     }
     return true;
