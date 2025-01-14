@@ -95,6 +95,7 @@ export default class View extends EventTarget {
     );
     this.el.startBtn = startBtn;
     this.el.mainContainer.appendChild(startBtn);
+    startBtn.classList.add('btn-effect');
 
     // HELP/NEXT
     const helpBtn = this.#createElement(
@@ -125,7 +126,10 @@ export default class View extends EventTarget {
   // update btn
   udpateStartBtn(round) {
     if (round === 0) this.el.startBtn.textContent = 'START';
-    else this.el.startBtn.textContent = 'NEW GAME';
+    else {
+      this.el.startBtn.textContent = 'NEW GAME';
+      // this.el.startBtn.textContent.classList.add('btn-effect');
+    }
   }
 
   updateHelpBtn(round, hintExist, isRoundPass, isGameOver = false) {
@@ -176,14 +180,38 @@ export default class View extends EventTarget {
     else this.el.infoUserSeq.textContent += symb;
   }
 
+  disableKeyboardLayout(isOn = false) {
+    console.log(this.el.keyboard);
+    const pad = this.el.keyboard.querySelectorAll('.keycap');
+    for (const keycap of Array.from(pad)) {
+      if (!isOn) {
+        keycap.classList.add('keycap-effect');
+      } else {
+        keycap.classList.remove('keycap-effect');
+      }
+    }
+  }
+
+  disableBtn(isOff = true) {
+    const btnList = document.querySelectorAll('button');
+    console.log(btnList);
+    for (const btn of Array.from(btnList)) {
+      if (isOff) {
+        btn.classList.add('btn-effect');
+      } else {
+        btn.classList.remove('btn-effect');
+      }
+    }
+  }
+
   // Difficulty
   // set difficly level
   updateDifficulty(type) {
     const difficulty = this.el.controls;
     const difficultyLevel = difficulty.querySelector(`[data-id=data-${type}]`);
-    Array.from(difficulty.children).forEach((node) =>
-      node.classList.remove('hightlight-difficulty'),
-    );
+    Array.from(difficulty.children).forEach((node) => {
+      node.classList.remove('hightlight-difficulty');
+    });
     difficultyLevel.classList.add('hightlight-difficulty');
   }
   // set difficulty layout
@@ -208,6 +236,8 @@ export default class View extends EventTarget {
         },
         key,
       );
+      // keycap.classList.add('off');
+      keycap.classList.remove('keycap-effect');
       this.el.keyboard.appendChild(keycap);
     }
   }

@@ -12,6 +12,7 @@
   --green: #77b958;
   --light-green: #96cc7d;
   --black: #000;
+  --color: #ecead2;
   --font-family: verdana, geneva, tahoma, sans-serif;
 }
 
@@ -94,17 +95,18 @@ body {
   background-color: var(--turquose);
   block-size: 1.2em;
   color: var(--black);
-  cursor: pointer;
+  cursor: default;
   font-size: 50px;
   inline-size: 1.2em;
 }
 
-.keycap:hover {
+.keycap-effect:hover {
   background-color: var(--hover-keys);
+  cursor: pointer;
   user-select: none;
 }
 
-.keycap:active {
+.keycap-effect:active {
   background-color: var(--active);
 }
 
@@ -148,29 +150,37 @@ body {
   background-color: var(--yellow);
   block-size: 60px;
   color: var(--gray);
-  cursor: pointer;
   font-size: 30px;
   inline-size: 30%;
+  cursor: default;
 }
 
-.start-btn:hover {
-  background-color: var(--hover-btn);
-}
+// .start-btn:hover {
+//   background-color: var(--hover-btn);
+// }
 
 .help-btn {
   padding: 10px;
   border: none;
   border-radius: 3px;
-  background-color: var(--yellow);
+  background-color: var(--light-gray);
   block-size: 60px;
   color: var(--gray);
-  cursor: pointer;
   font-size: 30px;
   inline-size: 30%;
 }
 
-.help-btn:hover {
-  background-color: var(--hover-btn);
+// .help-btn:hover {
+//   background-color: var(--color);
+// }
+
+.btn-effect {
+  cursor: default;
+}
+
+.btn-effect:hover {
+  background-color: var(--color);
+  cursor: pointer;
 }
 
 .hidden {
@@ -193,4 +203,14 @@ body {
 
 .next:hover {
   background-color: var(--light-green);
+}
+
+.off {
+  cursor: default;
+  user-select: none;
+}
+
+.on {
+  cursor: pointer;
+  user-select: unset;
 }

@@ -17,6 +17,7 @@ class App {
     const currRound = this.store.currentRound;
 
     if (currRound === 0) {
+      this.view.disableKeyboardLayout(false);
       this.view.updateUserSeqInfo(this.store.state.user.history);
       this.store.newRound();
       console.log('onStart', this.store.state);
@@ -34,17 +35,22 @@ class App {
       );
       // lock buttons
       this.lockInput();
+      this.view.disableKeyboardLayout(true);
+      this.view.disableBtn(false);
       this.view.showSequence(
         this.store.state.gameSequence[this.store.currentRound - 1],
       );
       this.view.addEventListener('showSequence:done', () => {
         this.unLockInput();
         this.view.unBindGameDifficultyEvent(this.onDifficultyClick);
+        this.view.disableKeyboardLayout(false);
+        this.view.disableBtn();
       });
       this.view.updateInfoGeneral('');
     }
 
     if (currRound !== 0) {
+      this.view.disableKeyboardLayout(true);
       this.store.state.user.history = '';
       this.view.updateUserSeqInfo(this.store.state.user.history);
       this.view.unBindGameDifficultyEvent(this.onDifficultyClick);
@@ -103,6 +109,7 @@ class App {
       );
       this.view.updateInfoGeneral('GAME OVER! Press "NEW GAME" to try again.');
       this.lockInput();
+      this.view.disableKeyboardLayout(true);
       this.view.bindStartOrResetGameEvent(this.onStartOrResetClick);
       return;
     }
@@ -114,6 +121,7 @@ class App {
     ) {
       this.view.updateInfoGeneral(`GAME OVER! Press "NEW GAME" to try again.`);
       this.lockInput();
+      this.view.disableKeyboardLayout(true);
       // this.view.bindRepeatSequenceEvent(this.onRepeatOrNextClick);
       this.view.bindStartOrResetGameEvent(this.onStartOrResetClick);
       return;
@@ -124,12 +132,14 @@ class App {
         'Oops... Press "REPEAT" to repeat the sequence',
       );
       this.lockInput();
+      this.view.disableKeyboardLayout(true);
       this.view.bindRepeatSequenceEvent(this.onRepeatOrNextClick);
       this.view.bindStartOrResetGameEvent(this.onStartOrResetClick);
       return;
     }
     // if HP > 0 and user round is ok
     if (this.store.state.user.isRoundPass && this.store.state.user.hp > 0) {
+      this.view.disableKeyboardLayout();
       this.view.updateHelpBtn(
         this.store.currentRound,
         this.store.isHintAvailable,
@@ -172,6 +182,7 @@ class App {
         this.store.gameSequence[this.store.currentRound - 1].length
     ) {
       this.view.updateInfoGeneral('NICE! Press "Next Round" to continue!');
+      this.view.disableKeyboardLayout(true);
       this.view.updateHelpBtn(
         this.store.currentRound,
         this.store.isHintAvailable,
@@ -242,18 +253,23 @@ class App {
 
   onRepeatOrNextClick(evt) {
     console.log('repeat or next', this.store.state);
+    this.view.disableKeyboardLayout(false);
     this.view.updateInfoGeneral('..');
     // if (this.store.isCorrect) this.store.nextRound();
     if (this.store.state.user.isRoundPass) {
       this.store.nextRound();
       // lock input
       this.lockInput();
+      this.view.disableKeyboardLayout(true);
+      this.view.disableBtn(false);
       this.view.showSequence(
         this.store.state.gameSequence[this.store.currentRound - 1],
       );
       // unclock input
       this.view.addEventListener('showSequence:done', () => {
         this.unLockInput();
+        this.view.disableKeyboardLayout(false);
+        this.view.disableBtn();
       });
     } else if (
       !this.store.state.user.isRoundPass &&
@@ -261,11 +277,15 @@ class App {
     ) {
       this.store.useHint();
       this.lockInput();
+      this.view.disableKeyboardLayout(true);
+      this.view.disableBtn(false);
       this.view.showSequence(
         this.store.state.gameSequence[this.store.currentRound - 1],
       );
       this.view.addEventListener('showSequence:done', () => {
         this.unLockInput();
+        this.view.disableKeyboardLayout(false);
+        this.view.disableBtn();
       });
     }
 
