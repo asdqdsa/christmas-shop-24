@@ -252,7 +252,7 @@ class App {
   onRepeatOrNextClick(evt) {
     // console.log('repeat or next', this.store.state);
     this.view.disableKeyboardLayout(false);
-    this.view.updateInfoGeneral('..');
+    this.view.updateInfoGeneral('');
     // if (this.store.isCorrect) this.store.nextRound();
     if (this.store.state.user.isRoundPass) {
       this.store.nextRound();

@@ -12,11 +12,13 @@
   --green: #77b958;
   --light-green: #96cc7d;
   --black: #000;
+  --black-transparent: #00000048;
   --color: #ecead2;
   --font-family: verdana, geneva, tahoma, sans-serif;
 }
 
 body {
+  // position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -26,6 +28,18 @@ body {
   font-family: var(--font-family);
   inline-size: 100%;
 }
+
+// body::before {
+//   position: fixed;
+//   z-index: -1;
+//   overflow: hidden;
+//   color: var(--black-transparent);
+//   content: 'Simon Says';
+//   font-size: 200px;
+//   opacity: 0.1;
+//   transform: rotate(45deg);
+//   white-space: nowrap;
+// }
 
 .main {
   display: flex;
@@ -73,8 +87,13 @@ body {
 }
 
 .info-user-sequence {
+  // display: flex;
+  // flex-wrap: wrap;
+  height: 40px;
+  width: 80%;
+  word-wrap: break-word;
   color: var(--light-gray);
-  font-size: 30px;
+  font-size: 28px;
   min-block-size: 40px;
   text-align: center;
 }
@@ -222,6 +241,16 @@ body {
 }
 
 @media (width < 568px) {
+  // .info-user-sequence {
+  //   // display: flex;
+  //   // flex-wrap: wrap;
+  //   // max-width: 100%;
+  //   color: var(--light-gray);
+  //   font-size: 1em;
+  //   // min-block-size: 40px;
+  //   // text-align: center;
+  // }
+
   .start-btn {
     font-size: 1.2em;
   }
