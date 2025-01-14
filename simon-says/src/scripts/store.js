@@ -81,7 +81,6 @@ export default class Store extends EventTarget {
     history = String.fromCharCode(value);
     this.#state.user.sequence = list;
     this.#state.user.history = history;
-    console.log(this.#state.user.history, 'user history');
   }
 
   newRound() {
@@ -122,7 +121,6 @@ export default class Store extends EventTarget {
   }
 
   calcHP(pass) {
-    console.log(pass, 'update HP');
     if (!pass) this.#state.user.hp -= 1;
     if (this.#state.user.hp === 0) {
       this.#state.gameOver = true;
@@ -152,20 +150,10 @@ export default class Store extends EventTarget {
 
     const expectedValue = currRow[userSequence.length - 1];
 
-    console.log(
-      userSequence,
-      this.#state.currSequence,
-      'arguments',
-      expectedValue,
-    );
-
-    console.log(this.#state.currSequence, '133');
-    console.log('expected ot input', expectedValue, userInput);
     if (expectedValue !== userInput) {
       return false;
     }
     if (currRow.length === userSequence.length) {
-      console.log('NEXT');
       this.state.user.isRoundPass = true;
       return true;
     }
@@ -182,12 +170,6 @@ export default class Store extends EventTarget {
       medium: 'QWERTYUIOPASDFGHJKLZXCVBNM',
       hard: '1234567890' + 'QWERTYUIOPASDFGHJKLZXCVBNM',
     };
-
-    const sequence = [
-      ['50', '50', '50', '49', '50', '54', '50', '50', '50'],
-      ['49', '50', '54', '54'],
-      ['49', '50', '54', '49', '50', '54'],
-    ];
 
     let start = 0;
     let end = dict[type].length;
@@ -209,8 +191,8 @@ export default class Store extends EventTarget {
       list.push(row);
     }
 
+    // console.log(listReadable);
     this.#state.gameSequence = list;
-    // this.#state.gameSequence = sequence;
     this.#state.gameSequenceReadable = listReadable;
   }
 }

@@ -133,7 +133,6 @@ export default class View extends EventTarget {
   }
 
   updateHelpBtn(round, hintExist, isRoundPass, isGameOver = false) {
-    console.log(...arguments, 'round, hintExist, isCorrect');
     if (round === 0) {
       this.el.helpBtn.classList.remove('innactive');
       this.el.helpBtn.classList.remove('next');
@@ -181,7 +180,6 @@ export default class View extends EventTarget {
   }
 
   disableKeyboardLayout(isOn = false) {
-    console.log(this.el.keyboard);
     const pad = this.el.keyboard.querySelectorAll('.keycap');
     for (const keycap of Array.from(pad)) {
       if (!isOn) {
@@ -194,7 +192,6 @@ export default class View extends EventTarget {
 
   disableBtn(isOff = true) {
     const btnList = document.querySelectorAll('button');
-    console.log(btnList);
     for (const btn of Array.from(btnList)) {
       if (isOff) {
         btn.classList.add('btn-effect');
@@ -225,7 +222,6 @@ export default class View extends EventTarget {
     };
 
     pad.replaceChildren();
-    console.log(dict[`${type}`]);
     for (const key of dict[layoutType].split('')) {
       const keycap = this.#createElement(
         'div',
@@ -244,7 +240,6 @@ export default class View extends EventTarget {
 
   highlightKey(code) {
     const pad = this.el.keyboard;
-    console.log(`#${code}`, this.el.keyboard);
     const key = document.getElementById(code);
     key?.classList.add('keycap-highlight');
     setTimeout(() => {
@@ -253,8 +248,6 @@ export default class View extends EventTarget {
   }
 
   showSequence(sequenceMap) {
-    console.log(sequenceMap);
-
     sequenceMap.forEach((keyCode, idx, list) => {
       setTimeout(() => {
         const key = document.getElementById(keyCode);
@@ -353,22 +346,18 @@ export default class View extends EventTarget {
   }
 
   bindVirtualKeyboardEvent(handler) {
-    console.log('Bind Virtual keyboard fired');
     this.el.keyboard.addEventListener('click', handler, { once: true });
   }
 
   unBindVirtualKeyboardEvent(handler) {
-    console.log('unbind Virtual keyboard fired');
     this.el.keyboard.removeEventListener('click', handler);
   }
 
   bindKeyboardEvent(handler) {
-    console.log('Bind keyboard fired');
     document.addEventListener('keydown', handler, { once: true });
   }
 
   unBindKeyboardEvent(handler) {
-    console.log('unbind keyboard fired');
     document.removeEventListener('keydown', handler);
   }
 

@@ -13,14 +13,14 @@ class App {
   }
 
   onStartOrResetClick(evt) {
-    console.log('start or reset', this.store.state);
+    // console.log('start or reset', this.store.state);
     const currRound = this.store.currentRound;
 
     if (currRound === 0) {
       this.view.disableKeyboardLayout(false);
       this.view.updateUserSeqInfo(this.store.state.user.history);
       this.store.newRound();
-      console.log('onStart', this.store.state);
+      // console.log('onStart', this.store.state);
 
       this.view.unBindGameDifficultyEvent(this.onDifficultyClick);
       this.view.updateHelpBtn(
@@ -47,6 +47,10 @@ class App {
         this.view.disableBtn();
       });
       this.view.updateInfoGeneral('');
+      console.log(
+        this.store.state.gameSequenceReadable,
+        'randomly generated sequence',
+      );
     }
 
     if (currRound !== 0) {
@@ -55,7 +59,6 @@ class App {
       this.view.updateUserSeqInfo(this.store.state.user.history);
       this.view.unBindGameDifficultyEvent(this.onDifficultyClick);
       this.store.reset();
-      console.log(this.store.currentRound, 'onReset');
 
       this.view.bindGameDifficultyEvent(this.onDifficultyClick);
       this.view.updateHelpBtn(
@@ -100,7 +103,6 @@ class App {
 
     // ends the game by store state
     if (this.store.isGameOver) {
-      console.log('GAME OVER!');
       this.view.updateHelpBtn(
         this.store.currentRound,
         this.store.isHintAvailable,
@@ -161,7 +163,6 @@ class App {
         this.store.gameSequence[this.store.currentRound - 1].length &&
       this.store.currentRound === this.store.state.gameRounds
     ) {
-      console.log('YOU WIN!');
       this.store.gameOver = true;
       this.view.updateInfoGeneral('YOU WIN! Press "NEW GAME" to start again.');
       this.view.updateHelpBtn(
@@ -197,8 +198,7 @@ class App {
   onVirtualKeybordClick(evt) {
     // this.view.unBindKeyboardEvent(this.onKeyboardPress);
     if (evt.target.classList.contains('keycap')) {
-      console.log('press key on virt keyboard', evt.target);
-      console.log('state', this.store.state);
+      // console.log('state', this.store.state);
       this.processKey(evt.target.id);
       this.view.updateUserSeqInfo(this.store.state.user.history);
     }
@@ -231,14 +231,12 @@ class App {
     }
 
     if (isValidKey) {
-      console.log(isValidKey, 'valid kye');
       let padKeyCod = codeKey.toString();
       this.processKey(padKeyCod);
       this.view.highlightKey(codeKey);
       this.view.updateUserSeqInfo(this.store.state.user.history);
     }
     if (!this.store.state.user.isRoundPass) {
-      console.log(this.store.state.user.isUserCorrect, 'userisIncorrect');
       this.view.bindKeyboardEvent(this.onKeyboardPress);
       // setTimeout(() => {
       //   console.log('fjdsklfdj????');
@@ -252,7 +250,7 @@ class App {
   }
 
   onRepeatOrNextClick(evt) {
-    console.log('repeat or next', this.store.state);
+    // console.log('repeat or next', this.store.state);
     this.view.disableKeyboardLayout(false);
     this.view.updateInfoGeneral('..');
     // if (this.store.isCorrect) this.store.nextRound();
@@ -304,7 +302,7 @@ class App {
 
   init() {
     this.view.renderUI(this.store.state);
-    console.log('render', this.store.state);
+    // console.log('render', this.store.state);
 
     this.view.bindGameDifficultyEvent(this.onDifficultyClick);
     this.view.bindRepeatSequenceEvent(this.onRepeatOrNextClick);
@@ -320,7 +318,6 @@ class App {
     this.view.unBindStartOrResetGameEvent(this.onStartOrResetClick);
     this.view.unBindVirtualKeyboardEvent(this.onVirtualKeybordClick);
     this.view.unBindKeyboardEvent(this.onKeyboardPress);
-    console.log('locked');
   }
 
   unLockInput() {
@@ -329,7 +326,6 @@ class App {
     this.view.bindStartOrResetGameEvent(this.onStartOrResetClick);
     this.view.bindVirtualKeyboardEvent(this.onVirtualKeybordClick);
     this.view.bindKeyboardEvent(this.onKeyboardPress);
-    console.log('Unlocked');
   }
 }
 
