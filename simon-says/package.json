@@ -9,6 +9,7 @@
     "preview": "vite preview",
     "prod": "vite build && vite preview",
     "deploy": "gh-pages -d dist --dest simon-says",
+    "deploy:confirm": "./bash/deploy-confirm.sh",
     "lint:fix": "stylelint '**/*.{scss,css}' --fix",
     "eslint": "eslint . --ext .js",
     "eslint:check": "npx eslint . --quiet",
