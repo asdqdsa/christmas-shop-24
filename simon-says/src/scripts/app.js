@@ -240,11 +240,11 @@ class App {
       this.view.updateUserSeqInfo(this.store.state.user.history);
     }
     if (!this.store.state.user.isRoundPass) {
-      this.view.bindKeyboardEvent(this.onKeyboardPress);
-      // setTimeout(() => {
-      //   console.log('fjdsklfdj????');
-      //   // this.view.bindVirtualKeyboardEvent(this.onVirtualKeybordClick);
-      // }, 200);
+      setTimeout(() => {
+        if (!this.store.state.user.isUserCorrect) {
+          this.view.unBindKeyboardEvent(this.onKeyboardPress);
+        } else this.view.bindKeyboardEvent(this.onKeyboardPress);
+      }, 200);
     }
 
     if (!this.store.state.user.isUserCorrect) {
