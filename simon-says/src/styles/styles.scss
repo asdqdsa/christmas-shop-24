@@ -3,13 +3,15 @@
   --gray: #2f4452;
   --innactive: #677883;
   --turquose: #30c5c0;
+  --turquose-dark: #56aca9;
   --hover-keys: #74e4e0;
   --active: #8fe7e4;
   --yellow: #eeb559;
+  --yellow-dark: #c7bba738;
   --hover-btn: #e9bb70;
   --light-gray: #dddbdb;
   --red: #dd5e73;
-  --green: #77b958;
+  --green: #9fcf68;
   --light-green: #96cc7d;
   --black: #000;
   --black-transparent: #00000048;
@@ -20,6 +22,7 @@
 body {
   // position: relative;
   display: flex;
+  box-sizing: border-box;
   align-items: center;
   justify-content: center;
   margin: 0;
@@ -63,9 +66,7 @@ body {
 .display {
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
   align-items: center;
-  justify-content: center;
   padding: 30px 0;
   gap: 12px;
   inline-size: 100%;
@@ -80,6 +81,7 @@ body {
 }
 
 .info-general {
+  display: inline;
   color: var(--hover-keys);
   font-size: 30px;
   min-block-size: 80px;
@@ -87,15 +89,16 @@ body {
 }
 
 .info-user-sequence {
-  // display: flex;
-  // flex-wrap: wrap;
-  height: 40px;
+  display: flex;
   width: 80%;
-  word-wrap: break-word;
+  height: 40px;
+  align-items: end;
+  justify-content: center;
   color: var(--light-gray);
   font-size: 28px;
   min-block-size: 40px;
   text-align: center;
+  word-wrap: break-word;
 }
 
 .keyboard {
@@ -103,9 +106,8 @@ body {
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  padding: 40px 0;
   gap: 4px;
-  inline-size: 100%;
+  inline-size: 93%;
 }
 
 .keycap {
@@ -113,12 +115,16 @@ body {
   align-items: center;
   justify-content: center;
   border-radius: 3px;
-  background-color: var(--turquose);
+  background-color: var(--turquose-dark);
   block-size: 1.2em;
   color: var(--black);
   cursor: default;
   font-size: 50px;
   inline-size: 1.2em;
+}
+
+.keycap-effect {
+  background-color: var(--turquose);
 }
 
 .keycap-effect:hover {
@@ -155,7 +161,16 @@ body {
   color: var(--light-gray);
   cursor: pointer;
   font-size: 50px;
+}
+
+.diff-effect {
+  cursor: default;
   user-select: none;
+}
+
+.diff-effect:hover {
+  // background-color: var(--color);
+  cursor: default;
 }
 
 // .difficulty:active {
@@ -166,6 +181,10 @@ body {
   color: var(--yellow);
 }
 
+.innactive-difficulty {
+  color: var(--yellow-dark);
+}
+
 .start-btn {
   padding: 10px;
   border: none;
@@ -173,10 +192,9 @@ body {
   background-color: var(--yellow);
   block-size: 60px;
   color: var(--gray);
-  font-size: 30px;
-  // font-size: clamp(30px, 1vw, 1.2em);
-  inline-size: 60%;
   cursor: default;
+  font-size: 30px;
+  inline-size: 60%;
 }
 
 // .start-btn:hover {
@@ -184,14 +202,13 @@ body {
 // }
 
 .help-btn {
-  // padding: 10px;
+  padding: 10px;
   border: none;
   border-radius: 3px;
   background-color: var(--light-gray);
   block-size: 60px;
   color: var(--gray);
   font-size: 30px;
-  // font-size: clamp(1.2em, 1vw, 30px);
   inline-size: 60%;
 }
 

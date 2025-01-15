@@ -37,6 +37,7 @@ class App {
       this.lockInput();
       this.view.disableKeyboardLayout(true);
       this.view.disableBtn(false);
+      this.view.disableDifficulty(true);
       this.view.showSequence(
         this.store.state.gameSequence[this.store.currentRound - 1],
       );
@@ -61,6 +62,7 @@ class App {
       this.store.reset();
 
       this.view.bindGameDifficultyEvent(this.onDifficultyClick);
+      this.view.disableDifficulty(false);
       this.view.updateHelpBtn(
         this.store.currentRound,
         this.store.isHintAvailable,
@@ -165,6 +167,7 @@ class App {
     ) {
       this.store.gameOver = true;
       this.view.updateInfoGeneral('YOU WIN! Press "NEW GAME" to start again.');
+      this.view.disableKeyboardLayout(true);
       this.view.updateHelpBtn(
         this.store.currentRound,
         this.store.isHintAvailable,
@@ -253,6 +256,7 @@ class App {
     // console.log('repeat or next', this.store.state);
     this.view.disableKeyboardLayout(false);
     this.view.updateInfoGeneral('');
+    this.view.updateUserSeqInfo('');
     // if (this.store.isCorrect) this.store.nextRound();
     if (this.store.state.user.isRoundPass) {
       this.store.nextRound();

@@ -52,7 +52,6 @@ export default class View extends EventTarget {
     // INFO
     this.renderRoundInfo(initialState.user.round);
     this.renderGeneralInfo(initialState.user.info);
-    this.renderUserSeqInfo();
 
     // DIFFICUTLY
     const controls = this.#createElement('div', {
@@ -110,7 +109,7 @@ export default class View extends EventTarget {
     this.el.helpBtn = helpBtn;
     helpBtn.classList.add('hidden');
     this.el.mainContainer.appendChild(helpBtn);
-
+    this.renderUserSeqInfo();
     // KEYBOARD
     const keyboard = this.#createElement('div', {
       class: 'keyboard',
@@ -197,6 +196,20 @@ export default class View extends EventTarget {
         btn.classList.add('btn-effect');
       } else {
         btn.classList.remove('btn-effect');
+      }
+    }
+  }
+
+  disableDifficulty(isOff = true) {
+    const controls = document.querySelectorAll('.difficulty');
+    for (const el of Array.from(controls)) {
+      if (isOff) {
+        el?.classList.add('diff-effect');
+        !el.classList.contains('hightlight-difficulty') &&
+          el.classList.add('innactive-difficulty');
+      } else {
+        el?.classList.remove('diff-effect');
+        el.classList.remove('innactive-difficulty');
       }
     }
   }
@@ -317,7 +330,7 @@ export default class View extends EventTarget {
     );
 
     this.el.infoUserSeq = info;
-    this.el.display.appendChild(info);
+    this.el.mainContainer.appendChild(info);
   }
 
   // register event listeners

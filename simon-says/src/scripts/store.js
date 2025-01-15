@@ -18,6 +18,7 @@ const initialValue = {
     difficulty: 'easy',
     round: 0,
     sequence: [],
+    sequenceRoudn: '',
     history: '',
     isHintAvailable: true,
     isUserCorrect: true,
