@@ -1,0 +1,19 @@
+{
+  "plugins": ["stylelint-scss"],
+  "extends": [
+    "stylelint-config-standard",
+    "stylelint-config-standard-scss",
+    "stylelint-config-idiomatic-order"
+  ],
+  "files": ["**/*.{css,scss}"],
+
+  "rules": {
+    "selector-class-pattern": null,
+    "value-keyword-case": [
+      "lower",
+      {
+        "camelCaseSvgKeywords": true
+      }
+    ]
+  }
+}
