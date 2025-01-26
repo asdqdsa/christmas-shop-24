@@ -7,7 +7,10 @@ export default class View {
     this.el.wrapper = null;
     this.el.content = null;
     this.el.inner = null;
+    this.el.board = null;
     this.el.game = null;
+    this.el.hintTop = null;
+    this.el.hintLeft = null;
   }
 
   mount() {
@@ -15,30 +18,94 @@ export default class View {
     this.#addElement('div', 'wrapper', 'wrapperTEXT', this.el.main);
     this.#addElement('div', 'content', 'content', this.el.wrapper);
     this.#addElement('div', 'inner', 'inner', this.el.content);
-    this.#addElement('div', 'game', 'game', this.el.content);
+    this.#addElement('div', 'game', '', this.el.content);
+    this.#addElement('div', 'hintTop', 'hint top', this.el.game);
+    this.#addElement('div', 'hintLeft', 'hint left', this.el.game);
+    this.#addElement('div', 'board', '', this.el.game);
+
+    this.renderGameLayout(15);
+  }
+
+  /**
+   * Render game field dinamically
+   * @param {number} size - Game field size where x = y
+   */
+  renderGameLayout(size) {
+    for (let row = 0; row < size; row += 1) {
+      let options = {
+        tag: 'div',
+        attributes: { class: 'row', id: row, ['data-id']: row },
+        textContent: '',
+      };
+      if ((row + 1) % 5 === 0 && row + 1 !== size) {
+        options = {
+          ...options,
+          attributes: { ...options.attributes, class: 'row row-divider' },
+        };
+      }
+      const currRow = this.#createEl(options, this.el.board);
+      for (let col = 0; col < size; col += 1) {
+        let options = {
+          tag: 'div',
+          attributes: {
+            class: 'cell cell-effect',
+            id: `${row}-${col}`,
+            ['data-id']: `${row}-${col}`,
+          },
+          textContent: '',
+        };
+        if ((col + 1) % 5 === 0 && col + 1 !== size) {
+          options = {
+            ...options,
+            attributes: { ...options.attributes, class: 'cell cell-divider' },
+          };
+        }
+        this.#createEl(options, currRow);
+      }
+    }
   }
 
   updateScore(value) {
     console.log('view triggered, changing score to', value);
   }
 
+  updateCell(id) {
+    const targetCell = this.#qs(`[data-id="${id}"]`);
+    console.log(targetCell, 'hehe');
+    targetCell.classList.toggle('cell-effect');
+    targetCell.classList.toggle('cell-filled');
+  }
+
   bindGameBoard(handler) {
-    this.el.game.addEventListener('click', handler);
+    this.el.board.addEventListener('click', handler);
   }
 
   bindGameReset(handler) {
     this.el.inner.addEventListener('click', handler);
   }
 
-  // util
+  // utils
 
   /**
-   *
-   * Binds events to registered DOM elements
+   * Bind events to registered DOM elements
+   * @param {string} context - Element name/key
+   * @param {string} eventType - Event type
+   * @param {Function} handler - Callback
+   * @returns {void}
    */
+  #bindEvents(context, eventType, handler) {
+    this.el[context].addEventListener(eventType, handler);
+  }
 
-  #bindEvents() {}
-
+  /**
+   * Create Element and appends to parent/document
+   * @param {Object} options - Configuration
+   * @param {string} options.tag - HTML tag name
+   * @param {Object} [options.attributes={}] - Element props
+   * @param {string} [options.textContent=''] - Element text content
+   * @param {Element} [parent] - Parent Element
+   * @returns {Element} - Returns created Element
+   */
   #createEl(options, parent) {
     const { tag, attributes = {}, textContent = '' } = options;
     const element = document.createElement(tag);
@@ -61,6 +128,7 @@ export default class View {
       },
       parent,
     );
+    return this.el[context];
   }
 
   /**

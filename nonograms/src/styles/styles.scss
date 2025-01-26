@@ -1,0 +1,103 @@
+:root {
+  --dark-gray: #2e4b5a;
+  --gray: #2f4452;
+  --innactive: #677883;
+  --turquose: #30c5c0;
+  --turquose-dark: #56aca9;
+  --hover-keys: #74e4e0;
+  --active: #8fe7e4;
+  --yellow: #eeb559;
+  --yellow-dark: #c7bba738;
+  --hover-btn: #e9bb70;
+  --light-gray: #dddbdb;
+  --red: #dd5e73;
+  --green: #9fcf68;
+  --light-green: #96cc7d;
+  --black: #000;
+  --black-transparent: #00000048;
+  --color: #ecead2;
+  --font-family: verdana, geneva, tahoma, sans-serif;
+}
+
+body {
+  display: flex;
+  background-color: var(--dark-gray);
+  color: var(--color);
+  color-scheme: light dark;
+  font-family: var(--font-family);
+}
+
+.main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 100%;
+  max-inline-size: 1440px;
+}
+
+.wrapper {
+  display: flex;
+}
+
+// GAME BOARD
+.game {
+  display: grid;
+  grid-template: auto 1fr / auto 1fr;
+  grid-template-areas:
+    '. hintTop'
+    'hintLeft board';
+}
+
+.hintTop {
+  grid-area: hintTop;
+}
+
+.hintLeft {
+  grid-area: hintLeft;
+}
+
+.board {
+  display: flex;
+  flex-direction: column;
+  border: 2px solid var(--black);
+  grid-area: board;
+}
+
+.row {
+  display: flex;
+}
+
+.row-divider {
+  border-bottom: 3px solid var(--black);
+}
+
+.cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--black-transparent);
+  background-color: var(--turquose-dark);
+  block-size: 3.2em;
+  cursor: pointer;
+  inline-size: 3.2em;
+}
+
+.cell-effect {
+  // background-color: var(--turquose);
+}
+
+.cell-effect:hover {
+  background-color: var(--turquose);
+}
+
+.cell-filled {
+  background-color: var(--black);
+}
+
+.cell:active {
+  background-color: var(--hover-keys);
+}
+
+.cell-divider {
+  border-right: 3px solid var(--black);
+}

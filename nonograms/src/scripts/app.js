@@ -17,9 +17,11 @@ export default class App {
     this.view.bindGameReset(this.onGameResetClick.bind(this));
   }
 
-  onGameBoardClick(idCell) {
+  onGameBoardClick(evt) {
     // console.log(idCell.target.id);
+    console.log(evt.target.id, '??');
     this.store.updateScore(1);
+    this.view.updateCell(evt.target.id);
   }
 
   onGameResetClick(evt) {
@@ -43,8 +45,8 @@ export default class App {
   }
 }
 
-const key = 'nonogram-key';
-const store = new Store(key);
+const data = { key: 'nonogram-key' };
+const store = new Store(data.key);
 const view = new View();
 const app = new App(store, view);
 

@@ -4,13 +4,32 @@ const initialState = {
   isComplete: false,
 };
 
+const gameState = {
+  difficulty: ['easy', 'normal', 'hard'],
+  presets: {
+    yang: [],
+    dove: [],
+  },
+  user: {
+    score: 0,
+    difficulty: 'easy',
+    currPreset: [],
+    moves: [],
+    isCompleted: false,
+    gameStarted: null,
+    gameEnded: null,
+    date: null,
+    history: [],
+  },
+};
+
 export default class Store extends EventTarget {
   #state;
 
   constructor(key) {
     super();
     this.storageKey = key;
-    this.#state = initialState;
+    this.#state = gameState;
   }
 
   get state() {
@@ -21,19 +40,19 @@ export default class Store extends EventTarget {
 
   updateScore(value) {
     console.log(this.state.score);
-    this.#state.score += 1;
+    this.#state.user.score += 1;
     // this.state.score += 1;
     console.log(this.state.score);
     const stateClone = structuredClone(this.#state);
-    console.log('update score', value, stateClone);
+    console.log('update score', value, stateClone.user);
     this.#saveState(stateClone);
   }
 
   resetGame() {
     const stateClone = structuredClone(this.#state);
-    console.log(stateClone);
-    this.#state.isComplete = true;
-    this.#state.score = 0;
+    console.log(stateClone.user);
+    this.#state.user.isCompleted = true;
+    this.#state.user.score = 0;
     this.#saveState(stateClone);
   }
 
@@ -42,7 +61,7 @@ export default class Store extends EventTarget {
     this.dispatchEvent(
       new CustomEvent('state:changed', {
         detail: {
-          state: this.#state,
+          state: this.#state.user,
           changed: { score: true },
         },
       }),
