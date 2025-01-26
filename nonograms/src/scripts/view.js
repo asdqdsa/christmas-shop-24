@@ -31,23 +31,13 @@ export default class View {
   }
 
   // util
-  #qs(selector, parent) {
-    const element = (parent || document).querySelector(selector);
-    return element
-      ? element
-      : (() => {
-          throw new Error('No such element');
-        })();
-  }
 
-  #qsAll(selector) {
-    const elementList = document.querySelectorAll(selector);
-    return elementList.length > 0
-      ? elementList
-      : (() => {
-          throw new Error('Node list is empty');
-        })();
-  }
+  /**
+   *
+   * Binds events to registered DOM elements
+   */
+
+  #bindEvents() {}
 
   #createEl(options, parent) {
     const { tag, attributes = {}, textContent = '' } = options;
@@ -71,5 +61,32 @@ export default class View {
       },
       parent,
     );
+  }
+
+  /**
+   * Query selector helper with error handling
+   * @param {string} selector - CSS selector
+   * @param {HTMLElement | Document} [parent=document] - (optional)- Parent HTMLelement
+   * @returns {HTMLElement} Found HTMLelement
+   * @throws {Error} If element not found
+   * private
+   */
+  #qs(selector, parent = document) {
+    const element = parent.querySelector(selector);
+    if (!(element instanceof HTMLElement)) throw new Error('No such element');
+    return element;
+  }
+
+  /**
+   * Query selector helper with error handling
+   * @param {string} selector - CSS selector
+   * @returns {NodeList} - Found Node List
+   * @throws {Error} - If Node List is empty
+   * private
+   */
+  #qsAll(selector) {
+    const elementList = document.querySelectorAll(selector);
+    if (elementList.length === 0) throw new Error('Node list is empty');
+    return elementList;
   }
 }

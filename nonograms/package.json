@@ -14,7 +14,9 @@
     "eslint": "eslint . --ext .js",
     "eslint:check": "npx eslint . --quiet",
     "eslint:fix": "npx eslint .  --fix --quiet",
-    "buff": "npx lucky-charm"
+    "buff": "npx lucky-charm",
+    "docs": "jsdoc -c jsdoc.conf.json",
+    "docs:watch": "npm run docs -- --watch"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.20",
@@ -32,6 +34,8 @@
     "gh-pages": "^6.3.0",
     "htmlhint": "^1.1.4",
     "javascript-obfuscator": "^4.1.1",
+    "jsdoc": "^4.0.4",
+    "jsdoc-babel": "^0.5.0",
     "lucky-charm": "^1.0.2",
     "postcss": "^8.4.49",
     "postcss-nested": "^7.0.2",
@@ -43,6 +47,7 @@
     "stylelint-config-standard-scss": "^14.0.0",
     "stylelint-order": "^6.0.4",
     "stylelint-scss": "^6.10.0",
+    "typescript": "^5.7.3",
     "vite": "^6.0.7"
   },
   "dependencies": {

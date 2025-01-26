@@ -1,0 +1,34 @@
+{
+  "source": {
+    "include": ["./src/scripts"],
+    "includePattern": "\\.(js|jsdoc)$",
+    "excludePattern": "(node_modules/|docs|dist/)"
+  },
+
+  "plugins": ["plugins/markdown", "node_modules/jsdoc-babel"],
+
+  "babel": {
+    "extensions": ["js"],
+    "presets": [["@babel/preset-env", { "targets": { "node": "current" } }]],
+    "plugins": [
+      "@babel/plugin-proposal-class-properties",
+      "@babel/plugin-proposal-private-methods"
+    ]
+  },
+
+  "opts": {
+    "destination": "./docs/",
+    "recurse": true,
+    "readme": "./README.md"
+  },
+
+  "tags": {
+    "allowUnknownTags": true,
+    "dictionaries": ["jsdoc", "closure"]
+  },
+
+  "templates": {
+    "cleverLinks": true,
+    "monospaceLinks": true
+  }
+}
