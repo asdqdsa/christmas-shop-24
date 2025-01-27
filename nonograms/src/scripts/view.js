@@ -23,6 +23,7 @@ export default class View {
     this.#addElement('div', 'hintLeft', 'hint left', this.el.game);
     this.#addElement('div', 'board', '', this.el.game);
 
+    // debug
     this.renderGameLayout(15);
   }
 
@@ -57,7 +58,10 @@ export default class View {
         if ((col + 1) % 5 === 0 && col + 1 !== size) {
           options = {
             ...options,
-            attributes: { ...options.attributes, class: 'cell cell-divider' },
+            attributes: {
+              ...options.attributes,
+              class: `${options.attributes.class} cell-divider `,
+            },
           };
         }
         this.#createEl(options, currRow);
@@ -66,12 +70,18 @@ export default class View {
   }
 
   updateScore(value) {
-    console.log('view triggered, changing score to', value);
+    console.log('view updated, changing score to', value);
+  }
+
+  updateDifficulty(value) {
+    console.log('view updated, changing difficulty to', value);
   }
 
   updateCell(id) {
-    const targetCell = this.#qs(`[data-id="${id}"]`);
-    console.log(targetCell, 'hehe');
+    // const targetCell = this.#qs(`[data-id="${id}"]`);
+    const selectById = CSS.escape(id);
+    const targetCell = this.#qs(`#${selectById}`);
+    console.log(targetCell);
     targetCell.classList.toggle('cell-effect');
     targetCell.classList.toggle('cell-filled');
   }
@@ -141,7 +151,8 @@ export default class View {
    */
   #qs(selector, parent = document) {
     const element = parent.querySelector(selector);
-    if (!(element instanceof HTMLElement)) throw new Error('No such element');
+    if (!(element instanceof HTMLElement))
+      throw new Error(`No such element with selector ${selector}`);
     return element;
   }
 

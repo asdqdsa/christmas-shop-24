@@ -10,6 +10,12 @@ export default class App {
       score: (value) => {
         this.view.updateScore(value);
       },
+      difficulty: (value) => {
+        this.view.updateDifficulty(value);
+      },
+      cell: (value) => {
+        this.view.updateCell(value.id);
+      },
     };
   }
   bindEvents() {
@@ -18,10 +24,9 @@ export default class App {
   }
 
   onGameBoardClick(evt) {
-    // console.log(idCell.target.id);
-    console.log(evt.target.id, '??');
+    this.store.startGame();
     this.store.updateScore(1);
-    this.view.updateCell(evt.target.id);
+    this.store.updateBoardMask(evt.target.id);
   }
 
   onGameResetClick(evt) {
@@ -33,15 +38,17 @@ export default class App {
     this.bindEvents();
 
     this.store.addEventListener('state:changed', (event) => {
-      const { state, changed } = event.detail;
+      const { state, changed, payload } = event.detail;
       Object.keys(changed).forEach((key) => {
         if (changed[key] && this.viewUpdateMap[key]) {
-          this.viewUpdateMap[key](state[key]);
+          if (payload) {
+            this.viewUpdateMap[key](payload);
+          } else {
+            this.viewUpdateMap[key](state[key]);
+          }
         }
       });
     });
-
-    // this.store.saveState();
   }
 }
 

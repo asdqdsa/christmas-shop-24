@@ -6,6 +6,7 @@ import path from 'path';
 export default defineConfig({
   base: '/asdqdsa-JSFE2024Q4/nonograms/',
   build: {
+    target: 'es2022',
     assetsInclude: ['**/*.woff', '**/*.woff2', '**/*.ttf'],
     sourcemap: false, // Enables source maps for prod build
     minify: false, // Disable minification for prod build
@@ -16,6 +17,7 @@ export default defineConfig({
         app: path.resolve(__dirname, 'src/scripts/app.js'),
         view: path.resolve(__dirname, 'src/scripts/view.js'),
         store: path.resolve(__dirname, 'src/scripts/store.js'),
+        presets: path.resolve(__dirname, 'src/scripts/presets.js'),
       },
       output: {
         entryFileNames: 'assets/[name].js', // Preserve file names
