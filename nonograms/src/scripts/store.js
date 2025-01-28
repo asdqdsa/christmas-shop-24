@@ -15,7 +15,7 @@ const gameState = {
   user: {
     score: 0,
     difficulty: 'easy',
-    currPreset: [],
+    currPreset: dv,
     moves: [],
     isCompleted: false,
     gameStarted: false,
@@ -23,6 +23,7 @@ const gameState = {
     date: null,
     history: [],
     mask: [[0]],
+    hints: { row: [[]], col: [[]] },
   },
 };
 
@@ -54,17 +55,59 @@ export default class Store extends EventTarget {
   startGame() {
     console.log(this.#state.presets);
     const len = 15;
+    const infoChanged = { start: false };
     if (!this.#state.user.gameStarted) {
       this.#state.user.gameStarted = true;
       this.#state.user.mask = Array.from({ length: len }, () =>
         Array.from({ length: len }).fill(0),
       );
+      this.setHints();
+      infoChanged.start = true;
+      console.log('Starting game');
     }
 
     // ADD TIMER
-    console.log('Starting game');
+    console.log('Playing game');
     const stateClone = structuredClone(this.#state);
-    this.#saveState(stateClone, { start: true });
+    this.#saveState(stateClone, infoChanged, { hints: this.#state.user.hints });
+  }
+
+  setHints(preset = this.#state.user.currPreset) {
+    const currPreset = preset;
+    const rowHints = [];
+    const colHints = [];
+    let rowAcc = 0;
+    let colAcc = 0;
+    for (let i = 0; i < currPreset.length; i += 1) {
+      rowHints[i] = [];
+      colHints[i] = [];
+      for (let j = 0; j < currPreset.length; j += 1) {
+        if (currPreset[i][j] === 1) {
+          rowAcc += 1;
+          if (currPreset[i][j + 1] == null || currPreset[i][j + 1] === 0) {
+            rowHints[i].push(rowAcc);
+            rowAcc = 0;
+          }
+        }
+
+        if (currPreset[j][i] === 1) {
+          colAcc += 1;
+          if (currPreset[j + 1] == null || currPreset[j + 1][i] === 0) {
+            colHints[i].push(colAcc);
+
+            colAcc = 0;
+          }
+        }
+      }
+
+      if (rowHints[i].length === 0) rowHints[i] = null;
+      if (colHints[i].length === 0) colHints[i] = null;
+    }
+
+    this.#state.user.hints = {
+      row: rowHints,
+      col: colHints,
+    };
   }
 
   updateScore(value) {
@@ -74,17 +117,23 @@ export default class Store extends EventTarget {
     this.#saveState(stateClone, { score: true });
   }
 
-  updateBoardMask(idCell) {
+  updateBoardMask(idCell, mouseBtnType) {
     // row-col 0..len - 1
     const [row, col] = idCell.split('-');
     const mask = this.#state.user.mask;
     const cell = mask[row][col];
-    if (cell === 1) mask[row][col] = 0;
-    else mask[row][col] = 1;
+    if (mouseBtnType === 0) {
+      if (cell === 1) mask[row][col] = 0;
+      else mask[row][col] = 1;
+    }
+    if (mouseBtnType === 2) {
+      if (cell === 0 || cell === 1) mask[row][col] = -1;
+      else mask[row][col] = 0;
+    }
     this.#state.user.mask = mask;
     const stateClone = structuredClone(this.#state);
-    console.log('update mask', stateClone.user.mask);
-    this.#saveState(stateClone, { cell: true }, { id: idCell });
+    console.log('update mask', idCell, stateClone.user.mask);
+    this.#saveState(stateClone, { cell: true }, { id: idCell, mouseBtnType });
   }
 
   resetGame() {

@@ -6,6 +6,9 @@ export default class App {
     this.store = store;
     this.view = view;
 
+    this.onGameBoardClick = this.onGameBoardClick.bind(this);
+    this.onGameResetClick = this.onGameResetClick.bind(this);
+
     this.viewUpdateMap = {
       score: (value) => {
         this.view.updateScore(value);
@@ -13,35 +16,42 @@ export default class App {
       difficulty: (value) => {
         this.view.updateDifficulty(value);
       },
-      cell: (value) => {
-        this.view.updateCell(value.id);
+      cell: ({ id, mouseBtnType }) => {
+        this.view.updateCell(id, mouseBtnType);
+      },
+      start: ({ hints }) => {
+        this.view.updateHints(hints);
       },
     };
   }
-  bindEvents() {
-    this.view.bindGameBoard(this.onGameBoardClick.bind(this));
-    this.view.bindGameReset(this.onGameResetClick.bind(this));
+
+  bindUIEvents() {
+    this.view.bindGameBoard(this.onGameBoardClick);
+    this.view.bindGameReset(this.onGameResetClick);
   }
 
-  onGameBoardClick(evt) {
+  onGameBoardClick(event) {
+    const mouseBtnType = event.button;
+    const cellId = event.target.id;
     this.store.startGame();
-    this.store.updateScore(1);
-    this.store.updateBoardMask(evt.target.id);
+    if (mouseBtnType === 0) this.store.updateScore(1);
+    console.log(cellId);
+    if (mouseBtnType === 2) {
+    }
+    this.store.updateBoardMask(cellId, mouseBtnType);
   }
 
   onGameResetClick(evt) {
     this.store.resetGame();
   }
 
-  init() {
-    this.view.mount();
-    this.bindEvents();
-
-    this.store.addEventListener('state:changed', (event) => {
-      const { state, changed, payload } = event.detail;
+  initStateListening() {
+    this.store.addEventListener('state:changed', ({ detail }) => {
+      const { state, changed, payload } = detail;
       Object.keys(changed).forEach((key) => {
         if (changed[key] && this.viewUpdateMap[key]) {
           if (payload) {
+            console.log(payload);
             this.viewUpdateMap[key](payload);
           } else {
             this.viewUpdateMap[key](state[key]);
@@ -49,6 +59,12 @@ export default class App {
         }
       });
     });
+  }
+
+  init() {
+    this.view.mount();
+    this.bindUIEvents();
+    this.initStateListening();
   }
 }
 

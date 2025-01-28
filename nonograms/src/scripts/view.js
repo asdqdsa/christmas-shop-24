@@ -10,7 +10,7 @@ export default class View {
     this.el.board = null;
     this.el.game = null;
     this.el.hintTop = null;
-    this.el.hintLeft = null;
+    this.el.hintSide = null;
   }
 
   mount() {
@@ -19,19 +19,19 @@ export default class View {
     this.#addElement('div', 'content', 'content', this.el.wrapper);
     this.#addElement('div', 'inner', 'inner', this.el.content);
     this.#addElement('div', 'game', '', this.el.content);
-    this.#addElement('div', 'hintTop', 'hint top', this.el.game);
-    this.#addElement('div', 'hintLeft', 'hint left', this.el.game);
+    this.#addElement('div', 'hintTop', '', this.el.game);
+    this.#addElement('div', 'hintSide', '', this.el.game);
     this.#addElement('div', 'board', '', this.el.game);
 
     // debug
-    this.renderGameLayout(15);
+    this.renderBoardLayout(15);
   }
 
   /**
    * Render game field dinamically
    * @param {number} size - Game field size where x = y
    */
-  renderGameLayout(size) {
+  renderBoardLayout(size) {
     for (let row = 0; row < size; row += 1) {
       let options = {
         tag: 'div',
@@ -45,6 +45,7 @@ export default class View {
         };
       }
       const currRow = this.#createEl(options, this.el.board);
+
       for (let col = 0; col < size; col += 1) {
         let options = {
           tag: 'div',
@@ -77,17 +78,70 @@ export default class View {
     console.log('view updated, changing difficulty to', value);
   }
 
-  updateCell(id) {
+  updateHints({ row, col }) {
+    row.forEach((rowHint, idx, arr) => {
+      let options = {
+        tag: 'div',
+        attributes: {
+          class: 'hint hint-row',
+          id: `hint-${idx}`,
+          ['data-id']: `hint-${idx}`,
+        },
+        textContent: `${rowHint}`,
+      };
+      this.#createEl(options, this.el.hintSide);
+    });
+
+    col.forEach((colHint, idx, arr) => {
+      let options = {
+        tag: 'div',
+        attributes: {
+          class: 'hint hint-col',
+          id: `hint-${idx}`,
+          ['data-id']: `hint-${idx}`,
+        },
+        textContent: `${colHint}`,
+      };
+
+      this.#createEl(options, this.el.hintTop);
+    });
+  }
+
+  updateCell(id, mouseBtnType) {
     // const targetCell = this.#qs(`[data-id="${id}"]`);
     const selectById = CSS.escape(id);
     const targetCell = this.#qs(`#${selectById}`);
-    console.log(targetCell);
-    targetCell.classList.toggle('cell-effect');
-    targetCell.classList.toggle('cell-filled');
+
+    if (mouseBtnType === 0) {
+      targetCell.classList.remove('cell-crossed');
+      targetCell.classList.toggle('cell-filled');
+    }
+    if (mouseBtnType === 2) {
+      targetCell.classList.remove('cell-filled');
+      targetCell.classList.toggle('cell-crossed');
+    }
+    if (
+      targetCell.classList.contains('cell-filled') ||
+      targetCell.classList.contains('cell-crossed')
+    ) {
+      targetCell.classList.remove('cell-effect');
+    } else {
+      targetCell.classList.add('cell-effect');
+    }
   }
 
   bindGameBoard(handler) {
-    this.el.board.addEventListener('click', handler);
+    this.el.board.addEventListener('mousedown', (evt) => {
+      const whichMouseBtn = evt.button;
+      if (evt.target.classList.contains('cell')) {
+        if (whichMouseBtn === 0) handler(evt);
+      }
+    });
+
+    this.el.board.addEventListener('contextmenu', (evt) => {
+      evt.preventDefault();
+      handler(evt);
+    });
   }
 
   bindGameReset(handler) {
