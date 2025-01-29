@@ -6,25 +6,46 @@ export default class View {
     this.el.main = null;
     this.el.wrapper = null;
     this.el.content = null;
-    this.el.inner = null;
     this.el.board = null;
     this.el.game = null;
     this.el.hintTop = null;
     this.el.hintSide = null;
+    this.el.controls = null;
+    this.el.difficulty = null;
+    this.el.difficultyBtn = null;
+    this.el.presets = null;
+    this.el.restart = null;
+    this.el.continue = null;
   }
 
   mount() {
-    this.#addElement('main', 'main', 'MAIN', this.el.root);
-    this.#addElement('div', 'wrapper', 'wrapperTEXT', this.el.main);
+    this.#addElement('main', 'main', '', this.el.root);
+    this.#addElement('div', 'wrapper', '', this.el.main);
     this.#addElement('div', 'content', 'content', this.el.wrapper);
-    this.#addElement('div', 'inner', 'inner', this.el.content);
+    this.#addElement('div', 'controls', '', this.el.content);
+    this.#addElement('button', 'cont', 'cont', this.el.controls);
+    this.#addElement('div', 'difficulty', '', this.el.controls);
+    this.#addElement('div', 'presets', '', this.el.controls);
     this.#addElement('div', 'game', '', this.el.content);
     this.#addElement('div', 'hintTop', '', this.el.game);
     this.#addElement('div', 'hintSide', '', this.el.game);
     this.#addElement('div', 'board', '', this.el.game);
 
+    this.#addElement('button', 'diff-low', 'low', this.el.difficulty);
+    this.#addElement('button', 'diff-medium', 'medium', this.el.difficulty);
+    this.#addElement('button', 'diff-high', 'high', this.el.difficulty);
+
+    this.#addElement('button', 'presetTypeA', 'presetTypeA', this.el.presets);
+    this.#addElement('button', 'presetTypeB', 'presetTypeB', this.el.presets);
+    this.#addElement('button', 'presetTypeC', 'presetTypeC', this.el.presets);
+    this.#addElement('button', 'presetTypeD', 'presetTypeD', this.el.presets);
+    this.#addElement('button', 'presetTypeE', 'presetTypeE', this.el.presets);
+
     // debug
-    this.renderBoardLayout(15);
+    this.renderBoardLayout(5);
+
+    this.#addElement('button', 'restart', 'restart', this.el.content);
+    this.#addElement('button', 'clue', 'clue', this.el.content);
   }
 
   /**
@@ -89,6 +110,16 @@ export default class View {
         },
         textContent: `${rowHint}`,
       };
+
+      if ((idx + 1) % 5 === 0 && idx + 1 !== arr.length) {
+        options = {
+          ...options,
+          attributes: {
+            ...options.attributes,
+            class: `${options.attributes.class} row-divider `,
+          },
+        };
+      }
       this.#createEl(options, this.el.hintSide);
     });
 
@@ -102,7 +133,15 @@ export default class View {
         },
         textContent: `${colHint}`,
       };
-
+      if ((idx + 1) % 5 === 0 && idx + 1 !== arr.length) {
+        options = {
+          ...options,
+          attributes: {
+            ...options.attributes,
+            class: `${options.attributes.class} cell-divider `,
+          },
+        };
+      }
       this.#createEl(options, this.el.hintTop);
     });
   }
@@ -145,7 +184,7 @@ export default class View {
   }
 
   bindGameReset(handler) {
-    this.el.inner.addEventListener('click', handler);
+    this.el.presets.addEventListener('click', handler);
   }
 
   // utils

@@ -1,4 +1,4 @@
-import { dv } from './presets';
+import { dv, cat, amogus } from './presets';
 const initialState = {
   score: 0,
   timer: 0,
@@ -11,11 +11,12 @@ const gameState = {
     yang: [],
     dove: [],
     dv: dv,
+    cat: cat,
   },
   user: {
     score: 0,
     difficulty: 'easy',
-    currPreset: dv,
+    currPreset: amogus,
     moves: [],
     isCompleted: false,
     gameStarted: false,
@@ -54,7 +55,7 @@ export default class Store extends EventTarget {
 
   startGame() {
     console.log(this.#state.presets);
-    const len = 15;
+    const len = 5;
     const infoChanged = { start: false };
     if (!this.#state.user.gameStarted) {
       this.#state.user.gameStarted = true;
