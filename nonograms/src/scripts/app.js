@@ -8,19 +8,22 @@ export default class App {
 
     this.onGameBoardClick = this.onGameBoardClick.bind(this);
     this.onGameResetClick = this.onGameResetClick.bind(this);
+    this.onGamePresetClick = this.onGamePresetClick.bind(this);
+    this.onDifficultyClick = this.onDifficultyClick.bind(this);
 
     this.viewUpdateMap = {
       score: (value) => {
         this.view.updateScore(value);
       },
-      difficulty: (value) => {
-        this.view.updateDifficulty(value);
+      difficulty: ({ difficulty, presets }) => {
+        this.view.updateDifficulty({ difficulty, presets });
       },
-      cell: ({ id, mouseBtnType }) => {
-        this.view.updateCell(id, mouseBtnType);
+      cell: ({ id, mouseTypeClick }) => {
+        this.view.updateCell(id, mouseTypeClick);
       },
-      start: ({ hints }) => {
+      start: ({ hints, boardSize }) => {
         this.view.updateHints(hints);
+        this.view.renderBoardLayout(boardSize);
       },
     };
   }
@@ -28,17 +31,25 @@ export default class App {
   bindUIEvents() {
     this.view.bindGameBoard(this.onGameBoardClick);
     this.view.bindGameReset(this.onGameResetClick);
+    this.view.bindGameDifficulty(this.onDifficultyClick);
+    this.view.bindGamePresetType(this.onGamePresetClick);
   }
 
-  onGameBoardClick(event) {
-    const mouseBtnType = event.button;
-    const cellId = event.target.id;
-    this.store.startGame();
-    if (mouseBtnType === 0) this.store.updateScore(1);
-    console.log(cellId);
-    if (mouseBtnType === 2) {
-    }
-    this.store.updateBoardMask(cellId, mouseBtnType);
+  onGameBoardClick({ cellId, isLeftClick, isRightClick }) {
+    this.store.playGame();
+    if (isLeftClick) this.store.updateScore(1);
+    if (isRightClick) console.log('RightClick');
+    this.store.updateBoardMask(cellId, { isLeftClick, isRightClick });
+  }
+
+  onDifficultyClick(difficultyId) {
+    console.log(difficultyId);
+    this.store.setDifficulty(difficultyId);
+  }
+
+  onGamePresetClick(presetId) {
+    console.log(presetId);
+    this.store.startGame({ presetId });
   }
 
   onGameResetClick(evt) {
@@ -62,7 +73,7 @@ export default class App {
   }
 
   init() {
-    this.view.mount();
+    this.view.mount(this.store.state.difficulty);
     this.bindUIEvents();
     this.initStateListening();
   }

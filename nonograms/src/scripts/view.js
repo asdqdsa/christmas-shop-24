@@ -16,14 +16,17 @@ export default class View {
     this.el.presets = null;
     this.el.restart = null;
     this.el.continue = null;
+    this.el.random = null;
+    this.el.save = null;
   }
 
-  mount() {
+  mount(diff) {
     this.#addElement('main', 'main', '', this.el.root);
     this.#addElement('div', 'wrapper', '', this.el.main);
-    this.#addElement('div', 'content', 'content', this.el.wrapper);
+    this.#addElement('div', 'content', '', this.el.wrapper);
     this.#addElement('div', 'controls', '', this.el.content);
-    this.#addElement('button', 'cont', 'cont', this.el.controls);
+    this.#addElement('button', 'cont', 'CONT.', this.el.controls);
+    this.#addElement('button', 'random', 'RANDOM', this.el.controls);
     this.#addElement('div', 'difficulty', '', this.el.controls);
     this.#addElement('div', 'presets', '', this.el.controls);
     this.#addElement('div', 'game', '', this.el.content);
@@ -31,21 +34,36 @@ export default class View {
     this.#addElement('div', 'hintSide', '', this.el.game);
     this.#addElement('div', 'board', '', this.el.game);
 
-    this.#addElement('button', 'diff-low', 'low', this.el.difficulty);
-    this.#addElement('button', 'diff-medium', 'medium', this.el.difficulty);
-    this.#addElement('button', 'diff-high', 'high', this.el.difficulty);
-
-    this.#addElement('button', 'presetTypeA', 'presetTypeA', this.el.presets);
-    this.#addElement('button', 'presetTypeB', 'presetTypeB', this.el.presets);
-    this.#addElement('button', 'presetTypeC', 'presetTypeC', this.el.presets);
-    this.#addElement('button', 'presetTypeD', 'presetTypeD', this.el.presets);
-    this.#addElement('button', 'presetTypeE', 'presetTypeE', this.el.presets);
-
     // debug
-    this.renderBoardLayout(5);
+    this.renderDifficulty(diff);
+    // this.renderBoardLayout(5);
 
-    this.#addElement('button', 'restart', 'restart', this.el.content);
     this.#addElement('button', 'clue', 'clue', this.el.content);
+    this.#addElement('button', 'save', 'save game', this.el.content);
+    this.#addElement('button', 'restart', 'restart', this.el.content);
+  }
+
+  renderDifficulty(difficulty) {
+    difficulty.forEach((difficultyType) => {
+      this.#addElement(
+        'button',
+        ['level', `${difficultyType}`],
+        difficultyType.toUpperCase(),
+        this.el.difficulty,
+      );
+    });
+  }
+
+  renderPresetTypes(presets) {
+    this.el.presets.replaceChildren();
+    Object.keys(presets).forEach((preset) => {
+      this.#addElement(
+        'button',
+        ['preset', `preset-${preset}`],
+        preset,
+        this.el.presets,
+      );
+    });
   }
 
   /**
@@ -53,6 +71,7 @@ export default class View {
    * @param {number} size - Game field size where x = y
    */
   renderBoardLayout(size) {
+    this.el.board.replaceChildren();
     for (let row = 0; row < size; row += 1) {
       let options = {
         tag: 'div',
@@ -62,7 +81,7 @@ export default class View {
       if ((row + 1) % 5 === 0 && row + 1 !== size) {
         options = {
           ...options,
-          attributes: { ...options.attributes, class: 'row row-divider' },
+          attributes: { ...options.attributes, class: ['row', 'row-divider'] },
         };
       }
       const currRow = this.#createEl(options, this.el.board);
@@ -71,7 +90,7 @@ export default class View {
         let options = {
           tag: 'div',
           attributes: {
-            class: 'cell cell-effect',
+            class: ['cell', 'cell-effect'],
             id: `${row}-${col}`,
             ['data-id']: `${row}-${col}`,
           },
@@ -82,7 +101,8 @@ export default class View {
             ...options,
             attributes: {
               ...options.attributes,
-              class: `${options.attributes.class} cell-divider `,
+              // class: [`${options.attributes.class} `, `cell-divider`],
+              class: ['cell', 'cell-effect', `cell-divider`],
             },
           };
         }
@@ -95,16 +115,19 @@ export default class View {
     console.log('view updated, changing score to', value);
   }
 
-  updateDifficulty(value) {
-    console.log('view updated, changing difficulty to', value);
+  updateDifficulty({ difficulty, presets }) {
+    console.log('view updated, changing difficulty to', difficulty, presets);
+    this.renderPresetTypes(presets);
   }
 
   updateHints({ row, col }) {
+    this.el.hintSide.replaceChildren();
+    this.el.hintTop.replaceChildren();
     row.forEach((rowHint, idx, arr) => {
       let options = {
         tag: 'div',
         attributes: {
-          class: 'hint hint-row',
+          class: ['hint', 'hint-row'],
           id: `hint-${idx}`,
           ['data-id']: `hint-${idx}`,
         },
@@ -116,7 +139,7 @@ export default class View {
           ...options,
           attributes: {
             ...options.attributes,
-            class: `${options.attributes.class} row-divider `,
+            class: ['hint', 'hint-row', `row-divider`],
           },
         };
       }
@@ -127,7 +150,7 @@ export default class View {
       let options = {
         tag: 'div',
         attributes: {
-          class: 'hint hint-col',
+          class: ['hint', 'hint-col'],
           id: `hint-${idx}`,
           ['data-id']: `hint-${idx}`,
         },
@@ -138,7 +161,7 @@ export default class View {
           ...options,
           attributes: {
             ...options.attributes,
-            class: `${options.attributes.class} cell-divider `,
+            class: ['hint', 'hint-col', `cell-divider`],
           },
         };
       }
@@ -146,16 +169,16 @@ export default class View {
     });
   }
 
-  updateCell(id, mouseBtnType) {
+  updateCell(id, { isLeftClick, isRightClick }) {
     // const targetCell = this.#qs(`[data-id="${id}"]`);
     const selectById = CSS.escape(id);
     const targetCell = this.#qs(`#${selectById}`);
 
-    if (mouseBtnType === 0) {
+    if (isLeftClick) {
       targetCell.classList.remove('cell-crossed');
       targetCell.classList.toggle('cell-filled');
     }
-    if (mouseBtnType === 2) {
+    if (isRightClick) {
       targetCell.classList.remove('cell-filled');
       targetCell.classList.toggle('cell-crossed');
     }
@@ -171,20 +194,41 @@ export default class View {
 
   bindGameBoard(handler) {
     this.el.board.addEventListener('mousedown', (evt) => {
-      const whichMouseBtn = evt.button;
-      if (evt.target.classList.contains('cell')) {
-        if (whichMouseBtn === 0) handler(evt);
-      }
+      const mouseBtnClick = evt.button;
+      const cell = evt.target.classList.contains('cell');
+      if (!cell) return;
+      if (mouseBtnClick === 2) evt.preventDefault();
+
+      handler({
+        cellId: evt.target.id,
+        isLeftClick: evt.button === 0,
+        isRightClick: evt.button === 2,
+      });
     });
 
     this.el.board.addEventListener('contextmenu', (evt) => {
       evt.preventDefault();
-      handler(evt);
     });
   }
 
   bindGameReset(handler) {
-    this.el.presets.addEventListener('click', handler);
+    this.el.restart.addEventListener('click', handler);
+  }
+
+  bindGamePresetType(handler) {
+    this.el.presets.addEventListener('click', (evt) => {
+      const presetType = evt.target.classList.contains('preset');
+      if (!presetType) return;
+      handler(evt.target.id);
+    });
+  }
+
+  bindGameDifficulty(handler) {
+    this.el.difficulty.addEventListener('click', (evt) => {
+      const difficulty = evt.target.classList.contains('level');
+      if (!difficulty) return;
+      handler(evt.target.id);
+    });
   }
 
   // utils
@@ -198,6 +242,26 @@ export default class View {
    */
   #bindEvents(context, eventType, handler) {
     this.el[context].addEventListener(eventType, handler);
+  }
+  /**
+   *
+   * @param {string} tag - Element tag
+   * @param {string | Array} context - if Array, the last is always should stay unique
+   * @param {string} text - Content text, deafaul is ''
+   * @param {Element} parent - Parent Element
+   * @returns
+   */
+  #addElement(tag, context, text, parent) {
+    const elName = Array.isArray(context) ? context.at(-1) : context;
+    this.el[elName] = this.#createEl(
+      {
+        tag,
+        attributes: { class: context, id: context },
+        textContent: text ? text : '',
+      },
+      parent,
+    );
+    return this.el[elName];
   }
 
   /**
@@ -214,24 +278,30 @@ export default class View {
     const element = document.createElement(tag);
     for (const attribute in attributes) {
       const attrValue = attributes[attribute];
-      if (Array.isArray(attrValue)) element.classList.add(...attrValue);
-      else element.setAttribute(attribute, attrValue);
+      if (attribute === 'class' && Array.isArray(attrValue)) {
+        element.classList.add(...attrValue);
+      }
+      if (attribute === 'class' && !Array.isArray(attrValue)) {
+        element.classList.add(attrValue.split(' '));
+      }
+      if (attribute === 'id' && Array.isArray(attrValue)) {
+        element.setAttribute(attribute, attrValue.at(-1));
+      }
+      if (attribute === 'id' && !Array.isArray(attrValue)) {
+        element.setAttribute(attribute, attrValue);
+      }
+      // if (attribute === 'class') {
+      //   if (Array.isArray(attrValue)) element.classList.add(...attrValue);
+      //   else element.classList.add(attrValue.split(' '));
+      // } else if (attribute === 'id' && Array.isArray(attrValue)) {
+      //   element.setAttribute(attribute, attrValue.at(-1));
+      // } else {
+      //   element.setAttribute(attribute, attrValue);
+      // }
     }
     element.textContent = textContent;
     if (parent) parent.appendChild(element);
     return element;
-  }
-
-  #addElement(tag, context, text = '', parent) {
-    this.el[context] = this.#createEl(
-      {
-        tag,
-        attributes: { class: [context], id: context },
-        textContent: text ? text : '',
-      },
-      parent,
-    );
-    return this.el[context];
   }
 
   /**

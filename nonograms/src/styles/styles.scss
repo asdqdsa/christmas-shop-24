@@ -5,10 +5,12 @@
   --turquose: #30c5c0;
   --turquose-trans: #30c5c063;
   --turquose-dark: #56aca9;
+  --cell-color: #85bbb9;
   --transparent: transparent;
   --hover-keys: #74e4e0;
   --active: #8fe7e4;
   --yellow: #eeb559;
+  --yellowish: #f7d092;
   --yellow-dark: #c7bba738;
   --hover-btn: #e9bb70;
   --light-gray: #dddbdb;
@@ -31,6 +33,19 @@ body {
   font-family: var(--font-family);
 }
 
+button {
+  cursor: pointer;
+  background-color: var(--yellowish);
+  color: var(--dark-gray);
+  border: none;
+  border-radius: 3px;
+  min-block-size: 40px;
+}
+
+button:hover {
+  background-color: var(--light-gray);
+}
+
 .main {
   display: flex;
   align-items: center;
@@ -42,6 +57,33 @@ body {
 
 .wrapper {
   display: flex;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+// CONTROLS
+.controls {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 4px;
+  // flex-wrap: wrap;
+}
+
+.difficulty {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+}
+
+.presets {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
 }
 
 // GAME BOARD
@@ -106,7 +148,7 @@ body {
   align-items: center;
   justify-content: center;
   border: 1px solid var(--black-transparent);
-  background-color: var(--turquose);
+  background-color: var(--cell-color);
   block-size: 3.2em;
   cursor: pointer;
   inline-size: 3.2em;
