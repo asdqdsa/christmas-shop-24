@@ -26,6 +26,7 @@ const gameState = {
     history: [],
     mask: [[0]],
     hints: { row: [[]], col: [[]] },
+    winCondition: 0,
   },
 };
 
@@ -70,6 +71,7 @@ export default class Store extends EventTarget {
     const len = this.#state.user.currPreset.length;
     this.#setMask(len);
     this.#setHints();
+    this.#setWinCondition();
     const stateClone = structuredClone(this.#state);
     this.#saveState(
       stateClone,
@@ -83,8 +85,51 @@ export default class Store extends EventTarget {
     console.log('Starting game');
   }
 
-  playGame() {
-    console.log('Playing game');
+  calcScore() {
+    const mask = this.#state.user.mask;
+    const preset = this.#state.user.currPreset;
+
+    let currScore = 0;
+    for (let i = 0; i < mask.length; i += 1) {
+      for (let j = 0; j < mask[i].length; j += 1) {
+        if (mask[i][j] === 1 && preset[i][j] === 1) currScore += 1;
+        if (mask[i][j] === 1 && preset[i][j] === 0) currScore -= 1;
+      }
+    }
+    this.#updateScore(currScore);
+
+    const stateClone = structuredClone(this.#state);
+    this.#saveState(stateClone, { score: true });
+
+    console.log('calculating score on click', currScore);
+  }
+
+  checkUserWin() {
+    const isWin = this.#state.user.winCondition === this.#state.user.score;
+    if (isWin) {
+      console.log('YOU WIN!');
+      const time = this.#state.user.date;
+      const stateClone = structuredClone(this.#state);
+      this.#saveState(stateClone, { win: true }, { time });
+
+      this.resetGame();
+    }
+  }
+
+  getClue() {
+    const preset = this.#state.user.currPreset;
+
+    const stateClone = structuredClone(this.#state);
+    this.#saveState(stateClone, { end: true }, { preset });
+  }
+
+  #setWinCondition() {
+    const currPreset = this.#state.user.currPreset;
+    const winCondition = currPreset.reduce((acc, val) => {
+      const rowSumm = val.reduce((rowAcc, rowVal) => rowAcc + rowVal, 0);
+      return acc + rowSumm;
+    }, 0);
+    this.#state.user.winCondition = winCondition;
   }
 
   #setPreset(presetId) {
@@ -136,8 +181,8 @@ export default class Store extends EventTarget {
     };
   }
 
-  updateScore(value) {
-    this.#state.user.score += 1;
+  #updateScore(value) {
+    this.#state.user.score = value;
     const stateClone = structuredClone(this.#state);
     console.log('update score', stateClone.user);
     this.#saveState(stateClone, { score: true });

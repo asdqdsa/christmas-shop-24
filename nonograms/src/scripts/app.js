@@ -10,6 +10,7 @@ export default class App {
     this.onGameResetClick = this.onGameResetClick.bind(this);
     this.onGamePresetClick = this.onGamePresetClick.bind(this);
     this.onDifficultyClick = this.onDifficultyClick.bind(this);
+    this.onClueClick = this.onClueClick.bind(this);
 
     this.viewUpdateMap = {
       score: (value) => {
@@ -25,6 +26,14 @@ export default class App {
         this.view.updateHints(hints);
         this.view.renderBoardLayout(boardSize);
       },
+      end: ({ time, preset }) => {
+        this.view.renderBoardLayout(preset.length);
+        this.view.renderPresetOnBoard({ preset });
+      },
+      win: ({ time }) => {
+        this.view.renderEndScreen({ time });
+        this.view.updateScoreBoard({ time });
+      },
     };
   }
 
@@ -33,13 +42,15 @@ export default class App {
     this.view.bindGameReset(this.onGameResetClick);
     this.view.bindGameDifficulty(this.onDifficultyClick);
     this.view.bindGamePresetType(this.onGamePresetClick);
+    this.view.bindGameClue(this.onClueClick);
   }
 
   onGameBoardClick({ cellId, isLeftClick, isRightClick }) {
-    this.store.playGame();
-    if (isLeftClick) this.store.updateScore(1);
-    if (isRightClick) console.log('RightClick');
     this.store.updateBoardMask(cellId, { isLeftClick, isRightClick });
+    this.store.calcScore();
+    this.store.checkUserWin();
+    if (isLeftClick) console.log('LeftClick');
+    if (isRightClick) console.log('RightClick');
   }
 
   onDifficultyClick(difficultyId) {
@@ -54,6 +65,11 @@ export default class App {
 
   onGameResetClick(evt) {
     this.store.resetGame();
+  }
+
+  onClueClick() {
+    console.log('jfdslk');
+    this.store.getClue();
   }
 
   initStateListening() {

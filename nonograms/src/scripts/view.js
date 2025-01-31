@@ -18,6 +18,7 @@ export default class View {
     this.el.continue = null;
     this.el.random = null;
     this.el.save = null;
+    this.el.clue = null;
   }
 
   mount(diff) {
@@ -111,6 +112,17 @@ export default class View {
     }
   }
 
+  renderPresetOnBoard({ preset }) {
+    for (let i = 0; i < preset.length; i += 1) {
+      for (let j = 0; j < preset[i].length; j += 1) {
+        const id = CSS.escape(`${i}-${j}`);
+        const cell = this.#qs(`#${id}`);
+        if (+preset[i][j] === 1) cell.classList.add('cell-filled');
+        else cell.classList.add('cell-crossed');
+      }
+    }
+  }
+
   updateScore(value) {
     console.log('view updated, changing score to', value);
   }
@@ -192,6 +204,7 @@ export default class View {
     }
   }
 
+  // BINDS
   bindGameBoard(handler) {
     this.el.board.addEventListener('mousedown', (evt) => {
       const mouseBtnClick = evt.button;
@@ -231,8 +244,11 @@ export default class View {
     });
   }
 
-  // utils
+  bindGameClue(handler) {
+    this.el.clue.addEventListener('click', handler);
+  }
 
+  // UTILS
   /**
    * Bind events to registered DOM elements
    * @param {string} context - Element name/key
@@ -290,14 +306,6 @@ export default class View {
       if (attribute === 'id' && !Array.isArray(attrValue)) {
         element.setAttribute(attribute, attrValue);
       }
-      // if (attribute === 'class') {
-      //   if (Array.isArray(attrValue)) element.classList.add(...attrValue);
-      //   else element.classList.add(attrValue.split(' '));
-      // } else if (attribute === 'id' && Array.isArray(attrValue)) {
-      //   element.setAttribute(attribute, attrValue.at(-1));
-      // } else {
-      //   element.setAttribute(attribute, attrValue);
-      // }
     }
     element.textContent = textContent;
     if (parent) parent.appendChild(element);
