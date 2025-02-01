@@ -17,8 +17,8 @@ Use a better box model (opinionated).
 
 html {
   /* Improve consistency of default fonts in all browsers. (https://github.com/sindresorhus/modern-normalize/issues/3) */
-  font-family: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji";
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji';
   line-height: 1.15; /* 1. Correct the line height in all browsers. */
   scroll-behavior: smooth;
   tab-size: 4; /* 3. Use a more readable tab size (opinionated). */
@@ -91,7 +91,7 @@ code,
 kbd,
 samp,
 pre {
-  font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", Menlo,
+  font-family: ui-monospace, SFMono-Regular, Consolas, 'Liberation Mono', Menlo,
     monospace; /* 1 */
 
   font-size: 1em; /* 2 */
@@ -164,9 +164,9 @@ Correct the inability to style clickable types in iOS and Safari.
 */
 
 button,
-[type="button"],
-[type="reset"],
-[type="submit"] {
+[type='button'],
+[type='reset'],
+[type='submit'] {
   appearance: button;
 }
 
@@ -200,7 +200,7 @@ Correct the cursor style of increment and decrement buttons in Safari.
 2. Correct the outline style in Safari.
 */
 
-[type="search"] {
+[type='search'] {
   appearance: textfield; /* 1 */
   outline-offset: -2px; /* 2 */
 }
@@ -234,4 +234,14 @@ Add the correct display in Chrome and Safari.
 
 summary {
   display: list-item;
+}
+
+.visually-hidden {
+  position: absolute;
+  overflow: hidden;
+  block-size: 1px;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  inline-size: 1px;
+  white-space: nowrap;
 }

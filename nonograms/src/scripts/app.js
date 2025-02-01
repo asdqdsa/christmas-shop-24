@@ -11,10 +11,16 @@ export default class App {
     this.onGamePresetClick = this.onGamePresetClick.bind(this);
     this.onDifficultyClick = this.onDifficultyClick.bind(this);
     this.onClueClick = this.onClueClick.bind(this);
+    this.onSaveClick = this.onSaveClick.bind(this);
+    this.onContinueClick = this.onContinueClick.bind(this);
 
     this.viewUpdateMap = {
-      score: (value) => {
-        this.view.updateScore(value);
+      init: ({ difficulty, isSaveExist }) => {
+        this.view.mount({ difficulty });
+        this.view.initView({ isSaveExist });
+      },
+      score: (score) => {
+        this.view.updateScore(score);
       },
       difficulty: ({ difficulty, presets }) => {
         this.view.updateDifficulty({ difficulty, presets });
@@ -25,14 +31,19 @@ export default class App {
       start: ({ hints, boardSize }) => {
         this.view.updateHints(hints);
         this.view.renderBoardLayout(boardSize);
+        this.view.updateStartView();
       },
       end: ({ time, preset }) => {
         this.view.renderBoardLayout(preset.length);
-        this.view.renderPresetOnBoard({ preset });
+        this.view.revealGamePreset({ preset });
       },
       win: ({ time }) => {
         this.view.renderEndScreen({ time });
         this.view.updateScoreBoard({ time });
+      },
+      onContinueGame: ({ preset }) => {
+        this.view.renderBoardLayout(preset.length);
+        this.view.updateBoardLayout({ preset });
       },
     };
   }
@@ -43,9 +54,12 @@ export default class App {
     this.view.bindGameDifficulty(this.onDifficultyClick);
     this.view.bindGamePresetType(this.onGamePresetClick);
     this.view.bindGameClue(this.onClueClick);
+    this.view.bindGameSave(this.onSaveClick);
+    this.view.bindSaveLoad(this.onContinueClick);
   }
 
   onGameBoardClick({ cellId, isLeftClick, isRightClick }) {
+    console.log(cellId);
     this.store.updateBoardMask(cellId, { isLeftClick, isRightClick });
     this.store.calcScore();
     this.store.checkUserWin();
@@ -58,9 +72,9 @@ export default class App {
     this.store.setDifficulty(difficultyId);
   }
 
-  onGamePresetClick(presetId) {
-    console.log(presetId);
-    this.store.startGame({ presetId });
+  onGamePresetClick(presetLayoutId) {
+    console.log(presetLayoutId);
+    this.store.startGame({ presetLayoutId });
   }
 
   onGameResetClick(evt) {
@@ -68,8 +82,18 @@ export default class App {
   }
 
   onClueClick() {
-    console.log('jfdslk');
+    console.log('show clue');
     this.store.getClue();
+  }
+
+  onSaveClick() {
+    console.log('save game');
+    this.store.gameSaveByUser();
+  }
+
+  onContinueClick() {
+    console.log('save load');
+    this.store.gameLoadByUser();
   }
 
   initStateListening() {
@@ -89,9 +113,13 @@ export default class App {
   }
 
   init() {
-    this.view.mount(this.store.state.difficulty);
-    this.bindUIEvents();
-    this.initStateListening();
+    try {
+      this.initStateListening();
+      this.store.initStore();
+      this.bindUIEvents();
+    } catch (error) {
+      console.error(new Error(error));
+    }
   }
 }
 

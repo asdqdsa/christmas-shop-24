@@ -16,53 +16,51 @@ export default class View {
     this.el.presets = null;
     this.el.restart = null;
     this.el.continue = null;
+    this.el.matchCtrl = null;
     this.el.random = null;
     this.el.save = null;
     this.el.clue = null;
   }
 
-  mount(diff) {
-    this.#addElement('main', 'main', '', this.el.root);
-    this.#addElement('div', 'wrapper', '', this.el.main);
-    this.#addElement('div', 'content', '', this.el.wrapper);
-    this.#addElement('div', 'controls', '', this.el.content);
-    this.#addElement('button', 'cont', 'CONT.', this.el.controls);
-    this.#addElement('button', 'random', 'RANDOM', this.el.controls);
-    this.#addElement('div', 'difficulty', '', this.el.controls);
-    this.#addElement('div', 'presets', '', this.el.controls);
-    this.#addElement('div', 'game', '', this.el.content);
-    this.#addElement('div', 'hintTop', '', this.el.game);
-    this.#addElement('div', 'hintSide', '', this.el.game);
-    this.#addElement('div', 'board', '', this.el.game);
-
-    // debug
-    this.renderDifficulty(diff);
-    // this.renderBoardLayout(5);
-
-    this.#addElement('button', 'clue', 'clue', this.el.content);
-    this.#addElement('button', 'save', 'save game', this.el.content);
-    this.#addElement('button', 'restart', 'restart', this.el.content);
+  mount(params) {
+    const { difficulty } = params;
+    this.#mountElement('main', 'main', '', this.el.root);
+    this.#mountElement('div', 'wrapper', '', this.el.main);
+    this.#mountElement('div', 'content', '', this.el.wrapper);
+    this.#mountElement('div', 'controls', '', this.el.content);
+    this.#mountElement('button', 'continue', 'CONT.', this.el.controls);
+    this.#mountElement('button', 'random', 'RANDOM', this.el.controls);
+    this.#mountElement('div', 'difficulty', '', this.el.controls);
+    this.#mountElement('div', 'presets', '', this.el.controls);
+    this.#mountElement('div', 'game', '', this.el.content);
+    this.#mountElement('div', 'hintTop', '', this.el.game);
+    this.#mountElement('div', 'hintSide', '', this.el.game);
+    this.#mountElement('div', 'board', '', this.el.game);
+    this.#mountElement('div', 'matchCtrl', '', this.el.content);
+    this.#mountDifficulty(difficulty);
+    this.#mountElement('button', 'clue', 'clue', this.el.matchCtrl);
+    this.#mountElement('button', 'save', 'save game', this.el.matchCtrl);
+    this.#mountElement('button', 'restart', 'restart', this.el.matchCtrl);
   }
 
-  renderDifficulty(difficulty) {
+  initView(params) {
+    const { isSaveExist } = params;
+    console.log(isSaveExist);
+    this.el.matchCtrl.classList.add('visually-hidden');
+    this.el.continue.classList.toggle('visually-hidden', !isSaveExist);
+  }
+
+  updateStartView() {
+    this.el.matchCtrl.classList.remove('visually-hidden');
+  }
+
+  #mountDifficulty(difficulty) {
     difficulty.forEach((difficultyType) => {
-      this.#addElement(
+      this.#mountElement(
         'button',
         ['level', `${difficultyType}`],
         difficultyType.toUpperCase(),
         this.el.difficulty,
-      );
-    });
-  }
-
-  renderPresetTypes(presets) {
-    this.el.presets.replaceChildren();
-    Object.keys(presets).forEach((preset) => {
-      this.#addElement(
-        'button',
-        ['preset', `preset-${preset}`],
-        preset,
-        this.el.presets,
       );
     });
   }
@@ -110,17 +108,28 @@ export default class View {
         this.#createEl(options, currRow);
       }
     }
+    // this.el.matchCtrl.classList.remove('visually-hidden');
   }
 
-  renderPresetOnBoard({ preset }) {
+  revealGamePreset({ preset }) {
+    this.#drawBoardLayount({ preset, isOnLoading: false });
+  }
+
+  #drawBoardLayount({ preset, isOnLoading }) {
     for (let i = 0; i < preset.length; i += 1) {
       for (let j = 0; j < preset[i].length; j += 1) {
         const id = CSS.escape(`${i}-${j}`);
         const cell = this.#qs(`#${id}`);
-        if (+preset[i][j] === 1) cell.classList.add('cell-filled');
-        else cell.classList.add('cell-crossed');
+        const presetVal = +preset[i][j];
+        if (presetVal === 1) cell.classList.add('cell-filled');
+        if (isOnLoading && presetVal === -1) cell.classList.add('cell-crossed');
+        if (!isOnLoading && presetVal !== 1) cell.classList.add('cell-crossed');
       }
     }
+  }
+
+  updateBoardLayout({ preset }) {
+    this.#drawBoardLayount({ preset, isOnLoading: true });
   }
 
   updateScore(value) {
@@ -129,7 +138,19 @@ export default class View {
 
   updateDifficulty({ difficulty, presets }) {
     console.log('view updated, changing difficulty to', difficulty, presets);
-    this.renderPresetTypes(presets);
+    this.#renderPresetTypes(presets);
+  }
+
+  #renderPresetTypes(presets) {
+    this.el.presets.replaceChildren();
+    Object.keys(presets).forEach((preset) => {
+      this.#mountElement(
+        'button',
+        ['preset', `preset-${preset}`],
+        preset,
+        this.el.presets,
+      );
+    });
   }
 
   updateHints({ row, col }) {
@@ -205,6 +226,23 @@ export default class View {
   }
 
   // BINDS
+
+  bindGameDifficulty(handler) {
+    this.el.difficulty.addEventListener('click', (evt) => {
+      const difficulty = evt.target.classList.contains('level');
+      if (!difficulty) return;
+      handler(evt.target.id);
+    });
+  }
+
+  bindGamePresetType(handler) {
+    this.el.presets.addEventListener('click', (evt) => {
+      const presetType = evt.target.classList.contains('preset');
+      if (!presetType) return;
+      handler(evt.target.id);
+    });
+  }
+
   bindGameBoard(handler) {
     this.el.board.addEventListener('mousedown', (evt) => {
       const mouseBtnClick = evt.button;
@@ -224,28 +262,20 @@ export default class View {
     });
   }
 
+  bindGameClue(handler) {
+    this.el.clue.addEventListener('click', handler);
+  }
+
   bindGameReset(handler) {
     this.el.restart.addEventListener('click', handler);
   }
 
-  bindGamePresetType(handler) {
-    this.el.presets.addEventListener('click', (evt) => {
-      const presetType = evt.target.classList.contains('preset');
-      if (!presetType) return;
-      handler(evt.target.id);
-    });
+  bindGameSave(handler) {
+    this.el.save.addEventListener('click', handler);
   }
 
-  bindGameDifficulty(handler) {
-    this.el.difficulty.addEventListener('click', (evt) => {
-      const difficulty = evt.target.classList.contains('level');
-      if (!difficulty) return;
-      handler(evt.target.id);
-    });
-  }
-
-  bindGameClue(handler) {
-    this.el.clue.addEventListener('click', handler);
+  bindSaveLoad(handler) {
+    this.el.continue.addEventListener('click', handler);
   }
 
   // UTILS
@@ -265,11 +295,11 @@ export default class View {
    * @param {string | Array} context - if Array, the last is always should stay unique
    * @param {string} text - Content text, deafaul is ''
    * @param {Element} parent - Parent Element
-   * @returns
+   * @returns {Element} - Created Element
    */
-  #addElement(tag, context, text, parent) {
+  #mountElement(tag, context, text, parent) {
     const elName = Array.isArray(context) ? context.at(-1) : context;
-    this.el[elName] = this.#createEl(
+    const element = this.#createEl(
       {
         tag,
         attributes: { class: context, id: context },
@@ -277,7 +307,8 @@ export default class View {
       },
       parent,
     );
-    return this.el[elName];
+    this.el[elName] = element;
+    return element;
   }
 
   /**

@@ -8,13 +8,20 @@ const initialState = {
 const gameState = {
   difficulty: ['easy', 'normal', 'hard'],
   presets: {
-    // yang: [],
-    // dove: [],
-    dv: dv,
-    cat: cat,
-    amogus: amogus,
+    easy: {
+      amogus,
+      cat,
+      // yang: [],
+      // dove: [],
+    },
+    normal: { cat },
+    hard: { dv },
+  },
+  savedGames: {
+    // user: {},
   },
   user: {
+    id: 'user',
     score: 0,
     difficulty: 'easy',
     currPreset: [],
@@ -27,6 +34,7 @@ const gameState = {
     mask: [[0]],
     hints: { row: [[]], col: [[]] },
     winCondition: 0,
+    isSessionSaved: false,
   },
 };
 
@@ -50,7 +58,7 @@ export default class Store extends EventTarget {
    */
   setDifficulty(difficulty) {
     const currDif = difficulty.trim().toLocaleLowerCase();
-    const presets = this.#state.presets;
+    const presets = this.#state.presets[currDif];
     this.#state.user.difficulty = currDif;
     const stateClone = structuredClone(this.#state);
     this.#saveState(
@@ -63,11 +71,12 @@ export default class Store extends EventTarget {
     );
   }
 
-  startGame({ presetId }) {
+  startGame({ presetLayoutId }) {
     if (!this.#state.user.gameStarted) {
       this.#state.user.gameStarted = true;
     }
-    this.#setPreset(presetId);
+    const difficulty = this.#state.user.difficulty;
+    this.#setUserPreset({ presetLayoutId, difficulty });
     const len = this.#state.user.currPreset.length;
     this.#setMask(len);
     this.#setHints();
@@ -123,6 +132,68 @@ export default class Store extends EventTarget {
     this.#saveState(stateClone, { end: true }, { preset });
   }
 
+  updateBoardMask(idCell, { isLeftClick, isRightClick }) {
+    // row-col 0..len - 1
+    const [row, col] = idCell.split('-');
+    const mask = this.#state.user.mask;
+    const cell = mask[row][col];
+    if (isLeftClick) {
+      if (cell === 1) mask[row][col] = 0;
+      else mask[row][col] = 1;
+    }
+    if (isRightClick) {
+      if (cell === 0 || cell === 1) mask[row][col] = -1;
+      else mask[row][col] = 0;
+    }
+    this.#state.user.mask = mask;
+    const stateClone = structuredClone(this.#state);
+    console.log('update mask', idCell, stateClone.user.mask);
+    this.#saveState(
+      stateClone,
+      { cell: true },
+      { id: idCell, mouseTypeClick: { isLeftClick, isRightClick } },
+    );
+  }
+
+  initStore() {
+    const state = this.state;
+    const stateClone = structuredClone(this.state);
+    this.#saveState(
+      stateClone,
+      { init: true },
+      {
+        difficulty: this.#state.difficulty,
+        isSaveExist: this.state.user.isSessionSaved,
+      },
+    );
+  }
+
+  gameSaveByUser() {
+    const userGameProgress = this.state.user;
+    userGameProgress.isSessionSaved = true;
+    const userId = this.state.user.id;
+    this.#state.savedGames[userId] = userGameProgress;
+    this.#state.user.isSessionSaved = true;
+
+    const stateClone = structuredClone(this.#state);
+    this.#saveState(
+      stateClone,
+      { onSave: true },
+      { isSaveExist: this.#state.user.isSessionSaved },
+    );
+  }
+
+  gameLoadByUser() {
+    const userId = 'user';
+    const preset = this.state.savedGames[userId]?.mask;
+    const hints = this.state.user.hints;
+    const boardSize = preset.length;
+    this.#storeDispatcher({
+      changeInfo: { start: true, onContinueGame: true },
+      payload: { preset, hints, boardSize },
+    });
+  }
+
   #setWinCondition() {
     const currPreset = this.#state.user.currPreset;
     const winCondition = currPreset.reduce((acc, val) => {
@@ -132,9 +203,9 @@ export default class Store extends EventTarget {
     this.#state.user.winCondition = winCondition;
   }
 
-  #setPreset(presetId) {
-    const preset = presetId.split('-').at(-1);
-    this.#state.user.currPreset = this.#state.presets[preset];
+  #setUserPreset({ presetLayoutId, difficulty }) {
+    const preset = presetLayoutId.split('-').at(-1);
+    this.#state.user.currPreset = this.#state.presets[difficulty][preset];
   }
 
   #setMask(len) {
@@ -181,34 +252,11 @@ export default class Store extends EventTarget {
     };
   }
 
-  #updateScore(value) {
-    this.#state.user.score = value;
+  #updateScore(score) {
+    this.#state.user.score = score;
     const stateClone = structuredClone(this.#state);
     console.log('update score', stateClone.user);
     this.#saveState(stateClone, { score: true });
-  }
-
-  updateBoardMask(idCell, { isLeftClick, isRightClick }) {
-    // row-col 0..len - 1
-    const [row, col] = idCell.split('-');
-    const mask = this.#state.user.mask;
-    const cell = mask[row][col];
-    if (isLeftClick) {
-      if (cell === 1) mask[row][col] = 0;
-      else mask[row][col] = 1;
-    }
-    if (isRightClick) {
-      if (cell === 0 || cell === 1) mask[row][col] = -1;
-      else mask[row][col] = 0;
-    }
-    this.#state.user.mask = mask;
-    const stateClone = structuredClone(this.#state);
-    console.log('update mask', idCell, stateClone.user.mask);
-    this.#saveState(
-      stateClone,
-      { cell: true },
-      { id: idCell, mouseTypeClick: { isLeftClick, isRightClick } },
-    );
   }
 
   resetGame() {
@@ -219,22 +267,26 @@ export default class Store extends EventTarget {
     this.#saveState(stateClone, { reset: true });
   }
 
+  #storeDispatcher({ state = null, changeInfo, payload = {} }) {
+    this.dispatchEvent(
+      new CustomEvent('state:changed', {
+        detail: {
+          state,
+          changed: changeInfo,
+          payload,
+        },
+      }),
+    );
+  }
+
   /**
    *
    * @param {Object} state
    * @param {Object} changeInfo
    * @param {null | Object} payload
    */
-  #saveState(state, changeInfo, payload = null) {
+  #saveState(state, changeInfo, payload = {}) {
     window.localStorage.setItem(this.storageKey, JSON.stringify(state));
-    this.dispatchEvent(
-      new CustomEvent('state:changed', {
-        detail: {
-          state: this.#state.user,
-          changed: changeInfo,
-          payload,
-        },
-      }),
-    );
+    this.#storeDispatcher({ state, changeInfo, payload });
   }
 }

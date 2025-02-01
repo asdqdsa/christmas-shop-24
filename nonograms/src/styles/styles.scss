@@ -179,3 +179,9 @@ button:hover {
 .cell-divider {
   border-right: 3px solid var(--black);
 }
+
+.matchCtrl {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
