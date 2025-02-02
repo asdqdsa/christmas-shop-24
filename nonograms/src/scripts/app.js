@@ -113,10 +113,10 @@ export default class App {
   }
 
   init() {
+    this.initStateListening();
+    this.store.initStore();
+    this.bindUIEvents();
     try {
-      this.initStateListening();
-      this.store.initStore();
-      this.bindUIEvents();
     } catch (error) {
       console.error(new Error(error));
     }

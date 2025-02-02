@@ -1,4 +1,4 @@
-import { dv, cat, amogus } from './presets';
+import { dv, cat, amogus, normal } from './presets';
 const initialState = {
   score: 0,
   timer: 0,
@@ -14,7 +14,7 @@ const gameState = {
       // yang: [],
       // dove: [],
     },
-    normal: { cat },
+    normal: { normal },
     hard: { dv },
   },
   savedGames: {
@@ -24,7 +24,8 @@ const gameState = {
     id: 'user',
     score: 0,
     difficulty: 'easy',
-    currPreset: [],
+    preselectedPreset: 'preset-amogus',
+    currPreset: amogus,
     moves: [],
     isCompleted: false,
     gameStarted: false,
@@ -71,12 +72,41 @@ export default class Store extends EventTarget {
     );
   }
 
+  initStore() {
+    const state = this.state;
+    const stateClone = structuredClone(state);
+    this.#saveState(
+      stateClone,
+      { init: true },
+      {
+        difficulty: this.#state.difficulty,
+        isSaveExist: this.state.user.isSessionSaved,
+      },
+    );
+
+    this.#storeDispatcher({
+      state,
+      changeInfo: { difficulty: true },
+      payload: {
+        difficulty: this.#state.user.difficulty,
+        presets: this.#state.presets[this.#state.user.difficulty],
+      },
+    });
+
+    this.startGame({ resetLayoutId: null });
+  }
+
   startGame({ presetLayoutId }) {
     if (!this.#state.user.gameStarted) {
       this.#state.user.gameStarted = true;
     }
+    if (presetLayoutId == null) {
+      presetLayoutId = this.#state.user.preselectedPreset;
+    }
+
     const difficulty = this.#state.user.difficulty;
     this.#setUserPreset({ presetLayoutId, difficulty });
+    // console.log('this.#state.user.currPreset.lengt', )
     const len = this.#state.user.currPreset.length;
     this.#setMask(len);
     this.#setHints();
@@ -155,19 +185,6 @@ export default class Store extends EventTarget {
     );
   }
 
-  initStore() {
-    const state = this.state;
-    const stateClone = structuredClone(this.state);
-    this.#saveState(
-      stateClone,
-      { init: true },
-      {
-        difficulty: this.#state.difficulty,
-        isSaveExist: this.state.user.isSessionSaved,
-      },
-    );
-  }
-
   gameSaveByUser() {
     const userGameProgress = this.state.user;
     userGameProgress.isSessionSaved = true;
@@ -205,6 +222,7 @@ export default class Store extends EventTarget {
 
   #setUserPreset({ presetLayoutId, difficulty }) {
     const preset = presetLayoutId.split('-').at(-1);
+    console.log(difficulty, preset, ' HHEHE');
     this.#state.user.currPreset = this.#state.presets[difficulty][preset];
   }
 
@@ -242,8 +260,8 @@ export default class Store extends EventTarget {
         }
       }
 
-      if (rowHints[i].length === 0) rowHints[i] = null;
-      if (colHints[i].length === 0) colHints[i] = null;
+      if (rowHints[i].length === 0) rowHints[i] = [];
+      if (colHints[i].length === 0) colHints[i] = [];
     }
 
     this.#state.user.hints = {

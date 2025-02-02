@@ -114,9 +114,9 @@ button:hover {
   grid-area: hintTop;
 
   .hint {
-    inline-size: unset;
-    text-orientation: upright;
-    writing-mode: vertical-rl;
+    // inline-size: unset;
+    // text-orientation: upright;
+    // writing-mode: vertical-rl;
   }
 }
 
@@ -127,6 +127,22 @@ button:hover {
   .hint {
     min-inline-size: 100%;
   }
+}
+
+.hint-row {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: end;
+  gap: 8px;
+}
+
+.hint-col {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: end;
+  gap: 8px;
 }
 
 .board {

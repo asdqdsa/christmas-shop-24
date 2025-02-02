@@ -156,27 +156,38 @@ export default class View {
   updateHints({ row, col }) {
     this.el.hintSide.replaceChildren();
     this.el.hintTop.replaceChildren();
+
+    const drawDivider = (hintAxis, idx, arr, options) => {
+      if ((idx + 1) % 5 === 0 && idx + 1 !== arr.length) {
+        options.attributes.class = options.dividerClass;
+      }
+    };
+
+    const renderHints = (hintVal, idx, i, parent) => {
+      this.#createEl(
+        {
+          tag: 'div',
+          attributes: { id: `hint-cell-${idx}-${i}` },
+          textContent: `${hintVal}`,
+        },
+        parent,
+      );
+    };
+
     row.forEach((rowHint, idx, arr) => {
       let options = {
         tag: 'div',
         attributes: {
           class: ['hint', 'hint-row'],
-          id: `hint-${idx}`,
-          ['data-id']: `hint-${idx}`,
+          id: `hint-row-${idx}`,
         },
-        textContent: `${rowHint}`,
+        dividerClass: ['hint', 'hint-row', `row-divider`],
       };
-
-      if ((idx + 1) % 5 === 0 && idx + 1 !== arr.length) {
-        options = {
-          ...options,
-          attributes: {
-            ...options.attributes,
-            class: ['hint', 'hint-row', `row-divider`],
-          },
-        };
-      }
-      this.#createEl(options, this.el.hintSide);
+      drawDivider(rowHint, idx, arr, options);
+      const hintsList = this.#createEl(options, this.el.hintSide);
+      rowHint.forEach((hintVal, i) => {
+        renderHints(hintVal, idx, i, hintsList);
+      });
     });
 
     col.forEach((colHint, idx, arr) => {
@@ -184,21 +195,16 @@ export default class View {
         tag: 'div',
         attributes: {
           class: ['hint', 'hint-col'],
-          id: `hint-${idx}`,
-          ['data-id']: `hint-${idx}`,
+          id: `hint-col-${idx}`,
         },
-        textContent: `${colHint}`,
+        dividerClass: ['hint', 'hint-col', `cell-divider`],
       };
-      if ((idx + 1) % 5 === 0 && idx + 1 !== arr.length) {
-        options = {
-          ...options,
-          attributes: {
-            ...options.attributes,
-            class: ['hint', 'hint-col', `cell-divider`],
-          },
-        };
-      }
-      this.#createEl(options, this.el.hintTop);
+      drawDivider(colHint, idx, arr, options);
+      const hintsList = this.#createEl(options, this.el.hintTop);
+      console.log(colHint);
+      colHint.forEach((hintVal, i) => {
+        renderHints(hintVal, idx, i, hintsList);
+      });
     });
   }
 
