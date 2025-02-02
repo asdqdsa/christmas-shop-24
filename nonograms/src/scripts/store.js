@@ -260,8 +260,8 @@ export default class Store extends EventTarget {
         }
       }
 
-      if (rowHints[i].length === 0) rowHints[i] = [];
-      if (colHints[i].length === 0) colHints[i] = [];
+      if (rowHints[i].length === 0) rowHints[i] = [0];
+      if (colHints[i].length === 0) colHints[i] = [0];
     }
 
     this.#state.user.hints = {

@@ -18,7 +18,7 @@ export default defineConfig({
         view: path.resolve(__dirname, 'src/scripts/view.js'),
         store: path.resolve(__dirname, 'src/scripts/store.js'),
         presets: path.resolve(__dirname, 'src/scripts/presets.js'),
-        styles: path.resolve(__dirname, 'src/styles/styles.scss'),
+        // styles: path.resolve(__dirname, 'src/styles/styles.scss'),
       },
       output: {
         entryFileNames: 'assets/[name].js', // Preserve file names

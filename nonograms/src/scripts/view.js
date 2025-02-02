@@ -36,6 +36,7 @@ export default class View {
     this.#mountElement('div', 'hintTop', '', this.el.game);
     this.#mountElement('div', 'hintSide', '', this.el.game);
     this.#mountElement('div', 'board', '', this.el.game);
+    this.#mountElement('div', 'timer', '00:00', this.el.game);
     this.#mountElement('div', 'matchCtrl', '', this.el.content);
     this.#mountDifficulty(difficulty);
     this.#mountElement('button', 'clue', 'clue', this.el.matchCtrl);
@@ -167,7 +168,7 @@ export default class View {
       this.#createEl(
         {
           tag: 'div',
-          attributes: { id: `hint-cell-${idx}-${i}` },
+          attributes: { id: `hint-cell-${idx}-${i}`, class: `hint-cell` },
           textContent: `${hintVal}`,
         },
         parent,
@@ -181,7 +182,7 @@ export default class View {
           class: ['hint', 'hint-row'],
           id: `hint-row-${idx}`,
         },
-        dividerClass: ['hint', 'hint-row', `row-divider`],
+        dividerClass: ['hint', 'hint-row', `row-divider`, 'hint-divider'],
       };
       drawDivider(rowHint, idx, arr, options);
       const hintsList = this.#createEl(options, this.el.hintSide);
