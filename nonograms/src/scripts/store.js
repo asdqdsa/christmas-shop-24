@@ -1,4 +1,14 @@
-import { dv, cat, amogus, normal } from './presets';
+import {
+  cross,
+  cat,
+  amogus,
+  heart,
+  yinyang,
+  smily,
+  six,
+  tetris,
+  labExperiment,
+} from './presets';
 const initialState = {
   score: 0,
   timer: 0,
@@ -11,11 +21,12 @@ const gameState = {
     easy: {
       amogus,
       cat,
-      // yang: [],
-      // dove: [],
+      smily,
+      six,
+      tetris,
     },
-    normal: { normal },
-    hard: { dv },
+    normal: { heart, labExperiment },
+    hard: { cross, yinyang },
   },
   savedGames: {
     // user: {},
@@ -25,13 +36,15 @@ const gameState = {
     score: 0,
     difficulty: 'easy',
     preselectedPreset: 'preset-amogus',
+    currPressetName: '',
     currPreset: amogus,
-    moves: [],
     isCompleted: false,
+    history: [],
     gameStarted: false,
     gameEnded: null,
     date: null,
-    history: [],
+    seconds: 0,
+    timer: '00:00',
     mask: [[0]],
     hints: { row: [[]], col: [[]] },
     winCondition: 0,
@@ -73,6 +86,7 @@ export default class Store extends EventTarget {
   }
 
   initStore() {
+    this.#state.user.gameStarted = !this.#state.user.gameStarted;
     const state = this.state;
     const stateClone = structuredClone(state);
     this.#saveState(
@@ -93,24 +107,24 @@ export default class Store extends EventTarget {
       },
     });
 
-    this.startGame({ resetLayoutId: null });
+    this.startGame({ presetLayoutId: null });
   }
 
   startGame({ presetLayoutId }) {
-    if (!this.#state.user.gameStarted) {
-      this.#state.user.gameStarted = true;
-    }
     if (presetLayoutId == null) {
       presetLayoutId = this.#state.user.preselectedPreset;
     }
 
+    console.log(presetLayoutId, 'FJSDLOIKDFJoliDSJLI:F');
     const difficulty = this.#state.user.difficulty;
+    console.log(presetLayoutId, difficulty, 'CURRPRESSETG');
     this.#setUserPreset({ presetLayoutId, difficulty });
-    // console.log('this.#state.user.currPreset.lengt', )
+    console.log(this.#state.user);
     const len = this.#state.user.currPreset.length;
     this.#setMask(len);
     this.#setHints();
     this.#setWinCondition();
+    this.#resetTimer();
     const stateClone = structuredClone(this.#state);
     this.#saveState(
       stateClone,
@@ -122,6 +136,13 @@ export default class Store extends EventTarget {
     );
 
     console.log('Starting game');
+  }
+
+  #resetTimer() {
+    this.#clearTimer(this.#state.user.timerId);
+    // clearInterval(this.#state.user.timerId);
+    // this.#state.user.gameStarted = !this.#state.user.gameStarted;
+    this.#state.user.gameStarted = false;
   }
 
   calcScore() {
@@ -147,9 +168,15 @@ export default class Store extends EventTarget {
     const isWin = this.#state.user.winCondition === this.#state.user.score;
     if (isWin) {
       console.log('YOU WIN!');
-      const time = this.#state.user.date;
+      const formatedTime = this.#state.user.timer;
+      const timeInSeconds = this.#state.user.seconds;
+      this.#state.user.gameStarted = false;
+      this.#state.user.isCompleted = true;
+      this.#state.user.history.push(timeInSeconds);
+      this.#state.user.history.sort((a, b) => a - b);
+      console.log(this.#state.user.history);
       const stateClone = structuredClone(this.#state);
-      this.#saveState(stateClone, { win: true }, { time });
+      this.#saveState(stateClone, { win: true }, { formatedTime });
 
       this.resetGame();
     }
@@ -157,7 +184,7 @@ export default class Store extends EventTarget {
 
   getClue() {
     const preset = this.#state.user.currPreset;
-
+    clearInterval(this.#state.user.timerId);
     const stateClone = structuredClone(this.#state);
     this.#saveState(stateClone, { end: true }, { preset });
   }
@@ -183,6 +210,46 @@ export default class Store extends EventTarget {
       { cell: true },
       { id: idCell, mouseTypeClick: { isLeftClick, isRightClick } },
     );
+  }
+
+  setPreset() {
+    // this.#state.user.gameStarted = !this.#state.user.gameStarted;
+    // this.#clearTimer(this.#state.user.timerId);
+  }
+  setTimer() {
+    console.log(!this.#state.user.gameStarted, !this.#state.user.isCompleted);
+    if (!this.#state.user.gameStarted && !this.#state.user.isCompleted) {
+      this.#state.user.gameStarted = true;
+      let seconds = 0;
+      this.#state.user.timerId = setInterval(() => {
+        const formatedTime = this.#formatTimer(++seconds);
+        // console.log(seconds, formatedTime);
+        this.#state.user.seconds = seconds;
+        this.#state.user.timer = formatedTime;
+        const stateClone = structuredClone(this.#state);
+        this.#storeDispatcher({
+          changeInfo: { onTimerTick: true },
+          payload: { formatedTime },
+        });
+      }, 1000);
+    }
+    console.log(this.#state.user.timerId);
+    if (this.#state.user.isCompleted) {
+      clearInterval(this.#state.user.timerId);
+      console.log(
+        this.#state.user.gameStarted,
+        this.#state.user.isCompleted,
+        'settiemr',
+      );
+      // this.#state.user.gameStarted = !this.#state.user.gameStarted;
+      this.#state.user.isCompleted = !this.#state.user.isCompleted;
+    }
+  }
+
+  #formatTimer(seconds) {
+    const min = String(Math.floor(seconds / 60)).padStart(2, '0');
+    const sec = String(seconds % 60).padStart(2, '0');
+    return `${min}:${sec}`;
   }
 
   gameSaveByUser() {
@@ -222,7 +289,7 @@ export default class Store extends EventTarget {
 
   #setUserPreset({ presetLayoutId, difficulty }) {
     const preset = presetLayoutId.split('-').at(-1);
-    console.log(difficulty, preset, ' HHEHE');
+    this.#state.user.currPressetName = presetLayoutId;
     this.#state.user.currPreset = this.#state.presets[difficulty][preset];
   }
 
@@ -282,7 +349,38 @@ export default class Store extends EventTarget {
     console.log(stateClone.user);
     this.#state.user.isCompleted = true;
     this.#state.user.score = 0;
-    this.#saveState(stateClone, { reset: true });
+    this.#state.user.gameStarted = !this.#state.user.gameStarted;
+    this.#saveState(
+      stateClone,
+      { reset: true },
+      { time: this.#state.user.timer },
+    );
+  }
+
+  #clearTimer(timerId) {
+    clearInterval(timerId);
+    this.#storeDispatcher({
+      changeInfo: { onTimerClear: true },
+    });
+  }
+
+  restartGame() {
+    // console.log('presetLayoutId', presetLayoutId);
+    this.#state.user.score = 0;
+    // this.#state.user.gameStarted = !this.#state.user.gameStarted;
+    this.#clearTimer(this.#state.user.timerId);
+    // this.startGame({ presetLayoutId: this.#state.user.currPressetName });
+    this.startGame({ presetLayoutId: this.#state.user.currPressetName });
+    const stateClone = structuredClone(this.#state);
+    this.#saveState(
+      stateClone,
+      { onRestart: true, start: true },
+      {
+        time: this.#state.user.timer,
+        hints: this.#state.user.hints,
+        boardSize: this.#state.user.currPreset.length,
+      },
+    );
   }
 
   #storeDispatcher({ state = null, changeInfo, payload = {} }) {

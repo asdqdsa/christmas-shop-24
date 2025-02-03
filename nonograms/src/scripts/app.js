@@ -37,13 +37,25 @@ export default class App {
         this.view.renderBoardLayout(preset.length);
         this.view.revealGamePreset({ preset });
       },
-      win: ({ time }) => {
-        this.view.renderEndScreen({ time });
-        this.view.updateScoreBoard({ time });
+      win: ({ formatedTime, isCompleted }) => {
+        this.view.updateTimer({ formatedTime, isCompleted });
+        this.view.showNotification();
+        // this.view.renderEndScreen({ time });
+        // this.view.updateScoreBoard({ time });
       },
       onContinueGame: ({ preset }) => {
         this.view.renderBoardLayout(preset.length);
         this.view.updateBoardLayout({ preset });
+      },
+      onTimerTick: ({ formatedTime }) => {
+        this.view.updateTimer({ formatedTime });
+      },
+      onTimerClear: () => {
+        this.view.clearTimer();
+      },
+
+      onRestart: () => {
+        this.view.updateStartView();
       },
     };
   }
@@ -63,6 +75,7 @@ export default class App {
     this.store.updateBoardMask(cellId, { isLeftClick, isRightClick });
     this.store.calcScore();
     this.store.checkUserWin();
+    this.store.setTimer();
     if (isLeftClick) console.log('LeftClick');
     if (isRightClick) console.log('RightClick');
   }
@@ -74,11 +87,15 @@ export default class App {
 
   onGamePresetClick(presetLayoutId) {
     console.log(presetLayoutId);
+    this.store.setPreset();
     this.store.startGame({ presetLayoutId });
+    this.store.restartGame(presetLayoutId);
+    // this.store.setTimer();
   }
 
-  onGameResetClick(evt) {
-    this.store.resetGame();
+  onGameResetClick() {
+    // this.store.resetGame();
+    this.store.restartGame();
   }
 
   onClueClick() {
@@ -88,6 +105,7 @@ export default class App {
 
   onSaveClick() {
     console.log('save game');
+    console.log('not implemented yet');
     this.store.gameSaveByUser();
   }
 
@@ -102,7 +120,7 @@ export default class App {
       Object.keys(changed).forEach((key) => {
         if (changed[key] && this.viewUpdateMap[key]) {
           if (payload) {
-            console.log(payload);
+            // console.log(payload);
             this.viewUpdateMap[key](payload);
           } else {
             this.viewUpdateMap[key](state[key]);

@@ -6,6 +6,7 @@ export default class View {
     this.el.main = null;
     this.el.wrapper = null;
     this.el.content = null;
+    this.el.display = null;
     this.el.board = null;
     this.el.game = null;
     this.el.hintTop = null;
@@ -20,15 +21,18 @@ export default class View {
     this.el.random = null;
     this.el.save = null;
     this.el.clue = null;
+    this.el.timer = null;
   }
 
   mount(params) {
     const { difficulty } = params;
     this.#mountElement('main', 'main', '', this.el.root);
     this.#mountElement('div', 'wrapper', '', this.el.main);
+
+    this.#mountElement('p', 'display', '', this.el.wrapper);
     this.#mountElement('div', 'content', '', this.el.wrapper);
     this.#mountElement('div', 'controls', '', this.el.content);
-    this.#mountElement('button', 'continue', 'CONT.', this.el.controls);
+    this.#mountElement('button', 'continue', 'CONTINUE', this.el.controls);
     this.#mountElement('button', 'random', 'RANDOM', this.el.controls);
     this.#mountElement('div', 'difficulty', '', this.el.controls);
     this.#mountElement('div', 'presets', '', this.el.controls);
@@ -39,9 +43,9 @@ export default class View {
     this.#mountElement('div', 'timer', '00:00', this.el.game);
     this.#mountElement('div', 'matchCtrl', '', this.el.content);
     this.#mountDifficulty(difficulty);
-    this.#mountElement('button', 'clue', 'clue', this.el.matchCtrl);
-    this.#mountElement('button', 'save', 'save game', this.el.matchCtrl);
-    this.#mountElement('button', 'restart', 'restart', this.el.matchCtrl);
+    this.#mountElement('button', 'clue', 'solution', this.el.matchCtrl);
+    this.#mountElement('button', 'save', 'save', this.el.matchCtrl);
+    this.#mountElement('button', 'restart', 'reset', this.el.matchCtrl);
   }
 
   initView(params) {
@@ -53,6 +57,7 @@ export default class View {
 
   updateStartView() {
     this.el.matchCtrl.classList.remove('visually-hidden');
+    this.clearDisplay();
   }
 
   #mountDifficulty(difficulty) {
@@ -230,6 +235,26 @@ export default class View {
     } else {
       targetCell.classList.add('cell-effect');
     }
+  }
+
+  updateTimer({ formatedTime, isCompleted }) {
+    // console.log(formatedTime, isCompleted);
+    // if (isCompleted) this.el.timer.textContent = formatedTime;
+    this.el.timer.textContent = formatedTime;
+  }
+
+  clearTimer() {
+    this.el.timer.textContent = '00:00';
+  }
+
+  showNotification() {
+    const notificationText =
+      'Great! You have solved the nonogram! Press "RANDOM" to play random game, or simply choose any game from the list';
+    this.el.display.textContent = `${notificationText}`;
+  }
+
+  clearDisplay() {
+    this.el.display.textContent = `${''}`;
   }
 
   // BINDS
