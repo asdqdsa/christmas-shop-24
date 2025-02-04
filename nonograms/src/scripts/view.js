@@ -28,13 +28,10 @@ export default class View {
     const { difficulty } = params;
     this.#mountElement('main', 'main', '', this.el.root);
     this.#mountElement('div', 'wrapper', '', this.el.main);
-
     this.#mountElement('button', 'theme', 'Switch theme', this.el.wrapper);
     this.#mountElement('button', 'sound', 'Volume is ON', this.el.wrapper);
-
     this.#mountElement('p', 'display', '', this.el.wrapper);
     this.#mountElement('div', 'content', '', this.el.wrapper);
-
     this.#mountElement('div', 'controls', '', this.el.content);
     this.#mountElement('button', 'continue', 'LOAD', this.el.controls);
     this.#mountElement('button', 'random', 'RANDOM', this.el.controls);
@@ -53,8 +50,8 @@ export default class View {
   }
 
   initView(params) {
-    const { isSaveExist } = params;
-    console.log(isSaveExist);
+    const { isSaveExist, presetName } = params;
+    console.log(isSaveExist, presetName);
     this.el.matchCtrl.classList.add('visually-hidden');
     this.el.continue.classList.toggle('visually-hidden', !isSaveExist);
     this.el.continue.classList.add('visually-hidden');
@@ -65,6 +62,16 @@ export default class View {
     this.clearDisplay();
     if (isSaveExist)
       this.el.continue.classList.toggle('visually-hidden', !isSaveExist);
+  }
+
+  udpatePreset(presetLayoutId) {
+    const presets = this.#qsAll(`.preset`);
+    Array.from(presets).forEach((el) => {
+      el.classList.remove('presets-higlight');
+    });
+    const currentPreset = this.#qs(`.${presetLayoutId}`, this.el.presets);
+    console.log(currentPreset);
+    currentPreset.classList.add('presets-higlight');
   }
 
   #mountDifficulty(difficulty) {
@@ -157,12 +164,22 @@ export default class View {
   #renderPresetTypes(presets) {
     this.el.presets.replaceChildren();
     Object.keys(presets).forEach((preset) => {
-      this.#mountElement(
-        'button',
-        ['preset', `preset-${preset}`],
-        preset,
-        this.el.presets,
-      );
+      let style = [];
+      if (preset === 'amogus') {
+        this.#mountElement(
+          'button',
+          ['presets-higlight', 'preset', `preset-${preset}`],
+          preset,
+          this.el.presets,
+        );
+      } else {
+        this.#mountElement(
+          'button',
+          ['preset', `preset-${preset}`],
+          preset,
+          this.el.presets,
+        );
+      }
     });
   }
 

@@ -44,7 +44,7 @@ const gameState = {
     score: 0,
     difficulty: 'easy',
     preselectedPreset: 'preset-amogus',
-    currPressetName: '',
+    currPressetName: 'preset-amogus',
     currPreset: amogus,
     isCompleted: false,
     history: [],
@@ -107,6 +107,7 @@ export default class Store extends EventTarget {
       {
         difficulty: this.#state.difficulty,
         isSaveExist: this.state.user.isSessionSaved,
+        presetName: this.#state.user.currPressetName,
       },
     );
 
@@ -144,6 +145,7 @@ export default class Store extends EventTarget {
       {
         hints: this.#state.user.hints,
         boardSize: len,
+        presetLayoutId,
       },
     );
 
@@ -213,7 +215,12 @@ export default class Store extends EventTarget {
     });
   }
 
-  setPreset() {}
+  setPreset(presetLayoutId) {
+    this.#storeDispatcher({
+      changeInfo: { preset: true },
+      payload: { presetLayoutId },
+    });
+  }
 
   toggleTheme() {
     if (this.#state.theme === 'dark') this.#state.theme = 'light';

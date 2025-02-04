@@ -21,9 +21,9 @@ export default class App {
     this.onSwitchThemeClick = this.onSwitchThemeClick.bind(this);
 
     this.viewUpdateMap = {
-      init: ({ difficulty, isSaveExist }) => {
+      init: ({ difficulty, isSaveExist, presetName }) => {
         this.view.mount({ difficulty });
-        this.view.initView({ isSaveExist });
+        this.view.initView({ isSaveExist, presetName });
       },
       score: (score) => {
         this.view.updateScore(score);
@@ -31,10 +31,13 @@ export default class App {
       difficulty: ({ difficulty, presets }) => {
         this.view.updateDifficulty({ difficulty, presets });
       },
+      preset: ({ presetLayoutId }) => {
+        this.view.udpatePreset(presetLayoutId);
+      },
       cell: ({ id, mouseTypeClick }) => {
         this.view.updateCell(id, mouseTypeClick);
       },
-      start: ({ hints, boardSize }) => {
+      start: ({ hints, boardSize, presetLayoutId }) => {
         this.view.updateHints(hints);
         this.view.renderBoardLayout(boardSize);
         this.view.updateStartView();
@@ -129,7 +132,7 @@ export default class App {
 
   onGamePresetClick(presetLayoutId) {
     console.log(presetLayoutId);
-    this.store.setPreset();
+    this.store.setPreset(presetLayoutId);
     this.store.startGame({ presetLayoutId });
     this.store.restartGame(presetLayoutId);
     // this.store.setTimer();

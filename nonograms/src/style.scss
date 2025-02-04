@@ -45,6 +45,10 @@ body.light button {
   color: var(--color);
 }
 
+body.light .presets-higlight {
+  color: var(--red);
+}
+
 body.light button:hover {
   background-color: var(--innactive);
 }
@@ -166,6 +170,10 @@ button:hover {
   display: flex;
   justify-content: center;
   gap: 4px;
+}
+
+.presets-higlight {
+  color: var(--red);
 }
 
 // GAME BOARD
