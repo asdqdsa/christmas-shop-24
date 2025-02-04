@@ -2,15 +2,17 @@
 
 :root {
   --dark-gray: #2e4b5a;
+  --darker-gray: #1e272e;
   --gray: #2f4452;
   --innactive: #677883;
+  --innactive-lighter: #8ea2ad;
   --turquose: #30c5c0;
   --turquose-trans: #30c5c063;
   --turquose-dark: #56aca9;
-  --cell-color-type: #85bbb9;
-  --cell-color: #74bdba;
+  --cell-color: #455a64;
+  --cell-color-filled: #677883;
   --transparent: transparent;
-  --hover-keys: #74e4e0;
+  --hover-keys: #97e4e1;
   --active: #8fe7e4;
   --yellow: #eeb559;
   --yellowish: #f7d092;
@@ -19,6 +21,8 @@
   --hover-btn: #e9bb70;
   --light-gray: #dddbdb;
   --red: #dd5e73;
+  --red-dark: #dd5e73;
+  --font-highlight: #ad6b77;
   --green: #9fcf68;
   --light-green: #96cc7d;
   --border-board: #213636;
@@ -30,7 +34,7 @@
 
 /* Dark Theme */
 body.dark {
-  background-color: var(--dark-gray);
+  background-color: var(--darker-gray);
   color: var(--color);
 }
 
@@ -98,6 +102,8 @@ button {
   cursor: pointer;
   inline-size: 100%;
   min-block-size: 40px;
+
+  // text-transform: uppercase;
 }
 
 button:hover {
@@ -114,6 +120,7 @@ button:hover {
 }
 
 .wrapper {
+  position: relative;
   display: flex;
   max-width: 800px;
   flex-direction: column;
@@ -136,8 +143,10 @@ button:hover {
   display: flex;
   flex: 1 1 auto;
   flex-wrap: wrap;
+  align-items: center;
   justify-content: center;
-  block-size: 100px;
+  block-size: 3em;
+  color: var(--active);
   max-inline-size: 300px;
   min-inline-size: 200px;
   overflow-wrap: break-word;
@@ -146,6 +155,25 @@ button:hover {
 
   // text-wrap: wrap;
   // word-break: break-all;
+}
+
+.settings {
+  position: fixed;
+  top: 1%;
+  right: 1%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+
+  // inline-size: 150px;
+}
+
+.theme,
+.sound {
+  font-size: 12px;
+  min-block-size: 30px;
+  min-inline-size: 92px;
 }
 
 // CONTROLS
@@ -169,11 +197,14 @@ button:hover {
 .presets {
   display: flex;
   justify-content: center;
+  font-size: 1.3em;
   gap: 4px;
 }
 
 .presets-higlight {
-  color: var(--red);
+  color: var(--font-highlight);
+
+  // background-color: var(--hover-btn);
 }
 
 // GAME BOARD
@@ -187,13 +218,34 @@ button:hover {
 }
 
 .timer {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-right: 4px;
+  padding-right: 7px;
   border-right: 3px solid var(--border-board);
   border-bottom: 3px solid var(--border-board);
   grid-area: timer;
+  inline-size: 50px;
+}
+
+.timer-span {
+  position: relative;
+  top: 1px;
+  right: 5px;
+
+  // background-color: var(--border-board);
+  // border-radius: 10px;
+}
+
+.random {
+  position: absolute;
+  overflow: hidden;
+  block-size: 1px;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  inline-size: 1px;
+  white-space: nowrap;
 }
 
 .hint {
@@ -283,7 +335,7 @@ button:hover {
   align-items: center;
   justify-content: center;
   border: 1px solid var(--black-transparent);
-  background-color: var(--cell-color);
+  background-color: var(--innactive);
   block-size: 3.2em;
   cursor: pointer;
   inline-size: 3.2em;
@@ -294,24 +346,27 @@ button:hover {
 }
 
 .cell-effect:hover {
-  background-color: var(--hover-keys);
+  background-color: var(--innactive-lighter);
 }
 
 .cell-filled {
   border-radius: 6px;
-  background-color: var(--dark-gray);
+  background-color: var(--darker-gray);
+
+  // background-color: var(--light-gray);
 }
 
 .cell-crossed {
   border-radius: 6px;
-  background-color: var(--hover-btn);
+
+  // background-color: var(--hover-btn);
 }
 
 .cell-crossed::before {
   position: absolute;
   top: 50%;
   left: 50%;
-  color: var(--dark-gray);
+  color: var(--hover-keys);
   content: 'X';
   font-size: 1.5em;
   font-weight: bold;
@@ -328,9 +383,17 @@ button:hover {
 
 .matchCtrl {
   display: flex;
-  flex-direction: column;
+  font-size: 1.3em;
+
+  // flex-direction: column;
   gap: 4px;
   inline-size: 100%;
+}
+
+.hint,
+.cell {
+  block-size: 2.2em;
+  inline-size: 2.2em;
 }
 
 @media (width < 1050px) {
@@ -348,100 +411,3 @@ button:hover {
     inline-size: 1.4em;
   }
 }
-
-// :root {
-//   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-//   line-height: 1.5;
-//   font-weight: 400;
-
-//   color-scheme: light dark;
-//   color: rgba(255, 255, 255, 0.87);
-//   background-color: #242424;
-
-//   font-synthesis: none;
-//   text-rendering: optimizeLegibility;
-//   -webkit-font-smoothing: antialiased;
-//   -moz-osx-font-smoothing: grayscale;
-// }
-
-// a {
-//   font-weight: 500;
-//   color: #646cff;
-//   text-decoration: inherit;
-// }
-// a:hover {
-//   color: #535bf2;
-// }
-
-// body {
-//   margin: 0;
-//   display: flex;
-//   place-items: center;
-//   min-width: 320px;
-//   min-height: 100vh;
-// }
-
-// h1 {
-//   font-size: 3.2em;
-//   line-height: 1.1;
-// }
-
-// #app {
-//   max-width: 1280px;
-//   margin: 0 auto;
-//   padding: 2rem;
-//   text-align: center;
-// }
-
-// .logo {
-//   height: 6em;
-//   padding: 1.5em;
-//   will-change: filter;
-//   transition: filter 300ms;
-// }
-// .logo:hover {
-//   filter: drop-shadow(0 0 2em #646cffaa);
-// }
-// .logo.vanilla:hover {
-//   filter: drop-shadow(0 0 2em #f7df1eaa);
-// }
-
-// .card {
-//   padding: 2em;
-// }
-
-// .read-the-docs {
-//   color: #888;
-// }
-
-// button {
-//   border-radius: 8px;
-//   border: 1px solid transparent;
-//   padding: 0.6em 1.2em;
-//   font-size: 1em;
-//   font-weight: 500;
-//   font-family: inherit;
-//   background-color: #1a1a1a;
-//   cursor: pointer;
-//   transition: border-color 0.25s;
-// }
-// button:hover {
-//   border-color: #646cff;
-// }
-// button:focus,
-// button:focus-visible {
-//   outline: 4px auto -webkit-focus-ring-color;
-// }
-
-// @media (prefers-color-scheme: light) {
-//   :root {
-//     color: #213547;
-//     background-color: #ffffff;
-//   }
-//   a:hover {
-//     color: #747bff;
-//   }
-//   button {
-//     background-color: #f9f9f9;
-//   }
-// }

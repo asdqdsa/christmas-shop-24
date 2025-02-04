@@ -22,14 +22,16 @@ export default class View {
     this.el.save = null;
     this.el.clue = null;
     this.el.timer = null;
+    this.el.settings = null;
   }
 
   mount(params) {
     const { difficulty } = params;
     this.#mountElement('main', 'main', '', this.el.root);
     this.#mountElement('div', 'wrapper', '', this.el.main);
-    this.#mountElement('button', 'theme', 'Switch theme', this.el.wrapper);
-    this.#mountElement('button', 'sound', 'Volume is ON', this.el.wrapper);
+    this.#mountElement('div', 'settings', '', this.el.wrapper);
+    this.#mountElement('button', 'theme', 'Switch theme', this.el.settings);
+    this.#mountElement('button', 'sound', 'Volume is ON', this.el.settings);
     this.#mountElement('p', 'display', '', this.el.wrapper);
     this.#mountElement('div', 'content', '', this.el.wrapper);
     this.#mountElement('div', 'controls', '', this.el.content);

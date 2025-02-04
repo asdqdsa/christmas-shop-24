@@ -94,6 +94,7 @@ export default class Store extends EventTarget {
   }
 
   initStore() {
+    this.toggleTheme();
     this.#state.user.gameStarted = !this.#state.user.gameStarted;
     const state = this.state;
     if (this.state.user.isSessionSaved) {
