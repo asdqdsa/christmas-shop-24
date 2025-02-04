@@ -162,10 +162,10 @@ export default class View {
   }
 
   #renderPresetTypes(presets) {
+    const isPresetsExist = document.querySelector('.preset');
     this.el.presets.replaceChildren();
     Object.keys(presets).forEach((preset) => {
-      let style = [];
-      if (preset === 'amogus') {
+      if (preset === 'amogus' && isPresetsExist == null) {
         this.#mountElement(
           'button',
           ['presets-higlight', 'preset', `preset-${preset}`],
