@@ -8,6 +8,12 @@ import {
   six,
   tetris,
   labExperiment,
+  thething,
+  dino,
+  hourglass,
+  clippy,
+  floppy,
+  cup,
 } from './presets';
 const initialState = {
   score: 0,
@@ -17,6 +23,7 @@ const initialState = {
 
 const gameState = {
   difficulty: ['easy', 'normal', 'hard'],
+  volume: true,
   presets: {
     easy: {
       amogus,
@@ -25,8 +32,8 @@ const gameState = {
       six,
       tetris,
     },
-    normal: { heart, labExperiment },
-    hard: { cross, yinyang },
+    normal: { heart, labExperiment, clippy, floppy, cup },
+    hard: { cross, yinyang, thething, dino, hourglass },
   },
   savedGames: {
     // user: {},
@@ -88,7 +95,11 @@ export default class Store extends EventTarget {
   initStore() {
     this.#state.user.gameStarted = !this.#state.user.gameStarted;
     const state = this.state;
+    if (this.state.user.isSessionSaved) {
+      this.#state.isSessionSaved = this.state.user.isSessionSaved;
+    }
     const stateClone = structuredClone(state);
+    console.log(state, this.state.user.isSessionSaved, 'INIT STORE');
     this.#saveState(
       stateClone,
       { init: true },
@@ -176,7 +187,11 @@ export default class Store extends EventTarget {
       this.#state.user.history.sort((a, b) => a - b);
       console.log(this.#state.user.history);
       const stateClone = structuredClone(this.#state);
-      this.#saveState(stateClone, { win: true }, { formatedTime });
+      this.#saveState(
+        stateClone,
+        { win: true },
+        { formatedTime, isSoundOn: this.#state.volume },
+      );
 
       this.resetGame();
     }
@@ -189,18 +204,53 @@ export default class Store extends EventTarget {
     this.#saveState(stateClone, { end: true }, { preset });
   }
 
+  setVolume() {
+    this.#state.volume = !this.#state.volume;
+    this.#storeDispatcher({
+      changeInfo: { onVolume: true },
+      payload: { isVolumeOn: this.#state.volume },
+    });
+  }
+
   updateBoardMask(idCell, { isLeftClick, isRightClick }) {
     // row-col 0..len - 1
     const [row, col] = idCell.split('-');
     const mask = this.#state.user.mask;
     const cell = mask[row][col];
+    let onSoundOff = false;
+    let onSoundLeft = false;
+    let onSoundRight = false;
+    if (this.#state.volume) {
+      onSoundOff = true;
+      onSoundLeft = true;
+      onSoundRight = true;
+    }
     if (isLeftClick) {
-      if (cell === 1) mask[row][col] = 0;
-      else mask[row][col] = 1;
+      if (cell === 1) {
+        mask[row][col] = 0;
+        this.#storeDispatcher({
+          changeInfo: { onSoundOff: onSoundOff },
+        });
+      } else {
+        mask[row][col] = 1;
+        this.#storeDispatcher({
+          changeInfo: { onSoundOnLeft: onSoundLeft },
+        });
+      }
     }
     if (isRightClick) {
-      if (cell === 0 || cell === 1) mask[row][col] = -1;
-      else mask[row][col] = 0;
+      if (cell === 0 || cell === 1) {
+        mask[row][col] = -1;
+        this.#storeDispatcher({
+          changeInfo: { onSoundOnRight: onSoundRight },
+        });
+      } else {
+        mask[row][col] = 0;
+
+        this.#storeDispatcher({
+          changeInfo: { onSoundOff: onSoundOff },
+        });
+      }
     }
     this.#state.user.mask = mask;
     const stateClone = structuredClone(this.#state);
@@ -257,6 +307,7 @@ export default class Store extends EventTarget {
     userGameProgress.isSessionSaved = true;
     const userId = this.state.user.id;
     this.#state.savedGames[userId] = userGameProgress;
+    this.state.savedGames[userId] = userGameProgress;
     this.#state.user.isSessionSaved = true;
 
     const stateClone = structuredClone(this.#state);
@@ -272,6 +323,8 @@ export default class Store extends EventTarget {
     const preset = this.state.savedGames[userId]?.mask;
     const hints = this.state.user.hints;
     const boardSize = preset.length;
+    this.#state.user.mask = this.state.savedGames.user.mask;
+    this.#state.user.score = this.state.savedGames.user.score;
     this.#storeDispatcher({
       changeInfo: { start: true, onContinueGame: true },
       payload: { preset, hints, boardSize },

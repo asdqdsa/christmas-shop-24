@@ -5,6 +5,10 @@ export default class App {
   constructor(store, view) {
     this.store = store;
     this.view = view;
+    this.rightClickSound = new Audio('sounds/b6.mp3');
+    this.leftClickSound = new Audio('sounds/a6.mp3');
+    this.piano = new Audio('sounds/g6.mp3');
+    this.win = new Audio('sounds/win.mp3');
 
     this.onGameBoardClick = this.onGameBoardClick.bind(this);
     this.onGameResetClick = this.onGameResetClick.bind(this);
@@ -13,6 +17,7 @@ export default class App {
     this.onClueClick = this.onClueClick.bind(this);
     this.onSaveClick = this.onSaveClick.bind(this);
     this.onContinueClick = this.onContinueClick.bind(this);
+    this.onMuteSoundClick = this.onMuteSoundClick.bind(this);
 
     this.viewUpdateMap = {
       init: ({ difficulty, isSaveExist }) => {
@@ -37,11 +42,13 @@ export default class App {
         this.view.renderBoardLayout(preset.length);
         this.view.revealGamePreset({ preset });
       },
-      win: ({ formatedTime, isCompleted }) => {
+      win: ({ formatedTime, isCompleted, isSoundOn }) => {
         this.view.updateTimer({ formatedTime, isCompleted });
-        this.view.showNotification();
-        // this.view.renderEndScreen({ time });
-        // this.view.updateScoreBoard({ time });
+        this.view.showNotification(formatedTime);
+        if (isSoundOn) {
+          this.win.load();
+          this.win.play();
+        }
       },
       onContinueGame: ({ preset }) => {
         this.view.renderBoardLayout(preset.length);
@@ -53,9 +60,27 @@ export default class App {
       onTimerClear: () => {
         this.view.clearTimer();
       },
-
       onRestart: () => {
         this.view.updateStartView();
+      },
+      onSave: ({ isSaveExist }) => {
+        this.view.updateStartView({ isSaveExist });
+      },
+      onSoundOff: ({}) => {
+        this.piano.load();
+        this.piano.play();
+      },
+      onSoundOnRight: ({}) => {
+        this.rightClickSound.load();
+        this.rightClickSound.play();
+      },
+      onSoundOnLeft: ({}) => {
+        this.leftClickSound.load();
+        this.leftClickSound.play();
+      },
+      onVolume: ({ isVolumeOn }) => {
+        console.log(isVolumeOn);
+        this.view.updateVolume(isVolumeOn);
       },
     };
   }
@@ -68,6 +93,7 @@ export default class App {
     this.view.bindGameClue(this.onClueClick);
     this.view.bindGameSave(this.onSaveClick);
     this.view.bindSaveLoad(this.onContinueClick);
+    this.view.bindMuteSound(this.onMuteSoundClick);
   }
 
   onGameBoardClick({ cellId, isLeftClick, isRightClick }) {
@@ -76,8 +102,19 @@ export default class App {
     this.store.calcScore();
     this.store.checkUserWin();
     this.store.setTimer();
-    if (isLeftClick) console.log('LeftClick');
-    if (isRightClick) console.log('RightClick');
+    if (isLeftClick) {
+      // this.sounda6.load();
+
+      // this.sounda6.play().catch((err) => {
+      //   console.log(err);
+      // });
+      console.log('LeftClick');
+    }
+    if (isRightClick) {
+      // this.soundb6.load();
+      // this.soundb6.play();
+      // console.log('RightClick');
+    }
   }
 
   onDifficultyClick(difficultyId) {
@@ -105,7 +142,6 @@ export default class App {
 
   onSaveClick() {
     console.log('save game');
-    console.log('not implemented yet');
     this.store.gameSaveByUser();
   }
 
@@ -114,13 +150,17 @@ export default class App {
     this.store.gameLoadByUser();
   }
 
+  onMuteSoundClick() {
+    console.log('mute');
+    this.store.setVolume();
+  }
+
   initStateListening() {
     this.store.addEventListener('state:changed', ({ detail }) => {
       const { state, changed, payload } = detail;
       Object.keys(changed).forEach((key) => {
         if (changed[key] && this.viewUpdateMap[key]) {
           if (payload) {
-            // console.log(payload);
             this.viewUpdateMap[key](payload);
           } else {
             this.viewUpdateMap[key](state[key]);

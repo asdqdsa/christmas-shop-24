@@ -31,8 +31,9 @@ export default class View {
 
     this.#mountElement('p', 'display', '', this.el.wrapper);
     this.#mountElement('div', 'content', '', this.el.wrapper);
+
     this.#mountElement('div', 'controls', '', this.el.content);
-    this.#mountElement('button', 'continue', 'CONTINUE', this.el.controls);
+    this.#mountElement('button', 'continue', 'LOAD', this.el.controls);
     this.#mountElement('button', 'random', 'RANDOM', this.el.controls);
     this.#mountElement('div', 'difficulty', '', this.el.controls);
     this.#mountElement('div', 'presets', '', this.el.controls);
@@ -46,6 +47,7 @@ export default class View {
     this.#mountElement('button', 'clue', 'solution', this.el.matchCtrl);
     this.#mountElement('button', 'save', 'save', this.el.matchCtrl);
     this.#mountElement('button', 'restart', 'reset', this.el.matchCtrl);
+    this.#mountElement('button', 'sound', 'Volume is ON', this.el.content);
   }
 
   initView(params) {
@@ -53,11 +55,14 @@ export default class View {
     console.log(isSaveExist);
     this.el.matchCtrl.classList.add('visually-hidden');
     this.el.continue.classList.toggle('visually-hidden', !isSaveExist);
+    this.el.continue.classList.add('visually-hidden');
   }
 
-  updateStartView() {
+  updateStartView(isSaveExist) {
     this.el.matchCtrl.classList.remove('visually-hidden');
     this.clearDisplay();
+    if (isSaveExist)
+      this.el.continue.classList.toggle('visually-hidden', !isSaveExist);
   }
 
   #mountDifficulty(difficulty) {
@@ -247,14 +252,20 @@ export default class View {
     this.el.timer.textContent = '00:00';
   }
 
-  showNotification() {
+  showNotification(timerNotification) {
+    const notificationWithTimer = `Great! You have solved the nonogram in ${timerNotification} seconds!`;
     const notificationText =
-      'Great! You have solved the nonogram! Press "RANDOM" to play random game, or simply choose any game from the list';
-    this.el.display.textContent = `${notificationText}`;
+      'Great! You have solved the nonogram in ! Press "RANDOM" to play random game, or simply choose any game from the list';
+    this.el.display.textContent = `${notificationWithTimer}`;
   }
 
   clearDisplay() {
     this.el.display.textContent = `${''}`;
+  }
+
+  updateVolume(isVolumeOn) {
+    if (isVolumeOn) this.el.sound.textContent = `Volume is ON`;
+    else this.el.sound.textContent = `Volume is OFF`;
   }
 
   // BINDS
@@ -308,6 +319,10 @@ export default class View {
 
   bindSaveLoad(handler) {
     this.el.continue.addEventListener('click', handler);
+  }
+
+  bindMuteSound(handler) {
+    this.el.sound.addEventListener('click', handler);
   }
 
   // UTILS
