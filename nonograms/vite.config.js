@@ -2,8 +2,10 @@ import { defineConfig } from 'vite';
 import postcss from 'postcss';
 import autoprefixer from 'autoprefixer';
 import path from 'path';
+import removeConsole from 'vite-plugin-remove-console';
 
 export default defineConfig({
+  plugins: [removeConsole({})],
   base: '/asdqdsa-JSFE2024Q4/nonograms/',
   build: {
     target: 'es2022',
