@@ -7,22 +7,73 @@
   --turquose: #30c5c0;
   --turquose-trans: #30c5c063;
   --turquose-dark: #56aca9;
-  --cell-color: #85bbb9;
+  --cell-color-type: #85bbb9;
+  --cell-color: #74bdba;
   --transparent: transparent;
   --hover-keys: #74e4e0;
   --active: #8fe7e4;
   --yellow: #eeb559;
   --yellowish: #f7d092;
   --yellow-dark: #c7bba738;
+  --yellow-dark-hover: #72624638;
   --hover-btn: #e9bb70;
   --light-gray: #dddbdb;
   --red: #dd5e73;
   --green: #9fcf68;
   --light-green: #96cc7d;
+  --border-board: #213636;
   --black: #000;
   --black-transparent: #00000048;
   --color: #ecead2;
   --font-family: verdana, geneva, tahoma, sans-serif;
+}
+
+/* Dark Theme */
+body.dark {
+  background-color: var(--dark-gray);
+  color: var(--color);
+}
+
+/* Light Theme */
+body.light {
+  background-color: var(--light-gray);
+  color: var(--dark-gray);
+}
+
+body.light button {
+  background-color: var(--gray);
+  color: var(--color);
+}
+
+body.light button:hover {
+  background-color: var(--innactive);
+}
+
+body.light .cell-crossed {
+  background-color: var(--red);
+}
+
+body.light .cell-crossed::before {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  color: var(--black);
+  content: 'X';
+  font-size: 1.5em;
+  font-weight: bold;
+  transform: translate(-50%, -50%);
+}
+
+body.light .cell {
+  background-color: var(--yellow-dark);
+}
+
+body.light .cell-filled {
+  background-color: var(--red);
+}
+
+body.light .cell-effect:hover {
+  background-color: var(--yellow-dark-hover);
 }
 
 body {
@@ -37,10 +88,10 @@ body {
 
 button {
   border: none;
-  cursor: pointer;
+  border-radius: 3px;
   background-color: var(--yellowish);
   color: var(--dark-gray);
-  border-radius: 3px;
+  cursor: pointer;
   inline-size: 100%;
   min-block-size: 40px;
 }
@@ -60,10 +111,11 @@ button:hover {
 
 .wrapper {
   display: flex;
+  max-width: 800px;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  max-width: 800px;
+  gap: 4px;
 }
 
 .content {
@@ -72,20 +124,22 @@ button:hover {
   align-items: center;
   gap: 4px;
   min-block-size: 300px;
+
   // max-inline-size: 100%;
 }
 
 .display {
-  flex: 1 1 auto;
   display: flex;
-  justify-content: center;
-  text-align: center;
+  flex: 1 1 auto;
   flex-wrap: wrap;
+  justify-content: center;
   block-size: 100px;
-  min-inline-size: 200px;
   max-inline-size: 300px;
+  min-inline-size: 200px;
   overflow-wrap: break-word;
+  text-align: center;
   white-space: normal;
+
   // text-wrap: wrap;
   // word-break: break-all;
 }
@@ -93,11 +147,12 @@ button:hover {
 // CONTROLS
 .controls {
   display: flex;
-  justify-content: center;
   flex-direction: column;
-  inline-size: 100%;
-  gap: 4px;
+  justify-content: center;
   padding-bottom: 100px;
+  gap: 4px;
+  inline-size: 100%;
+
   // flex-wrap: wrap;
 }
 
@@ -128,8 +183,8 @@ button:hover {
   align-items: center;
   justify-content: center;
   padding-right: 4px;
-  border-right: 3px solid var(--black);
-  border-bottom: 3px solid var(--black);
+  border-right: 3px solid var(--border-board);
+  border-bottom: 3px solid var(--border-board);
   grid-area: timer;
 }
 
@@ -148,9 +203,10 @@ button:hover {
   display: flex;
   min-height: 100%;
   align-items: end;
-  border-bottom: 3px solid var(--black);
-  // border-left: 3px solid var(--black);
-  // border-right: 3px solid var(--black);
+  border-bottom: 3px solid var(--border-board);
+
+  // border-left: 3px solid var(--border-board);
+  // border-right: 3px solid var(--border-board);
   grid-area: hintTop;
 
   .hint {
@@ -164,7 +220,7 @@ button:hover {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  border-right: 3px solid var(--black);
+  border-right: 3px solid var(--border-board);
   block-size: 100%;
   grid-area: hintSide;
 
@@ -210,12 +266,12 @@ button:hover {
 }
 
 .row-divider {
-  border-bottom: 3px solid var(--black);
+  border-bottom: 3px solid var(--border-board);
 }
 
 .cell {
-  display: flex;
   position: relative;
+  display: flex;
   align-items: center;
   justify-content: center;
   border: 1px solid var(--black-transparent);
@@ -259,14 +315,14 @@ button:hover {
 // }
 
 .cell-divider {
-  border-right: 3px solid var(--black);
+  border-right: 3px solid var(--border-board);
 }
 
 .matchCtrl {
   display: flex;
-  inline-size: 100%;
   flex-direction: column;
   gap: 4px;
+  inline-size: 100%;
 }
 
 @media (width < 1050px) {

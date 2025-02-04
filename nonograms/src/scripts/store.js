@@ -7,7 +7,7 @@ import {
   smily,
   six,
   tetris,
-  labExperiment,
+  chicken,
   thething,
   dino,
   hourglass,
@@ -24,6 +24,7 @@ const initialState = {
 const gameState = {
   difficulty: ['easy', 'normal', 'hard'],
   volume: true,
+  theme: 'dark',
   presets: {
     easy: {
       amogus,
@@ -32,7 +33,7 @@ const gameState = {
       six,
       tetris,
     },
-    normal: { heart, labExperiment, clippy, floppy, cup },
+    normal: { heart, chicken, clippy, floppy, cup },
     hard: { cross, yinyang, thething, dino, hourglass },
   },
   savedGames: {
@@ -212,6 +213,19 @@ export default class Store extends EventTarget {
     });
   }
 
+  setPreset() {}
+
+  toggleTheme() {
+    if (this.#state.theme === 'dark') this.#state.theme = 'light';
+    else this.#state.theme = 'dark';
+    this.#storeDispatcher({
+      changeInfo: { onSwitchTheme: true },
+      payload: {
+        themeType: this.#state.theme,
+      },
+    });
+  }
+
   updateBoardMask(idCell, { isLeftClick, isRightClick }) {
     // row-col 0..len - 1
     const [row, col] = idCell.split('-');
@@ -262,10 +276,6 @@ export default class Store extends EventTarget {
     );
   }
 
-  setPreset() {
-    // this.#state.user.gameStarted = !this.#state.user.gameStarted;
-    // this.#clearTimer(this.#state.user.timerId);
-  }
   setTimer() {
     console.log(!this.#state.user.gameStarted, !this.#state.user.isCompleted);
     if (!this.#state.user.gameStarted && !this.#state.user.isCompleted) {

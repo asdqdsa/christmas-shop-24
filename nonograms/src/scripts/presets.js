@@ -141,7 +141,7 @@ const heart = [
   [1, 1, 1, 0, 0, 1, 0, 0, 1, 1],
 ];
 
-const labExperiment = [
+const chicken = [
   [0, 0, 0, 0, 1, 1, 1, 1, 0, 0],
   [1, 0, 0, 0, 1, 0, 1, 1, 1, 0],
   [1, 1, 0, 0, 1, 1, 1, 1, 1, 0],
@@ -215,7 +215,7 @@ export {
   smily,
   six,
   tetris,
-  labExperiment,
+  chicken,
   thething,
   dino,
   hourglass,

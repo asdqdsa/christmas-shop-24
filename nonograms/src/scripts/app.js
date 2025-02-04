@@ -18,6 +18,7 @@ export default class App {
     this.onSaveClick = this.onSaveClick.bind(this);
     this.onContinueClick = this.onContinueClick.bind(this);
     this.onMuteSoundClick = this.onMuteSoundClick.bind(this);
+    this.onSwitchThemeClick = this.onSwitchThemeClick.bind(this);
 
     this.viewUpdateMap = {
       init: ({ difficulty, isSaveExist }) => {
@@ -79,8 +80,11 @@ export default class App {
         this.leftClickSound.play();
       },
       onVolume: ({ isVolumeOn }) => {
-        console.log(isVolumeOn);
         this.view.updateVolume(isVolumeOn);
+      },
+      onSwitchTheme: ({ themeType }) => {
+        console.log('on Switch theme', themeType);
+        this.view.updateTheme(themeType);
       },
     };
   }
@@ -94,6 +98,7 @@ export default class App {
     this.view.bindGameSave(this.onSaveClick);
     this.view.bindSaveLoad(this.onContinueClick);
     this.view.bindMuteSound(this.onMuteSoundClick);
+    this.view.bindSwichTheme(this.onSwitchThemeClick);
   }
 
   onGameBoardClick({ cellId, isLeftClick, isRightClick }) {
@@ -131,28 +136,30 @@ export default class App {
   }
 
   onGameResetClick() {
-    // this.store.resetGame();
     this.store.restartGame();
   }
 
   onClueClick() {
-    console.log('show clue');
     this.store.getClue();
   }
 
   onSaveClick() {
-    console.log('save game');
+    console.log('save');
     this.store.gameSaveByUser();
   }
 
   onContinueClick() {
-    console.log('save load');
+    console.log('load');
     this.store.gameLoadByUser();
   }
 
   onMuteSoundClick() {
-    console.log('mute');
     this.store.setVolume();
+  }
+
+  onSwitchThemeClick() {
+    console.log('switch theme');
+    this.store.toggleTheme();
   }
 
   initStateListening() {

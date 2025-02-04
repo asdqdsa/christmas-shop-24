@@ -29,6 +29,9 @@ export default class View {
     this.#mountElement('main', 'main', '', this.el.root);
     this.#mountElement('div', 'wrapper', '', this.el.main);
 
+    this.#mountElement('button', 'theme', 'Switch theme', this.el.wrapper);
+    this.#mountElement('button', 'sound', 'Volume is ON', this.el.wrapper);
+
     this.#mountElement('p', 'display', '', this.el.wrapper);
     this.#mountElement('div', 'content', '', this.el.wrapper);
 
@@ -47,7 +50,6 @@ export default class View {
     this.#mountElement('button', 'clue', 'solution', this.el.matchCtrl);
     this.#mountElement('button', 'save', 'save', this.el.matchCtrl);
     this.#mountElement('button', 'restart', 'reset', this.el.matchCtrl);
-    this.#mountElement('button', 'sound', 'Volume is ON', this.el.content);
   }
 
   initView(params) {
@@ -268,6 +270,11 @@ export default class View {
     else this.el.sound.textContent = `Volume is OFF`;
   }
 
+  updateTheme(themeType) {
+    console.log(themeType);
+    document.body.className = themeType;
+  }
+
   // BINDS
 
   bindGameDifficulty(handler) {
@@ -323,6 +330,10 @@ export default class View {
 
   bindMuteSound(handler) {
     this.el.sound.addEventListener('click', handler);
+  }
+
+  bindSwichTheme(handler) {
+    this.el.theme.addEventListener('click', handler);
   }
 
   // UTILS
