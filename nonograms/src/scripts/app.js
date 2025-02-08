@@ -5,10 +5,10 @@ export default class App {
   constructor(store, view) {
     this.store = store;
     this.view = view;
-    this.rightClickSound = new Audio('sounds/b6.mp3');
-    this.leftClickSound = new Audio('sounds/a6.mp3');
-    this.piano = new Audio('sounds/g6.mp3');
-    this.win = new Audio('sounds/win.mp3');
+    this.leftClickSound = new Audio('sounds/axe1.mp3');
+    this.rightClickSound = new Audio('sounds/axe2.mp3');
+    this.piano = new Audio('sounds/click.mp3');
+    this.win = new Audio('sounds/ig.mp3');
 
     this.onGameBoardClick = this.onGameBoardClick.bind(this);
     this.onGameResetClick = this.onGameResetClick.bind(this);

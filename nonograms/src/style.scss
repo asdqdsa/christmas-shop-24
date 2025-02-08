@@ -35,7 +35,7 @@
 /* Dark Theme */
 body.dark {
   background-color: var(--darker-gray);
-  color: var(--color);
+  color: var(--active);
 }
 
 /* Light Theme */
@@ -84,12 +84,17 @@ body.light .cell-effect:hover {
   background-color: var(--yellow-dark-hover);
 }
 
+body.light .display {
+  color: var(--dark-gray);
+}
+
 body {
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: var(--dark-gray);
-  color: var(--color);
+  // color: var(--color);
+  color: var(--active);
   color-scheme: light dark;
   font-family: var(--font-family);
 }
@@ -352,8 +357,6 @@ button:hover {
 .cell-filled {
   border-radius: 6px;
   background-color: var(--darker-gray);
-
-  // background-color: var(--light-gray);
 }
 
 .cell-crossed {
